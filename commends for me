@@ -2,3 +2,4 @@ django-admin startproject nameproject // create django project
 python manage.py startapp nameapp //create new app 
 python manage.py migrate     //
 python manage.py runserver    //run the server
+python manage.py createsuperuser // run when server down to create user admin
