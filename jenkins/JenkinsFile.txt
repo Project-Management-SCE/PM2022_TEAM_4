@@ -35,7 +35,9 @@ pipeline {
 		stage('Tests') {
             steps {
 					withEnv(["HOME=${env.WORKSPACE}"]) {
+					dir("NextDoor"){
 						sh "python -m coverage run manage.py test"
+						}
 					}
 				}
 			}
@@ -43,7 +45,7 @@ pipeline {
 	post
 		{
 		always{
-				coverage report -m
+				
 				deleteDir()
 				}
 					
