@@ -7,5 +7,5 @@ from django.views import generic
 from .form import CustomUserCreationForm
 from .models import CustomUser
 
-class SignupPageView(generic.CreateView):
-    pass
+def SignupPageView(request):
+    return render(request, 'Account/signup.html')
