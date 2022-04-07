@@ -7,5 +7,18 @@ from django.views import generic
 from .form import CustomUserCreationForm
 from .models import CustomUser
 
-def SignupPageView(request):
-    return render(request, 'Account/signup.html')
+class SignupPageView(generic.CreateView):
+    form_class = CustomUserCreationForm
+    success_url = reverse_lazy('login')
+    template_name = 'Account/signup.html'
+    def post(self, request, *args, **kwargs):
+        pass
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+
+            user.save()
+
+            return redirect('login')
+        else:
+            return render(request, self.template_name, {'form' : form })
