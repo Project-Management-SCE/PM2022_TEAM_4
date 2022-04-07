@@ -1,46 +1,6 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<title>SocialNet</title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link href="{% static 'home/css/style.css' %}" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="{% static 'home/js/jquery-1.3.2.min.js' %}"></script>
-<script type="text/javascript" src="{% static 'home/js/script.js' %}"></script>
-<script type="text/javascript" src="{% static 'home/js/cufon-yui.js' %}"></script>
-<script type="text/javascript" src="{% static 'home/js/arial.js' %}"></script>
-<script type="text/javascript" src="{% static 'home/js/cuf_run.js' %}"></script>
-</head>
-<body>
-<div class="main">
-  <div class="main_resize">
-    <div class="header">
-      <div class="logo">
-        <h1><a href="#"><span>Next</span>DooR<small>A better neighborhood</small></a></h1>
-      </div>
-      <div class="search">
-        <form method="get" id="search" action="#">
-          <span>
-          <input type="text" value="Search..." name="s" id="s" />
-          <input name="searchsubmit" type="image" src="{% static 'home/images/search.gif' %}" value="Go" id="searchsubmit" class="btn"  />
-          </span>
-        </form>
-        <!--/searchform -->
-        <div class="clr"></div>
-      </div>
-      <div class="clr"></div>
-      <div class="menu_nav">
-        <ul>
-          <li class="active"><a href="">Home</a></li>
-          <li><a href="support.html">Support</a></li>
-          <li><a href="about.html">About Us</a></li>
-          <li><a href="blog.html">Blog</a></li>
-          <li><a href="contact.html">Contact Us</a></li>
-        </ul>
-        <div class="clr"></div>
-      </div>
-      <div class="hbg"><img src="{% static 'home/images/header_images.jpg' %}" width="923" height="291" alt="" /></div>
-    </div>
+{% block content %}
     <div class="content">
       <div class="content_bg">
         <div class="mainbar">
@@ -129,3 +89,4 @@
 </div>
 </body>
 </html>
+{% endblock content %}
