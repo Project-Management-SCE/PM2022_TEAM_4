@@ -39,20 +39,15 @@ pipeline {
 					}
 				}
 			}
-			post
-			{
-				failure{
-					coverage report -m
+			}
+	post
+		{
+		always{
+				coverage report -m
+				deleteDir()
 				}
-				success{
-					coverage report -m
-					}
-				always{
-					deleteDir()
-					}
 					
 				
-			}
-        }
+		}
+ }
 		
-}
