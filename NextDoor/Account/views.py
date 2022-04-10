@@ -22,3 +22,8 @@ class SignupPageView(generic.CreateView):
             return redirect('login')
         else:
             return render(request, self.template_name, {'form' : form })
+
+
+def user_profile(request,pk_test):
+    get_user = CustomUser.objects.get(username=pk_test)
+    return render(request, "Account/user_profile.html",{'get_user': get_user})
