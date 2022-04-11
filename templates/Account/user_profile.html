@@ -92,6 +92,11 @@
                 {% if get_user.id == user.id %}
                 <li><a href="/Account/user_profile/{{user.username}}/edit">Edit profile</a></li>
                 {% endif %}
+                {% for group in request.user.groups.all %}
+                    {% if group.name == 'Support' %}
+                    <li><a href="/Account/user_profile/{{user.username}}/edit">Edit profile</a></li>
+                    {% endif %}
+                {% endfor %}
 
 
 

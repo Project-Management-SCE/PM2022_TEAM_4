@@ -36,7 +36,7 @@ def user_profile(request,pk_test):
 
 @login_required()
 def edit_profile(request,pk_test):
-    if request.user.username==pk_test:
+    if request.user.username==pk_test or request.user.groups.filter(name='Support').exists():
         get_user = CustomUser.objects.get(username=pk_test)
         profile = UserProfile.objects.get(user=get_user)
         form = UserProfileForm(request.POST or None, instance=profile)
