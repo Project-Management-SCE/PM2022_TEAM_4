@@ -57,6 +57,12 @@
 }
 
 }</style>
+    {% if messages %}
+        {% for message in messages %}
+         {% if message.tags %}  <script>alert("{{ message }}")</script> {% endif %}
+        {% endfor %}
+
+    {% endif %}
 <div>
        <div class="logo" style="width: 321px;
                                 height: 97px;
@@ -70,22 +76,47 @@
           <div class="gadget">
             <div class="clr" ></div>
             <ul class="sb_menu">
+                <div style="padding: 9px 141px;">
+                <img src="{{profile.image.url}}" alt="user_profile" style="width: 100px;
+                                                                           height: 100px;
+                                                                           margin-left: -50px;
+                                                                           border-radius: 60px;
+                                                                           margin-top: -95px;">
+                    </div>
               <li>User Name: {{get_user.username}}</li>
               <li>First Name: {{get_user.first_name}}</li>
               <li>Last Name: {{get_user.last_name}}</li>
               <li>Email: {{get_user.email}}</li>
               <li>Date Joined: {{get_user.date_joined}}</li>
                 <li>Address: {{profile.address}}</li>
-                <img src="{{profile.image.url}}" alt="user_profile" style="width: 100px;
-                                                                                     height: 100px;
-                                                                                            margin-left: -50px;
+                {% if get_user.id == user.id %}
+                <li><a href="/Account/user_profile/{{user.username}}/edit">Edit profile</a></li>
+                {% endif %}
 
-                                                                                            margin-top: -50px;">
 
 
             </ul>
           </div>
-
+</div>
+    <div class="content">
+      <div class="content_bg">
+        <div class="mainbar">
+          <div class="article">
+            <h2><span>I need a drill(check)</span></h2>
+            <div class="clr"></div>
+            <p class="post-data"><span class="date">March 16, 2018</span> &nbsp;|&nbsp; Posted by <a href="#">{{get_user.username}}</a> &nbsp;|&nbsp;</p>
+            <p>Hello everyone I need a drill to hang a picture</p>
+            <p class="spec"><a href="#" class="com fr">Comments (3)</a> <a href="#" class="rm fl">Read more</a></p>
+            <div class="clr"></div>
+            <div class="article">
+            <h2><span>I need a drill2(check)</span></h2>
+            <div class="clr"></div>
+            <p class="post-data"><span class="date">March 17, 2018</span> &nbsp;|&nbsp; Posted by <a href="#">{{get_user.username}}</a> &nbsp;|&nbsp;</p>
+            <p>Hello everyone I need a drill to hang a picture</p>
+            <p class="spec"><a href="#" class="com fr">Comments (1)</a> <a href="#" class="rm fl">Read more</a></p>
+            <div class="clr"></div>
+          </div>
+        </div>
         <div class="clr"></div>
       </div>
     </div>

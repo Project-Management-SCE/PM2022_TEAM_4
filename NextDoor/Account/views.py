@@ -7,7 +7,8 @@ from django.views import generic
 from .form import CustomUserCreationForm, UserProfileForm
 from .models import CustomUser, UserProfile
 from django.db.models.signals import post_save
-
+from django.contrib.auth import authenticate
+from django.contrib import messages
 
 class SignupPageView(generic.CreateView):
     form_class = CustomUserCreationForm
@@ -32,14 +33,21 @@ def user_profile(request,pk_test):
 
     return render(request, "Account/user_profile.html",{'get_user': get_user, 'profile': profile})
 
+
+@login_required()
 def edit_profile(request,pk_test):
-    get_user = CustomUser.objects.get(username=pk_test)
-    profile = UserProfile.objects.get(user=get_user)
-    form = UserProfileForm(request.POST or None, instance=profile)
-    if request.method == 'POST':
-        form = UserProfileForm(request.POST, instance=profile)
-        if form.is_valid():
-            form.save()
-            return redirect('user_profile', pk_test)
-    return render(request, "Account/edit_profile.html",{'get_user': get_user, 'profile': profile , 'form': form})
+    if request.user.username==pk_test:
+        get_user = CustomUser.objects.get(username=pk_test)
+        profile = UserProfile.objects.get(user=get_user)
+        form = UserProfileForm(request.POST or None, instance=profile)
+        if request.method == 'POST':
+            form = UserProfileForm(request.POST, instance=profile)
+            if form.is_valid():
+                form.save()
+                messages.success(request,'Your Profile has been changed successfully!')
+                return redirect('user_profile', pk_test)
+        return render(request, "Account/edit_profile.html",{'get_user': get_user, 'profile': profile , 'form': form})
+    else:
+        messages.success(request, 'You do not have permission to edit a profile that is not you!')
+        return render(request, 'home/HomePage.html')
 
