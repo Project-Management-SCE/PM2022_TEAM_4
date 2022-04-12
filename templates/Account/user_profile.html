@@ -89,6 +89,7 @@
               <li>Email: {{get_user.email}}</li>
               <li>Date Joined: {{get_user.date_joined}}</li>
                 <li>Address: {{profile.address}}</li>
+                <li>Country : {{profile.country}}</li>
                 {% if get_user.id == user.id %}
                 <li><a href="/Account/user_profile/{{user.username}}/edit">Edit profile</a></li>
                 {% endif %}

@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 import os
 from pathlib import Path
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -136,4 +137,4 @@ MEDIA_ROOT = BASE_DIR
 
 MEDIA_URL = '/media/'
 
-
+GOOGLE_MAPS_API_KEY = 'AIzaSyD8UkSs_yEEw3SgfYVTe1Gkdxz2pnu-ju0'

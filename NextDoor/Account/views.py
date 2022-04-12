@@ -9,6 +9,8 @@ from .models import CustomUser, UserProfile
 from django.db.models.signals import post_save
 from django.contrib.auth import authenticate
 from django.contrib import messages
+from django.conf import settings
+
 
 class SignupPageView(generic.CreateView):
     form_class = CustomUserCreationForm
@@ -30,6 +32,8 @@ class SignupPageView(generic.CreateView):
 def user_profile(request,pk_test):
     get_user = CustomUser.objects.get(username=pk_test)
     profile = UserProfile.objects.get(user=get_user)
+
+
 
     return render(request, "Account/user_profile.html",{'get_user': get_user, 'profile': profile})
 
