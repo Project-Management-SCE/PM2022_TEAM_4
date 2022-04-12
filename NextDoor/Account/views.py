@@ -47,6 +47,16 @@ def edit_profile(request,pk_test):
         if request.method == 'POST':
             form = UserProfileForm(request.POST, instance=profile)
             if form.is_valid():
+                address = request.POST['location']
+                city = request.POST['locality']
+                country = request.POST['country']
+                apt = request.POST['apt']
+                print(country)
+                instance = form.save(commit=False)
+                instance.address = address
+                instance.city = city
+                instance.country = country
+                instance.postal_code = apt
                 form.save()
                 messages.success(request,'Your Profile has been changed successfully!')
                 return redirect('user_profile', pk_test)

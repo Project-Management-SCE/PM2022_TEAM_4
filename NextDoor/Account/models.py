@@ -12,7 +12,7 @@ class UserProfile(models.Model):
     user = models.OneToOneField(get_user_model(), on_delete=models.CASCADE)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
-    image = models.ImageField(upload_to='profile_image', default='profile_image/default_img.jpg')
+    image = models.ImageField(upload_to='profile_image', default='profile_image/def.jpg')
     latitude = models.FloatField(blank=True, null=True)
     longitude = models.FloatField(blank=True, null=True)
     bio = models.TextField(blank=True)

@@ -55,6 +55,83 @@
   box-shadow: rgba(131, 192, 253, 0.5) 0 0 0 3px;
   outline: none;
 }
+body {
+  margin: 0;
+}
+
+.sb-title {
+  position: relative;
+  top: -12px;
+  font-family: Roboto, sans-serif;
+  font-weight: 500;
+}
+
+.sb-title-icon {
+  position: relative;
+  top: -5px;
+}
+
+.card-container {
+  display: flex;
+  height: 500px;
+  width: 600px;
+}
+
+.panel {
+  background: white;
+  width: 300px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.half-input-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.half-input {
+  max-width: 120px;
+}
+
+.map {
+  width: 300px;
+}
+
+h2 {
+  margin: 0;
+  font-family: Roboto, sans-serif;
+}
+
+input {
+  height: 30px;
+}
+
+input {
+  border: 0;
+  border-bottom: 1px solid black;
+  font-size: 14px;
+  font-family: Roboto, sans-serif;
+  font-style: normal;
+  font-weight: normal;
+}
+
+input:focus::placeholder {
+  color: white;
+}
+
+.button-cta {
+  height: 40px;
+  width: 40%;
+  background: #3367d6;
+  color: white;
+  font-size: 15px;
+  text-transform: uppercase;
+  font-family: Roboto, sans-serif;
+  border: 0;
+  border-radius: 3px;
+
 
 }</style>
 <div>
@@ -66,12 +143,13 @@
       </div>
     <div class="content">
       <div class="content_bg">
-        <div class="sidebar" style="box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;">
+        <div class="sidebar" style="box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px; width: 944px;">
           <div class="gadget">
             <div class="clr" ></div>
             <ul class="sb_menu">
 <form method="post">
         {% csrf_token %}
+    {{ form.as_p }}
     <head>
     <title>Address Selection</title>
     <meta charset="utf-8">
@@ -85,22 +163,19 @@
           <img class="sb-title-icon" src="https://fonts.gstatic.com/s/i/googlematerialicons/location_pin/v5/24px.svg" alt="">
           <span class="sb-title">Address Selection</span>
         </div>
-        <input type="text" placeholder="Address" id="location"/>
-        <input type="text" placeholder="Apt, Suite, etc (optional)"/>
-        <input type="text" placeholder="City" id="locality"/>
-        <div class="half-input-container">
-          <input type="text" class="half-input" placeholder="State/Province" id="administrative_area_level_1"/>
-          <input type="text" class="half-input" placeholder="Zip/Postal code" id="postal_code"/>
-        </div>
-        <input type="text" placeholder="Country" id="country"/>
-        <button class="button-cta">Save</button>
+        <input type="text" placeholder="Address" id="location" name="location"/>
+        <input type="text" placeholder="Apt, Suite, etc (optional)" name="apt"/>
+        <input type="text" placeholder="City" id="locality" name="locality"/>
+        <input type="text" placeholder="Country" id="country" name="country"/>
+
       </div>
       <div class="map" id="map"></div>
     </div>
+
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD8UkSs_yEEw3SgfYVTe1Gkdxz2pnu-ju0&libraries=places&callback=initMap&solution_channel=GMP_QB_addressselection_v1_cABC" async defer></script>
   </body>
 </html>
-        {{ form.as_p }}
+
 
            <div style="padding: 1px 242px;">
         <button class="button-15" style="padding: 8px 48px 8px 34px;" type="submit">Edit Profile</button>

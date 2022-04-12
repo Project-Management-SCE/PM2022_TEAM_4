@@ -84,11 +84,13 @@
                                                                            margin-top: -95px;">
                     </div>
               <li>User Name: {{get_user.username}}</li>
-              <li>First Name: {{get_user.first_name}}</li>
-              <li>Last Name: {{get_user.last_name}}</li>
+              <li>First Name: {{profile.first_name}}</li>
+              <li>Last Name: {{profile.last_name}}</li>
               <li>Email: {{get_user.email}}</li>
               <li>Date Joined: {{get_user.date_joined}}</li>
                 <li>Address: {{profile.address}}</li>
+                <li>Apt: {{profile.postal_code}}</li>
+                <li>City: {{profile.city}}</li>
                 <li>Country : {{profile.country}}</li>
                 {% if get_user.id == user.id %}
                 <li><a href="/Account/user_profile/{{user.username}}/edit">Edit profile</a></li>
