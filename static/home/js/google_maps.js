@@ -2,7 +2,7 @@
 
 function initMap() {
   const CONFIGURATION = {
-    "ctaTitle": "Save",
+    "ctaTitle": "Checkout",
     "mapOptions": {"center":{"lat":37.4221,"lng":-122.0841},"fullscreenControl":true,"mapTypeControl":false,"streetViewControl":true,"zoom":11,"zoomControl":true,"maxZoom":22},
     "mapsApiKey": "AIzaSyD8UkSs_yEEw3SgfYVTe1Gkdxz2pnu-ju0",
     "capabilities": {"addressAutocompleteControl":true,"mapDisplayControl":true,"ctaControl":true}
@@ -31,6 +31,8 @@ function initMap() {
   autocomplete.addListener('place_changed', function () {
     marker.setVisible(false);
     const place = autocomplete.getPlace();
+    const lat = place.geometry.location.lat();
+    const lng = place.geometry.location.lng();
     if (!place.geometry) {
       // User entered the name of a Place that was not suggested and
       // pressed the Enter key, or the Place Details request failed.
@@ -38,10 +40,10 @@ function initMap() {
       return;
     }
     renderAddress(place);
-    fillInAddress(place);
+    fillInAddress(place,lat,lng);
   });
 
-  function fillInAddress(place) {  // optional parameter
+  function fillInAddress(place,lat,lng) {  // optional parameter
     const addressNameFormat = {
       'street_number': 'short_name',
       'route': 'long_name',
@@ -62,10 +64,12 @@ function initMap() {
               + getAddressComp('route');
     for (const component of componentForm) {
       // Location field is handled separately above as it has different logic.
-      if (component !== 'location') {
+      if (component !== 'location' && component !== 'latitude' && component !== 'longitude') {
         document.getElementById(component).value = getAddressComp(component);
       }
     }
+    document.getElementById('latitude').value = lat;
+    document.getElementById('longitude').value = lng;
   }
 
   function renderAddress(place) {

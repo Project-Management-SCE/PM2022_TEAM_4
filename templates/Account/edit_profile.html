@@ -150,11 +150,11 @@ input:focus::placeholder {
 <form method="post">
         {% csrf_token %}
     {{ form.as_p }}
-    <head>
+  <head>
     <title>Address Selection</title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="./style.css"/>
-    <script src="{% static 'home/js/google_maps.js' %}"></script>
+    <script src="{% static '/home/js/google_maps.js' %}"></script>
   </head>
   <body>
     <div class="card-container">
@@ -163,15 +163,19 @@ input:focus::placeholder {
           <img class="sb-title-icon" src="https://fonts.gstatic.com/s/i/googlematerialicons/location_pin/v5/24px.svg" alt="">
           <span class="sb-title">Address Selection</span>
         </div>
-        <input type="text" placeholder="Address" id="location" name="location"/>
-        <input type="text" placeholder="Apt, Suite, etc (optional)" name="apt"/>
-        <input type="text" placeholder="City" id="locality" name="locality"/>
-        <input type="text" placeholder="Country" id="country" name="country"/>
-
+        <input type="text" placeholder="Address" id="location"/>
+        <input type="text" placeholder="Apt, Suite, etc (optional)"/>
+        <input type="text" placeholder="City" id="locality"/>
+        <div class="half-input-container">
+          <input type="text" class="half-input" placeholder="State/Province" id="administrative_area_level_1"/>
+          <input type="text" class="half-input" placeholder="Zip/Postal code" id="postal_code"/>
+        </div>
+        <input type="text" placeholder="Country" id="country"/>
+          <input type="text" placeholder="Lat" id="latitude"/>
+          <input type="text" placeholder="Lng" id="longitude"/>
       </div>
       <div class="map" id="map"></div>
     </div>
-
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD8UkSs_yEEw3SgfYVTe1Gkdxz2pnu-ju0&libraries=places&callback=initMap&solution_channel=GMP_QB_addressselection_v1_cABC" async defer></script>
   </body>
 </html>
