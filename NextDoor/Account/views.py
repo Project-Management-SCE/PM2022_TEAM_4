@@ -53,7 +53,6 @@ def edit_profile(request,pk_test):
                 apt = request.POST.get('apt', False)
                 lat = request.POST.get('lat', False)
                 lng = request.POST.get('lng', False)
-                print(country)
                 instance = form.save(commit=False)
                 instance.address = address
                 instance.city = city

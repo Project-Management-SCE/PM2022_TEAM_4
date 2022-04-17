@@ -56,7 +56,9 @@
       <div class="menu_nav" style="margin: -16px 135px -7px;">
         <ul>
           <li class="active"><a href="{% url 'home' %}">Home</a></li>
-          <li><a href="">Map</a></li>
+          {% if user.is_authenticated %}
+          <li><a href="{% url 'map' %}">Map</a></li>
+          {% endif %}
           <li><a href="support.html">Support</a></li>
           <li><a href="about.html">About Us</a></li>
           {% for group in  request.user.groups.all %}

@@ -3,7 +3,7 @@
 function initMap() {
   const CONFIGURATION = {
     "ctaTitle": "Checkout",
-    "mapOptions": {"center":{"lat":37.4221,"lng":-122.0841},"fullscreenControl":true,"mapTypeControl":false,"streetViewControl":true,"zoom":11,"zoomControl":true,"maxZoom":22},
+    "mapOptions": {"center":{"lat":31.2533973,"lng":34.7893771},"fullscreenControl":true,"mapTypeControl":false,"streetViewControl":true,"zoom":11,"zoomControl":true,"maxZoom":22},
     "mapsApiKey": "AIzaSyD8UkSs_yEEw3SgfYVTe1Gkdxz2pnu-ju0",
     "capabilities": {"addressAutocompleteControl":true,"mapDisplayControl":true,"ctaControl":true}
   };
@@ -16,7 +16,7 @@ function initMap() {
   ];
   const map = new google.maps.Map(document.getElementById("map"), {
     zoom: CONFIGURATION.mapOptions.zoom,
-    center: { lat: 37.4221, lng: -122.0841 },
+    center: { lat: 31.2533973, lng: 34.7893771 },
     mapTypeControl: false,
     fullscreenControl: CONFIGURATION.mapOptions.fullscreenControl,
     zoomControl: CONFIGURATION.mapOptions.zoomControl,
