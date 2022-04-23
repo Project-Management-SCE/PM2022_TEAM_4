@@ -2,10 +2,16 @@ from django.shortcuts import render
 import folium
 from geopy import distance
 from Account.models import UserProfile,CustomUser
-
+from django.core.paginator import Paginator
 
 def home(request):
-    return render(request,'home/HomePage.html')
+    get_user = CustomUser.objects.all()
+    profile = UserProfile.objects.all()
+    #set up pagination
+    p = Paginator(get_user,4)
+    page_number = request.GET.get('page')
+    page_obj = p.get_page(page_number)
+    return render(request,'home/HomePage.html',{'page_obj':page_obj,'profile':profile})
 
 def map(request):
     #get who is login to system
