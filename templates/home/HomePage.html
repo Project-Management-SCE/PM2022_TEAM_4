@@ -8,7 +8,22 @@ function show(shown, hidden) {
   return false;
 }
 </script>
-<div>
+<style>
+    .row {
+  white-space: nowrap;
+}
+
+.row > div {
+  width: 300px;
+  display: inline-block;
+}
+.bob div {
+  display: flex;
+  justify-content: space-between;
+}
+
+</style>
+<div style="display: inline-flex;">
     {% if messages %}
         {% for message in messages %}
          {% if message.tags %}  <script>alert("{{ message }}")</script> {% endif %}
@@ -32,24 +47,33 @@ function show(shown, hidden) {
           </div>
   {% endfor %}
   --!>
+
 {% for contact in page_obj %}
-              <div class="article">
+    <table>
+        <div class="bob">
+            <div >
+        <tr>
+            <th>
             <h2><span>Users</span></h2>
-            <div class="clr"></div>
             <p class="post-data"> User Name <a href="#">{{ contact.username }}</a> &nbsp;|&nbsp;<a href="/Account/user_profile/{{ contact.username }}">Link Profile</a></p>
              {% for p in profile %}
                   {% if p.user.username == contact.username %}
+            </th></tr>
+        <tr>
+         <td>
                 <img src="{{p.image.url}}" alt="user_profile" style="element.style
     width: 151px;
     height: 187px;
     border-radius: 66px;
 " >
-                  <h1>sds</h1>
                   {% endif %}
                   {% endfor %}
-          </div>
+        </td></tr>
+                <div>
+                </div>
+        </table>
 {% endfor %}
-
+</div>
 <div class="pagination">
     <span class="step-links">
         {% if page_obj.has_previous %}
@@ -67,7 +91,6 @@ function show(shown, hidden) {
         {% endif %}
     </span>
 </div>
-
 <div class="footer">
   <div class="footer_resize">
     <p class="lf">Copyright &copy; <a href="#">Ziv&lev&shlomo&gal</a>. All Rights Reserved</p>
