@@ -6,4 +6,14 @@ $(function(){
 	$('.mainbar .spec a').css({"border-radius": "10px", "-moz-border-radius":"10px", "-webkit-border-radius":"10px"});
 	$('.pagenavi a, .pagenavi .current').css({"border-radius": "5px", "-moz-border-radius":"5px", "-webkit-border-radius":"5px"});
 	
-});	
+});
+$(document).ready(function(){
+  $('.story').owlCarousel({
+    center: false,
+    items:3,
+    loop:true,
+    margin:5,
+	 stagePadding: 15,
+
+});
+});
