@@ -68,3 +68,5 @@ def edit_profile(request,pk_test):
         messages.success(request, 'You do not have permission to edit a profile that is not you!')
         return render(request, 'home/HomePage.html')
 
+def Rulse(request):
+    return render(request, 'Account/Rulse.html')
