@@ -13,7 +13,10 @@ urlpatterns = [
     path('user_profile/<str:pk_test>/edit/', views.edit_profile, name="edit_profile"),
     path('user_profile/<str:pk_test>/create_request/', create_request, name="create_request"),
     path('user_profile/<str:pk_test>/requests/', requests, name="requests"),
-    path('Rulse/', views.Rulse, name='logout'),
+    path('Rulse/', views.Rulse, name='Rulse'),
+    path('user_profile/<str:pk_test>/messaging/', views.messaging, name="messaging"),
+    path('user_profile/<str:pk_test>/inbox/', views.inbox, name="inbox"),
+
 
 
 ]

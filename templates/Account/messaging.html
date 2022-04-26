@@ -1,0 +1,36 @@
+<! DOCTYPE html>
+<!-- Path: templates/Account/messaging.html -->
+{% extends 'base.html' %}
+{% load static %}
+<!-- Implement messaging.html from MessageForm -->
+{% block content %}
+
+</style>
+<div>
+       <div class="logo" style="width: 321px;
+                                height: 97px;
+                                padding: 58px;
+                                margin: -68px 265px; ">
+        <h1><span>Send</span> Message</h1>
+      </div>
+    <div class="content">
+      <div class="content_bg">
+        <div class="sidebar" style="box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px; width: 944px;">
+          <div class="gadget">
+            <div class="clr" ></div>
+            <ul class="sb_menu">
+<form method="post">
+        {% csrf_token %}
+    {{ form.as_p }}
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  </head>
+           <div style="padding: 1px 242px;">
+        <button class="button-15" style="padding: 8px 48px 8px 34px;" type="submit">Send Message</button>
+               </div>
+        </form>
+{% endblock %}
