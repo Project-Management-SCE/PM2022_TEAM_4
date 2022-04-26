@@ -34,6 +34,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'Home',
     'Account',
+    'grappelli',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -138,3 +139,5 @@ MEDIA_ROOT = BASE_DIR
 MEDIA_URL = '/media/'
 
 GOOGLE_MAPS_API_KEY = 'AIzaSyD8UkSs_yEEw3SgfYVTe1Gkdxz2pnu-ju0'
+
+GRAPPELLI_ADMIN_TITLE = 'NextDoor - Administration Panel'

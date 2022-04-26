@@ -4,7 +4,6 @@ from django.db import models
 from django.contrib.auth import get_user_model
 
 
-
 class CustomUser(AbstractUser):
     pass
 
@@ -28,6 +27,17 @@ class UserProfile(models.Model):
         return self.user.username
 
 
+# Request model - title, description, user
+class RequestModel(models.Model):
+    id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.title
 
 
 

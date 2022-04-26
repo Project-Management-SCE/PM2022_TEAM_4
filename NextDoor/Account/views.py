@@ -4,8 +4,8 @@ from django.contrib.auth.models import Group
 # Create your views here.
 from django.urls import reverse_lazy
 from django.views import generic
-from .form import CustomUserCreationForm, UserProfileForm
-from .models import CustomUser, UserProfile
+from .form import CustomUserCreationForm, UserProfileForm, RequestForm
+from .models import CustomUser, UserProfile, RequestModel
 from django.db.models.signals import post_save
 from django.contrib.auth import authenticate
 from django.contrib import messages
@@ -70,3 +70,33 @@ def edit_profile(request,pk_test):
 
 def Rulse(request):
     return render(request, 'Account/Rulse.html')
+
+
+# Allow the user to create a request
+@login_required()
+def create_request(request,pk_test):
+    if request.user.username==pk_test or request.user.groups.filter(name='Support').exists():
+        get_user = CustomUser.objects.get(username=pk_test)
+        profile = UserProfile.objects.get(user=get_user)
+        if request.method == 'POST':
+            form = RequestForm(request.POST)
+            if form.is_valid():
+                instance = form.save(commit=False)
+                instance.user = request.user
+                instance.save()
+                messages.success(request,'Your request has been sent successfully!')
+                return redirect('user_profile', pk_test)
+        else:
+            form = RequestForm()
+        return render(request, "Account/create_request.html",{'get_user': get_user, 'profile': profile , 'form': form})
+    else:
+        messages.success(request, 'You do not have permission to create a request!')
+        return render(request, 'home/HomePage.html')
+
+# Display the requests that the user has made
+@login_required()
+def requests(request,pk_test):
+    get_user = CustomUser.objects.get(username=pk_test)
+    profile = UserProfile.objects.get(user=get_user)
+    requests = RequestModel.objects.filter(user=get_user).order_by('created_at')
+    return render(request, "Account/requests.html",{'get_user': get_user, 'profile': profile , 'requests': requests})

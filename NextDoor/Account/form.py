@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model
-from .models import UserProfile
+from .models import UserProfile, RequestModel
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.forms import ModelForm
 
@@ -21,3 +21,7 @@ class UserProfileForm(ModelForm):
         fields = ('first_name', 'last_name','image', 'bio')
 
 
+class RequestForm(ModelForm):
+    class Meta:
+        model = RequestModel
+        fields = ('title', 'description' )
