@@ -103,23 +103,28 @@ def requests(request,pk_test):
     return render(request, "Account/requests.html",{'get_user': get_user, 'profile': profile , 'requests': requests})
 
 
+
+
 @login_required()
 def messaging(request,pk_test):
-    if request.user.username==pk_test or request.user.groups.filter(name='Support').exists():
-        get_user = CustomUser.objects.get(username=pk_test)
+    if request.user.username != pk_test or request.user.groups.filter(name='Support').exists():
+        get_user = CustomUser.objects.get(username=request.user.username)
+        get_receiver = CustomUser.objects.get(username=pk_test)
+        #get_user = CustomUser.objects.get(username=pk_test)
         profile = UserProfile.objects.get(user=get_user)
         if request.method == 'POST':
             form = MessageForm(request.POST)
             if form.is_valid():
                 instance = form.save(commit=False)
                 instance.sender = request.user
-                instance.receiver = CustomUser.objects.get(username=form.cleaned_data['receiver'])
+                instance.receiver = CustomUser.objects.get(username=pk_test)
+                #instance.receiver = CustomUser.objects.get(username=form.cleaned_data['receiver'])
                 instance.save()
                 messages.success(request,'Your message has been sent successfully!')
                 return redirect('user_profile', pk_test)
         else:
             form = MessageForm()
-        return render(request, "Account/messaging.html",{'get_user': get_user, 'profile': profile , 'form': form})
+        return render(request, "Account/messaging.html",{'get_user': get_user, 'profile': profile , 'form': form,'get_receiver':get_receiver})
     else:
         messages.success(request, 'You do not have permission to send a message to a user that is not you!')
         return render(request, 'home/HomePage.html')

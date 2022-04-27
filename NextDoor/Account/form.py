@@ -30,4 +30,4 @@ class RequestForm(ModelForm):
 class MessageForm(ModelForm):
     class Meta:
         model = MessageModel
-        fields = ('message', 'receiver')
+        fields = ('message',)
