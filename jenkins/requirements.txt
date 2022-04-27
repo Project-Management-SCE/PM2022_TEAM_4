@@ -8,3 +8,4 @@ six==1.16.0
 sqlparse==0.4.2
 django-grappelli==3.0.3
 geopy==2.2.0
+folium==0.12.1
