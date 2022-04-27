@@ -92,12 +92,8 @@
                 <li>Apt: {{profile.postal_code}}</li>
                 <li>City: {{profile.city}}</li>
                 <li>Country : {{profile.country}}</li>
-                {% if user.is_authenticated %}
-                    {% if get_user.id == user.id %}
-                    <li><a href="/Account/user_profile/{{user.username}}/edit">Edit profile</a></li>
-                    {% else %}
-                    <li><a href="/Account/user_profile/{{get_user.username}}/messaging">Send message</li>
-                    {% endif %}
+                {% if get_user.id == user.id %}
+                <li><a href="/Account/user_profile/{{user.username}}/edit">Edit profile</a></li>
                 {% endif %}
                 {% for group in request.user.groups.all %}
                     {% if group.name == 'Support' %}
