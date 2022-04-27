@@ -32,11 +32,12 @@ pipeline {
 				}
             }
         }
-		stage('Tests') {
+		stage('Unit & Integration Tests') {
             steps {
 					withEnv(["HOME=${env.WORKSPACE}"]) {
 					dir("NextDoor"){
 						sh "python -m coverage run manage.py test"
+						sh "python -m coverage report
 						}
 					}
 				}
