@@ -4,8 +4,8 @@ from django.contrib.auth.models import Group
 # Create your views here.
 from django.urls import reverse_lazy
 from django.views import generic
-from .form import CustomUserCreationForm, UserProfileForm, RequestForm, MessageForm
-from .models import CustomUser, UserProfile, RequestModel, MessageModel
+from .form import CustomUserCreationForm, UserProfileForm, RequestForm, MessageForm, CommentForm
+from .models import CustomUser, UserProfile, RequestModel, MessageModel, CommentModel
 from django.db.models.signals import post_save
 from django.contrib.auth import authenticate
 from django.contrib import messages
@@ -103,8 +103,6 @@ def requests(request,pk_test):
     return render(request, "Account/requests.html",{'get_user': get_user, 'profile': profile , 'requests': requests})
 
 
-
-
 @login_required()
 def messaging(request,pk_test):
     if request.user.username != pk_test or request.user.groups.filter(name='Support').exists():
@@ -141,3 +139,26 @@ def inbox(request,pk_test):
     else:
         messages.success(request, 'You do not have permission to view this inbox!')
         return render(request, 'home/HomePage.html')
+
+
+
+@login_required()
+def view_request(request,pk_test,pk):
+    get_user = CustomUser.objects.get(username=pk_test)
+    profile = UserProfile.objects.get(user=get_user)
+    user_request = RequestModel.objects.get(pk=pk)
+    comments = CommentModel.objects.filter(request=user_request).order_by('created_at')
+    # Allow a user to comment on a request
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.user = request.user
+            instance.request = user_request
+            instance.save()
+            messages.success(request,'Your comment has been sent successfully!')
+            return redirect('view_request', pk_test,pk)
+    else:
+        form = CommentForm()
+
+    return render(request, "Account/view_request.html",{'get_user': get_user, 'profile': profile , 'user_request': user_request, 'comments': comments, 'form': form})

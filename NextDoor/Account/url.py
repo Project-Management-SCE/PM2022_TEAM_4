@@ -3,7 +3,7 @@ from django.urls import path
 from . import views
 from django.urls import path
 from django.contrib.auth import views as auth_views
-from .views import SignupPageView, create_request, requests
+from .views import SignupPageView, create_request, requests, view_request
 
 urlpatterns = [
     path('signup/', SignupPageView.as_view(), name='signup'),
@@ -16,7 +16,6 @@ urlpatterns = [
     path('Rulse/', views.Rulse, name='Rulse'),
     path('user_profile/<str:pk_test>/messaging/', views.messaging, name="messaging"),
     path('user_profile/<str:pk_test>/inbox/', views.inbox, name="inbox"),
-
-
+    path('user_profile/<str:pk_test>/view_request/<int:pk>/', view_request, name="view_request"),
 
 ]

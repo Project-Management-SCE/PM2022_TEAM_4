@@ -20,9 +20,6 @@ class UserProfile(models.Model):
     city = models.CharField(max_length=255, blank=True)
     postal_code = models.CharField(max_length=255, blank=True)
 
-
-
-
     def __str__(self):
         return self.user.username
 
@@ -51,3 +48,14 @@ class MessageModel(models.Model):
         return self.message
 
 
+# Comment Model - user, comment
+class CommentModel(models.Model):
+    id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    request = models.ForeignKey(RequestModel, on_delete=models.CASCADE)
+    comment = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.comment

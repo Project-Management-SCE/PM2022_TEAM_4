@@ -5,15 +5,24 @@ from Account.models import UserProfile,CustomUser,MessageModel
 from django.core.paginator import Paginator
 
 def home(request):
-    messages = MessageModel.objects.filter(receiver=request.user).order_by('created_at')
-    mes = messages.count()
-    get_user = CustomUser.objects.all().order_by('?')
-    profile = UserProfile.objects.all()
-    #set up pagination
-    p = Paginator(get_user,6)
-    page_number = request.GET.get('page')
-    page_obj = p.get_page(page_number)
-    return render(request,'home/HomePage.html',{'page_obj':page_obj,'profile':profile,'mes':mes})
+    if request.user.is_authenticated:
+        messages = MessageModel.objects.filter(receiver=request.user).order_by('created_at')
+        mes = messages.count()
+        get_user = CustomUser.objects.all().order_by('?')
+        profile = UserProfile.objects.all()
+        #set up pagination
+        p = Paginator(get_user,6)
+        page_number = request.GET.get('page')
+        page_obj = p.get_page(page_number)
+        return render(request,'home/HomePage.html',{'page_obj':page_obj,'profile':profile,'mes':mes})
+    else:
+        get_user = CustomUser.objects.all().order_by('?')
+        profile = UserProfile.objects.all()
+        p = Paginator(get_user,6)
+        page_number = request.GET.get('page')
+        page_obj = p.get_page(page_number)
+        return render(request,'home/HomePage.html',{'page_obj':page_obj,'profile':profile})
+
 
 def map(request):
     #get who is login to system
@@ -24,7 +33,8 @@ def map(request):
     print(profile.image.url)
     userIcon = 'http://127.0.0.1:8000' + profile.image.url
     icon = folium.features.CustomIcon(userIcon, icon_size=(28, 30))
-    folium.Marker([profile.latitude, profile.longitude], tooltip="You here!", popup="<a href=https://http://127.0.0.1:8000>Help Me</a>",icon=icon).add_to(m)
+    popup_string = "<a href=http://127.0.0.1:8000/Account/user_profile/" + get_user.username + "/requests target =_blank rel=noopener noreferrer>My Requests</a>"
+    folium.Marker([profile.latitude, profile.longitude], tooltip="You are here!", popup=popup_string,icon=icon).add_to(m)
     #make the raduis circle
     folium.Circle(location=[profile.latitude, profile.longitude], radius=100).add_to(m)
     #save Lat and lan who login
@@ -39,7 +49,15 @@ def map(request):
             if distance.distance(newport_ri, cleveland_oh).km <= 0.1 and tempProfile != profile:
                 otherusericon='http://127.0.0.1:8000' + tempProfile.image.url
                 icon = folium.features.CustomIcon(otherusericon, icon_size=(28, 30))
-                folium.Marker([tempProfile.latitude, tempProfile.longitude], tooltip="click for help me "+user.username, popup='אני צריך מקדחה' ,icon=icon).add_to(m)
+                # Folium Marker: tooltip = user.username, popup is a link to the user's profile
+                popup_string = "<a href=http://127.0.0.1:8000/Account/user_profile/" + user.username + "/requests target =_blank rel=noopener noreferrer>Help Me</a>"
+                folium.Marker([tempProfile.latitude, tempProfile.longitude], tooltip=user.username,
+                              popup=popup_string,icon=icon).add_to(m)
+                # popup redirection
+                # folium.Marker([tempProfile.latitude, tempProfile.longitude], tooltip=user.username,
+                #               popup=popup_string,icon=icon).add_to(m)
+
+
     m = m._repr_html_()
     context = { 'm':m,'profile':profile}
     return render(request,'home/Map.html',context)

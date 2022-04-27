@@ -101,7 +101,7 @@
                 {% endif %}
                 {% for group in request.user.groups.all %}
                     {% if group.name == 'Support' %}
-                    <li><a href="/Account/user_profile/{{user.username}}/edit">Edit profile</a></li>
+                    <li><a href="/Account/user_profile/{{user.username}}/edit">Support : Edit profile</a></li>
                     {% endif %}
                 {% endfor %}
 

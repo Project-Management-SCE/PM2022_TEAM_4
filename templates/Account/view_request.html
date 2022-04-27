@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Request Details</h3>
+                        Made by: {{ user_request.user }}
+                        <br>
+                        Title: {{ user_request.title }}
+                        <br>
+                        {{ user_request.description }}
+                        <br>
+                        Comment Section:
+                        <br>
+                        {% for comment in comments %}
+                           Posted by: {{ comment.user }} , {{ comment.created_at }}
+                        <br>
+                           Content: {{ comment.comment }}
+                        <br>
+                        <br>
+                        {% endfor %}
+                        <!--- add comment form -->
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                {{ form.as_p }}
+                            </div>
+                            <button type="submit" class="btn btn-default">Submit</button>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  </head>
+
+                    </div>
+
+{% endblock %}
