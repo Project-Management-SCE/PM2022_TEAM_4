@@ -13,6 +13,7 @@
 <script type="text/javascript" src="{% static 'home/js/cuf_run.js' %}"></script>
 </head>
 <body>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
   .menu_nav ul li a {
     display: block;
@@ -22,6 +23,42 @@
     text-decoration: none;
     font-size: 13px;
     line-height: 16px;
+}
+.search {
+    float: right;
+    width: 250px;
+    padding: 25px 0;
+    position: absolute;
+    vertical-align: middle;
+    top: 21px;
+    right: 800px;
+}
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.notification {
+
+  color: white;
+  text-decoration: none;
+  padding: 15px 26px;
+  position: relative;
+  display: inline-block;
+  border-radius: 2px;
+}
+
+.notification:hover {
+  background: red;
+}
+
+.notification .badge {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  padding: 5px 10px;
+  border-radius: 50%;
+  background-color: red;
+  color: white;
 }
 </style>
 <div class="main">
@@ -36,6 +73,12 @@
           {% if user.is_authenticated %}
            <li><p><a href="{% url 'logout' %}">Log Out</a></p> </li>
           <li><p><a href="/Account/user_profile/{{user.username}}/">Welcome {{ user.username }}</a></p> </li>
+          <li><p> <a href="/Account/user_profile/{{user.username}}/inbox" class="notification">
+          <span>Inbox</span>
+            {% if mes > 0 %}
+          <span class="badge">{{mes}}</span>
+            {% endif %}
+          </a></p> </li>
           {% else %}
             <li class="" ><a  href="/Account/login">Login</a></li>
             <li class="" ><a  href="/Account/signup">Sign Up</a></li>

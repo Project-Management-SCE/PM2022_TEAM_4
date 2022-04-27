@@ -39,5 +39,15 @@ class RequestModel(models.Model):
     def __str__(self):
         return self.title
 
+class MessageModel(models.Model):
+    id = models.AutoField(primary_key=True)
+    sender = models.ForeignKey(get_user_model(), related_name='sender', on_delete=models.CASCADE)
+    receiver = models.ForeignKey(get_user_model(), related_name='receiver', on_delete=models.CASCADE)
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.message
 
 
