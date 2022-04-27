@@ -1,19 +1,17 @@
 from django.shortcuts import render
 import folium
 from geopy import distance
-from Account.models import UserProfile,CustomUser,MessageModel
+from Account.models import UserProfile,CustomUser
 from django.core.paginator import Paginator
 
 def home(request):
-    messages = MessageModel.objects.filter(receiver=request.user).order_by('created_at')
-    mes = messages.count()
     get_user = CustomUser.objects.all().order_by('?')
     profile = UserProfile.objects.all()
     #set up pagination
     p = Paginator(get_user,6)
     page_number = request.GET.get('page')
     page_obj = p.get_page(page_number)
-    return render(request,'home/HomePage.html',{'page_obj':page_obj,'profile':profile,'mes':mes})
+    return render(request,'home/HomePage.html',{'page_obj':page_obj,'profile':profile})
 
 def map(request):
     #get who is login to system
