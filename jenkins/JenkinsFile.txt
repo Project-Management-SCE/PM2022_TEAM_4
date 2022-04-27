@@ -37,7 +37,7 @@ pipeline {
 					withEnv(["HOME=${env.WORKSPACE}"]) {
 					dir("NextDoor"){
 						sh "python -m coverage run manage.py test"
-						sh "python -m coverage report
+						sh "python -m coverage report"
 						}
 					}
 				}
