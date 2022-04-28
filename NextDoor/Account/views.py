@@ -33,10 +33,10 @@ class SignupPageView(generic.CreateView):
 def user_profile(request,pk_test):
     get_user = CustomUser.objects.get(username=pk_test)
     profile = UserProfile.objects.get(user=get_user)
+    posts = RequestModel.objects.filter(user=get_user).order_by('created_at')
 
 
-
-    return render(request, "Account/user_profile.html",{'get_user': get_user, 'profile': profile})
+    return render(request, "Account/user_profile.html",{'get_user': get_user, 'profile': profile, 'posts':posts})
 
 
 @login_required()
@@ -162,3 +162,4 @@ def view_request(request,pk_test,pk):
         form = CommentForm()
 
     return render(request, "Account/view_request.html",{'get_user': get_user, 'profile': profile , 'user_request': user_request, 'comments': comments, 'form': form})
+

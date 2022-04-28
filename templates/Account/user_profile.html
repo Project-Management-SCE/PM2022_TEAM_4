@@ -95,8 +95,13 @@
                 {% if user.is_authenticated %}
                     {% if get_user.id == user.id %}
                     <li><a href="/Account/user_profile/{{user.username}}/edit">Edit profile</a></li>
+                     <li><a href="/Account/user_profile/{{user.username}}/create_request">New Post</a></li>
                     {% else %}
-                    <li><a href="/Account/user_profile/{{get_user.username}}/messaging">Send message</li>
+                     <li><a href="/Account/Rulse"
+                      target="popup"
+                      onclick="window.open('/Account/user_profile/{{get_user.username}}/messaging','popup','width=800'); return false;">
+                        Send message
+                    </a></li>
                     {% endif %}
                 {% endif %}
                 {% for group in request.user.groups.all %}
@@ -110,28 +115,40 @@
             </ul>
           </div>
 </div>
+           {% for pos in posts %}
     <div class="content">
       <div class="content_bg">
         <div class="mainbar">
+
           <div class="article">
-            <h2><span>I need a drill(check)</span></h2>
+            <h2><span>{{pos.title}}</span></h2>
             <div class="clr"></div>
-            <p class="post-data"><span class="date">March 16, 2018</span> &nbsp;|&nbsp; Posted by <a href="#">{{get_user.username}}</a> &nbsp;|&nbsp;</p>
-            <p>Hello everyone I need a drill to hang a picture</p>
-            <p class="spec"><a href="#" class="com fr">Comments (3)</a> <a href="#" class="rm fl">Read more</a></p>
+            <p class="post-data"><span class="date">{{pos.created_at}}</span> &nbsp;|&nbsp; Posted by <a href="#">{{get_user.username}}</a> &nbsp;|&nbsp;</p>
+            <p>{{pos.description}}</p>
+            <p class="spec"><a href="/Account/user_profile/{{user.username}}/view_request/{{pos.id}}" class="com fr">Comments</a></p>
             <div class="clr"></div>
-            <div class="article">
-            <h2><span>I need a drill2(check)</span></h2>
-            <div class="clr"></div>
-            <p class="post-data"><span class="date">March 17, 2018</span> &nbsp;|&nbsp; Posted by <a href="#">{{get_user.username}}</a> &nbsp;|&nbsp;</p>
-            <p>Hello everyone I need a drill to hang a picture</p>
-            <p class="spec"><a href="#" class="com fr">Comments (1)</a> <a href="#" class="rm fl">Read more</a></p>
-            <div class="clr"></div>
-          </div>
+              </div>
         </div>
+              {% endfor %}
         <div class="clr"></div>
       </div>
     </div>
   </div>
 </div>
+    <script>
+ function disableSubmit() {
+  document.getElementById("submit").disabled = true;
+ }
+
+  function activateButton(element) {
+
+      if(element.checked) {
+        document.getElementById("submit").disabled = false;
+       }
+       else  {
+        document.getElementById("submit").disabled = true;
+      }
+
+  }
+</script>
 {% endblock content %}

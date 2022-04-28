@@ -1,12 +1,11 @@
-<! DOCTYPE html>
-<!-- Path: templates/Account/messaging.html -->
 {% extends 'base.html' %}
 {% load static %}
+{% block title %}View Inbox{% endblock title %}
 {% block content %}
 <!-- Implement html for inbox from Account/views -->
 <style>
 
-h1{
+h5{
   font-size: 30px;
   color: #6fb7e5;
   text-transform: uppercase;
@@ -52,7 +51,7 @@ td{
   font-size: 12px;
   color: #fff;
   border-bottom: solid 1px rgba(255,255,255,0.1);
-
+overflow-wrap: anywhere;
 }
 
 
@@ -103,7 +102,7 @@ section{
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
 }
 </style>
-  <h1>InBox</h1>
+  <h5>InBox</h5>
   <div class="tbl-header">
     <table cellpadding="0" cellspacing="0" border="0" >
       <thead>
