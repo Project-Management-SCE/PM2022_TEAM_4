@@ -97,6 +97,7 @@ def create_request(request,pk_test):
         messages.success(request, 'You do not have permission to create a request!')
         return render(request, 'home/HomePage.html')
 
+
 # Display the requests that the user has made
 @login_required()
 def requests(request,pk_test):
@@ -134,7 +135,7 @@ def messaging(request,pk_test):
 # Display the messages that the user received
 @login_required()
 def inbox(request,pk_test):
-    if request.user.username==pk_test or request.user.groups.filter(name='Support').exists():
+    if request.user.username==pk_test or request.user.groups.filter(name='support').exists():
         get_user = CustomUser.objects.get(username=pk_test)
         profile = UserProfile.objects.get(user=get_user)
         messagess = MessageModel.objects.filter(receiver=request.user).order_by('created_at')
@@ -142,6 +143,29 @@ def inbox(request,pk_test):
     else:
         messages.success(request, 'You do not have permission to view this inbox!')
         return render(request, 'home/HomePage.html')
+
+@login_required()
+def messaging_read(request,pk_test,pk):
+    if request.user.username == pk_test or request.user.groups.filter(name='Support').exists():
+        get_user = CustomUser.objects.get(username=pk_test)
+        profile = UserProfile.objects.get(user=get_user)
+        messagess = MessageModel.objects.get(id=pk)
+        messagess.read =True
+        messagess.save()
+        messagess = MessageModel.objects.filter(receiver=request.user).order_by('created_at')
+        messages.success(request, 'You inbox is update successfully!')
+        return render(request, "Account/inbox.html",{'get_user': get_user, 'profile': profile , 'messages': messagess})
+
+@login_required()
+def messaging_delete(request,pk_test,pk):
+    if request.user.username == pk_test or request.user.groups.filter(name='Support').exists():
+        get_user = CustomUser.objects.get(username=pk_test)
+        profile = UserProfile.objects.get(user=get_user)
+        messagess = MessageModel.objects.get(id=pk)
+        MessageModel.delete(messagess)
+        messagess = MessageModel.objects.filter(receiver=request.user).order_by('created_at')
+        messages.success(request, 'You inbox is update successfully!')
+        return render(request, "Account/inbox.html",{'get_user': get_user, 'profile': profile , 'messages': messagess})
 
 
 

@@ -7,7 +7,10 @@ from django.core.paginator import Paginator
 def home(request):
     if request.user.is_authenticated:
         messages = MessageModel.objects.filter(receiver=request.user).order_by('created_at')
-        mes = messages.count()
+        mes=0
+        for m in messages:
+            if m.read==False:
+                mes=mes+1
         get_user = CustomUser.objects.all().order_by('?')
         profile = UserProfile.objects.all()
         #set up pagination

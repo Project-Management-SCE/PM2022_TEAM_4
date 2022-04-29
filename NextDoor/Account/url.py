@@ -21,6 +21,8 @@ urlpatterns = [
     path('user_profile/<str:pk_test>/requests/', requests, name="requests"),
     path('user_profile/<str:pk_test>/messaging/', views.messaging, name="messaging"),
     path('user_profile/<str:pk_test>/inbox/', views.inbox, name="inbox"),
+    path('user_profile/<str:pk_test>/inbox/<int:pk>/messaging_read', views.messaging_read, name="messaging_read"),
+    path('user_profile/<str:pk_test>/inbox/<int:pk>/messaging_delete', views.messaging_delete, name="messaging_delete"),
     path('user_profile/<str:pk_test>/view_request/<int:pk>/', view_request, name="view_request"),
     path('user_profile/<str:pk_test>/view_request/<int:pk>/delete_request/', views.delete_request, name="delete_request"),
 
