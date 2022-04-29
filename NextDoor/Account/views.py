@@ -177,7 +177,6 @@ def delete_user(request,pk_test):
 
 @user_passes_test(lambda u: u.is_superuser,login_url='home')
 def delete_request(request,pk_test,pk):
-    get_user = CustomUser.objects.get(username=pk_test)
     user_request = RequestModel.objects.get(pk=pk)
     RequestModel.delete(user_request)
     messages.success(request, 'You Delete Request successfully!')
