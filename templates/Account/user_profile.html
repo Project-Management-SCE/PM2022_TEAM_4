@@ -131,6 +131,9 @@
             <p class="post-data"><span class="date">{{pos.created_at}}</span> &nbsp;|&nbsp; Posted by <a href="#">{{get_user.username}}</a> &nbsp;|&nbsp;</p>
             <p>{{pos.description}}</p>
             <p class="spec"><a href="/Account/user_profile/{{user.username}}/view_request/{{pos.id}}" class="com fr">Comments</a></p>
+             {% if user.is_superuser %}
+                <p class="spec"><a href="/Account/user_profile/{{user.username}}/view_request/{{pos.id}}/delete_request" class="com fr">Admin:Delete Request</a></p>
+             {% endif %}
             <div class="clr"></div>
               </div>
         </div>

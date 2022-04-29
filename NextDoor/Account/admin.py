@@ -2,7 +2,7 @@ import json
 from django.contrib import admin
 from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin
-from .models import UserProfile,CustomUser, RequestModel, MessageModel
+from .models import UserProfile,CustomUser, RequestModel, MessageModel, CommentModel
 from .form import CustomUserCreationForm, CustomUserChangeForm, RequestForm, MessageForm
 
 
@@ -38,3 +38,9 @@ class MessageAdmin(admin.ModelAdmin):
     list_filter = ['sender', 'receiver']
 
 admin.site.register(MessageModel, MessageAdmin)
+
+class Commentdmin(admin.ModelAdmin):
+    list_display = ['id', 'user', 'request', 'comment', 'created_at', 'updated_at']
+    list_filter = ['request', 'user']
+
+admin.site.register(CommentModel, Commentdmin)
