@@ -120,12 +120,20 @@ section{
       <tbody>
       {% for message in messages %}
                             <tr>
-                                <td>{{ message.id }}</td>
+                                <td>{{ message.sender }}</td>
                                 <td>{{ message.message }}</td>
                                 <td>{{ message.created_at }}</td>
+                                {% if message.read %}
+                                <td>הודעה נקראה</td>
+                                {% else %}
+                                <td>הודעה לא נקראה</td>
+                                {% endif %}
                                 <td>
-                                 <a href="/Account/user_profile/{{user.username}}/inbox/{{message.id}}/messaging_read">Read|</a>
-                                    <a href="/Account/user_profile/{{user.username}}/inbox/{{message.id}}/messaging_delete">|Delete</a>
+                                    {% if message.read %}
+                                    {% else %}
+                                 <a href="/Account/user_profile/{{user.username}}/inbox/{{message.id}}/messaging_read">|Read|</a>
+                                    {% endif %}
+                                    <a href="/Account/user_profile/{{user.username}}/inbox/{{message.id}}/messaging_delete">|Delete|</a>
                                 </td>
                             </tr>
                             {% endfor %}

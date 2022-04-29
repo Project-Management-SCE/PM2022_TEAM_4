@@ -1,6 +1,6 @@
 <! DOCTYPE html>
 <!-- Path: templates/Account/messaging.html -->
-{% extends 'base.html' %}
+
 {% load static %}
 <!-- Implement messaging.html from MessageForm -->
 {% block content %}
@@ -152,7 +152,12 @@ button, input, select, textarea {
     line-height: inherit;
     margin: 29px 10px 3px 256px;
     width: 80%;
+}
+p {
+    margin: 8px 13px -11px -40px;
+    padding: 81px 25px;
 }</style>
+<body style="padding: 101px 2px;">
 <div>
        <div class="logo" style=" width: 340px;
     height: 98px;
@@ -182,4 +187,5 @@ button, input, select, textarea {
         <button class="button-15" style="padding: 8px 48px 8px 34px;" type="submit">Send Message</button>
                </div>
         </form>
+</body>
 {% endblock %}
