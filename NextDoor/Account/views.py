@@ -1,4 +1,4 @@
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import Group
 # Create your views here.
@@ -166,5 +166,11 @@ def view_request(request,pk_test,pk):
 
     return render(request, "Account/view_request.html",{'get_user': get_user, 'profile': profile , 'user_request': user_request, 'comments': comments, 'form': form})
 
-
-
+@user_passes_test(lambda u: u.is_superuser,login_url='home')
+def delete_user(request,pk_test):
+    get_user = CustomUser.objects.get(username=pk_test)
+    profile = UserProfile.objects.get(user=get_user)
+    CustomUser.delete(get_user)
+    UserProfile.delete(profile)
+    messages.success(request, 'You Delete user successfully!')
+    return render(request, 'home/HomePage.html')

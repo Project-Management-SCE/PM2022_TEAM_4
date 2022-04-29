@@ -110,6 +110,10 @@
                     <li><a href="/Account/user_profile/{{get_user.username}}/edit">Support : Edit profile</a></li>
                     {% endif %}
                 {% endfor %}
+                {% if user.is_superuser %}
+                <li><a href="/Account/user_profile/{{get_user.username}}/delete_user">Admin : delete_user</a></li>
+                {% endif %}
+
 
 
 

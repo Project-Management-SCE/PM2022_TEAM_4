@@ -16,6 +16,7 @@ urlpatterns = [
     #---------------------------- setUp user Profile--------------------------------------#
     path('user_profile/<str:pk_test>/', views.user_profile, name="user_profile"),
     path('user_profile/<str:pk_test>/edit/', views.edit_profile, name="edit_profile"),
+    path('user_profile/<str:pk_test>/delete_user/', views.delete_user, name="delete_user"),
     path('user_profile/<str:pk_test>/create_request/', create_request, name="create_request"),
     path('user_profile/<str:pk_test>/requests/', requests, name="requests"),
     path('user_profile/<str:pk_test>/messaging/', views.messaging, name="messaging"),
