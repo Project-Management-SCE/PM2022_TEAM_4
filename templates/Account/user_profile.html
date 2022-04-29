@@ -94,6 +94,7 @@
                 <li>Country : {{profile.country}}</li>
                 {% if user.is_authenticated %}
                     {% if get_user.id == user.id %}
+                <li> Your last request was made at : {{last_request}}</li>
                     <li><a href="/Account/user_profile/{{user.username}}/edit">Edit profile</a></li>
                      <li><a href="/Account/user_profile/{{user.username}}/create_request">New Post</a></li>
                     {% else %}
