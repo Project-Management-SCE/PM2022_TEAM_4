@@ -4,6 +4,8 @@ from . import views
 from django.urls import path
 from django.contrib.auth import views as auth_views
 from .views import SignupPageView, create_request, requests, view_request
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     #---------------------------- setUp user--------------------------------------#
@@ -20,5 +22,4 @@ urlpatterns = [
     path('user_profile/<str:pk_test>/inbox/', views.inbox, name="inbox"),
     path('user_profile/<str:pk_test>/view_request/<int:pk>/', view_request, name="view_request"),
 
-
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

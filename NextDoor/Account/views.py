@@ -46,7 +46,7 @@ def edit_profile(request,pk_test):
         profile = UserProfile.objects.get(user=get_user)
         form = UserProfileForm(request.POST or None, instance=profile)
         if request.method == 'POST':
-            form = UserProfileForm(request.POST, instance=profile)
+            form = UserProfileForm(request.POST, request.FILES, instance=profile)
             if form.is_valid():
                 address = request.POST.get('location', False)
                 city = request.POST.get('locality', False)
@@ -162,4 +162,5 @@ def view_request(request,pk_test,pk):
         form = CommentForm()
 
     return render(request, "Account/view_request.html",{'get_user': get_user, 'profile': profile , 'user_request': user_request, 'comments': comments, 'form': form})
+
 
