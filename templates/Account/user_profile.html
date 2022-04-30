@@ -134,6 +134,11 @@
              {% if user.is_superuser %}
                 <p class="spec"><a href="/Account/user_profile/{{user.username}}/view_request/{{pos.id}}/delete_request" class="com fr">Admin:Delete Request</a></p>
              {% endif %}
+              {% for group in request.user.groups.all %}
+                    {% if group.name == 'support' %}
+                    <p class="spec"><a href="/Account/user_profile/{{user.username}}/view_request/{{pos.id}}/delete_request" class="com fr">Support:Delete Request</a></p>
+                    {% endif %}
+                {% endfor %}
             <div class="clr"></div>
               </div>
         </div>

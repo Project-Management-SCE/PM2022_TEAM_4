@@ -199,7 +199,7 @@ def delete_user(request,pk_test):
     messages.success(request, 'You Delete user successfully!')
     return render(request, 'home/HomePage.html')
 
-@user_passes_test(lambda u: u.is_superuser,login_url='home')
+@user_passes_test(lambda u: u.is_superuser or u.groups.filter(name='support').exists(),login_url='home')
 def delete_request(request,pk_test,pk):
     user_request = RequestModel.objects.get(pk=pk)
     RequestModel.delete(user_request)
