@@ -113,10 +113,6 @@
                 {% if user.is_superuser %}
                 <li><a href="/Account/user_profile/{{get_user.username}}/delete_user">Admin : delete_user</a></li>
                 {% endif %}
-
-
-
-
             </ul>
           </div>
 </div>
@@ -124,7 +120,6 @@
     <div class="content">
       <div class="content_bg">
         <div class="mainbar">
-
           <div class="article">
             <h2><span>{{pos.title}}</span></h2>
             <div class="clr"></div>
@@ -152,16 +147,13 @@
  function disableSubmit() {
   document.getElementById("submit").disabled = true;
  }
-
   function activateButton(element) {
-
       if(element.checked) {
         document.getElementById("submit").disabled = false;
        }
        else  {
         document.getElementById("submit").disabled = true;
       }
-
   }
 </script>
 {% endblock content %}
