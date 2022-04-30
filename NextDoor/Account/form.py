@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model
-from .models import UserProfile, RequestModel, MessageModel, CommentModel
+from .models import UserProfile, RequestModel, MessageModel, CommentModel, SupportTicketModel
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.forms import ModelForm
 
@@ -37,3 +37,10 @@ class CommentForm(ModelForm):
     class Meta:
         model = CommentModel
         fields = ('comment',)
+
+
+# support ticket form
+class SupportTicketForm(ModelForm):
+    class Meta:
+        model = SupportTicketModel
+        fields = ('request','comment','message','description',)

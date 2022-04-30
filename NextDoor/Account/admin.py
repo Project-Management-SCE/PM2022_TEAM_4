@@ -2,7 +2,7 @@ import json
 from django.contrib import admin
 from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin
-from .models import UserProfile,CustomUser, RequestModel, MessageModel, CommentModel
+from .models import UserProfile,CustomUser, RequestModel, MessageModel, CommentModel, SupportTicketModel
 from .form import CustomUserCreationForm, CustomUserChangeForm, RequestForm, MessageForm
 
 
@@ -44,3 +44,11 @@ class Commentdmin(admin.ModelAdmin):
     list_filter = ['request', 'user']
 
 admin.site.register(CommentModel, Commentdmin)
+
+
+class SupportTicketAdmin(admin.ModelAdmin):
+    list_display = ['user', 'description', 'created_at', 'updated_at']
+    list_filter = ['user']
+
+
+admin.site.register(SupportTicketModel, SupportTicketAdmin)

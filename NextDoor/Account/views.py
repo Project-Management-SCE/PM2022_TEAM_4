@@ -4,7 +4,7 @@ from django.contrib.auth.models import Group
 # Create your views here.
 from django.urls import reverse_lazy
 from django.views import generic
-from .form import CustomUserCreationForm, UserProfileForm, RequestForm, MessageForm, CommentForm
+from .form import CustomUserCreationForm, UserProfileForm, RequestForm, MessageForm, CommentForm, SupportTicketForm
 from .models import CustomUser, UserProfile, RequestModel, MessageModel, CommentModel
 from django.db.models.signals import post_save
 from django.contrib.auth import authenticate
@@ -205,3 +205,21 @@ def delete_request(request,pk_test,pk):
     RequestModel.delete(user_request)
     messages.success(request, 'You Delete Request successfully!')
     return render(request, 'home/HomePage.html')
+
+
+@login_required()
+def support_ticket(request):
+    get_user = CustomUser.objects.get(username=request.user.username)
+    profile = UserProfile.objects.get(user=get_user)
+    # check if user is in support group
+    if request.method == 'POST' and request.user.groups.filter(name='support').exists():
+        form = SupportTicketForm(request.POST)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.user = request.user
+            instance.save()
+            messages.success(request,'Your support ticket has been sent successfully!')
+            return render(request, 'home/HomePage.html')
+    else:
+        form = SupportTicketForm()
+    return render(request, "Account/support_ticket.html",{'get_user': get_user, 'profile': profile , 'form': form})

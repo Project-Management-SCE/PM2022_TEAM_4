@@ -60,3 +60,21 @@ class CommentModel(models.Model):
 
     def __str__(self):
         return self.comment
+
+
+# Support ticket model - includes optional RequestModel, CommentModel, MessageModel
+class SupportTicketModel(models.Model):
+    id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    request = models.ForeignKey(RequestModel, on_delete=models.CASCADE, blank=True, null=True)
+    comment = models.ForeignKey(CommentModel, on_delete=models.CASCADE, blank=True, null=True)
+    message = models.ForeignKey(MessageModel, on_delete=models.CASCADE, blank=True, null=True)
+    description = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    # status closed = "closed", open = "open", resolved = "resolved"
+    status = models.CharField(max_length=10, default="open")
+
+
+    def _str_(self):
+        return self.user.username

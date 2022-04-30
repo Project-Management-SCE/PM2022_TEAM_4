@@ -102,11 +102,10 @@ body {
           {% if user.is_authenticated %}
           <li><a href="{% url 'map' %}">Map</a></li>
           {% endif %}
-          <li><a href="support.html">Support</a></li>
           <li><a href="about.html">About Us</a></li>
           {% for group in  request.user.groups.all %}
-            {%  if 'Support' == group.name %}
-            <li><a href="blog.html">Blog</a></li>
+            {%  if 'support' == group.name %}
+            <li><a href="{% url 'support_ticket' %}">Support</a></li>
             {% endif %}
           {% endfor %}
           {% if user.is_superuser %}
