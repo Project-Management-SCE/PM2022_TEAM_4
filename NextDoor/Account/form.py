@@ -26,6 +26,10 @@ class RequestForm(ModelForm):
         model = RequestModel
         fields = ('title', 'description' )
 
+class RequestChangeForm(ModelForm):
+    class Meta:
+        model = RequestModel
+        fields = ('title', 'description' )
 
 class MessageForm(ModelForm):
     class Meta:
@@ -38,6 +42,10 @@ class CommentForm(ModelForm):
         model = CommentModel
         fields = ('comment',)
 
+class CommentChangeForm(ModelForm):
+    class Meta:
+        model = CommentModel
+        fields = ('comment',)
 
 # support ticket form
 class SupportTicketForm(ModelForm):

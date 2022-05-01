@@ -132,12 +132,14 @@
                     {% endif %}
                 {% endif %}
             </p>
+               <p class="spec">
              {% if user.is_superuser %}
-                <p class="spec"><a href="/Account/user_profile/{{user.username}}/view_request/{{pos.id}}/delete_request" class="rm fl">Admin:Delete Request</a>
+                <a href="/Account/user_profile/{{user.username}}/view_request/{{pos.id}}/delete_request" class="rm fl">Admin:Delete Request</a>
              {% endif %}
               {% for group in request.user.groups.all %}
                     {% if group.name == 'support' %}
                     <a href="/Account/user_profile/{{user.username}}/view_request/{{pos.id}}/delete_request" class="rm fl">Support:Delete Request</a>
+                    <a href="/Account/user_profile/{{user.username}}/view_request/{{pos.id}}/edit_request" class="com fr">Support:Edit Request</a>
                     {% endif %}
                 {% endfor %}
               </p>

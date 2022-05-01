@@ -128,7 +128,12 @@ button, input, select, textarea {
                                 <td>{{ comment.comment }}</td>
                                 <td>{{ comment.created_at }}</td>
                                 <td>
+                                  {% for group in request.user.groups.all %}
+                                     {% if group.name == 'support' %}
                                     <a href="{{ request.path }}?action=delete&id={{ message.id }}">Delete</a>
+                                    <a href="/Account/user_profile/{{user.username}}/view_request/{{comment.id}}/edit_comment">Support: edit</a>
+                                      {% endif %}
+                                    {% endfor %}
                                 </td>
                             </tr>
                             {% endfor %}

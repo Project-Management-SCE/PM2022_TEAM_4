@@ -4,7 +4,8 @@ from django.contrib.auth.models import Group
 # Create your views here.
 from django.urls import reverse_lazy
 from django.views import generic
-from .form import CustomUserCreationForm, UserProfileForm, RequestForm, MessageForm, CommentForm, SupportTicketForm
+from .form import CustomUserCreationForm, UserProfileForm, RequestForm, MessageForm, CommentForm, SupportTicketForm,\
+    RequestChangeForm, CommentChangeForm
 from .models import CustomUser, UserProfile, RequestModel, MessageModel, CommentModel
 from django.db.models.signals import post_save
 from django.contrib.auth import authenticate
@@ -68,6 +69,43 @@ def edit_profile(request,pk_test):
                 messages.success(request,'Your Profile has been changed successfully!')
                 return redirect('user_profile', pk_test)
         return render(request, "Account/edit_profile.html",{'get_user': get_user, 'profile': profile , 'form': form})
+    else:
+        messages.success(request, 'You do not have permission to edit a profile that is not you!')
+        return render(request, 'home/HomePage.html')
+
+@login_required()
+def edit_request(request,pk_test,pk):
+    if request.user.username==pk_test or request.user.groups.filter(name='support').exists():
+        get_user = CustomUser.objects.get(username=pk_test)
+        profile = UserProfile.objects.get(user=get_user)
+        posts = RequestModel.objects.get(id=pk)
+        form = RequestChangeForm(request.POST or None, instance=posts)
+        if request.method == 'POST':
+            form = RequestChangeForm(request.POST, request.FILES, instance=posts)
+            if form.is_valid():
+                form.save()
+                messages.success(request,'Your request has been changed successfully!')
+                return redirect('user_profile', pk_test)
+        return render(request, "Account/edit_request.html",{'get_user': get_user, 'profile': profile , 'form': form})
+    else:
+        messages.success(request, 'You do not have permission to edit a profile that is not you!')
+        return render(request, 'home/HomePage.html')
+
+@login_required()
+def edit_comment(request,pk_test,pk):
+    if request.user.username==pk_test or request.user.groups.filter(name='support').exists():
+        get_user = CustomUser.objects.get(username=pk_test)
+        profile = UserProfile.objects.get(user=get_user)
+        comments = CommentModel.objects.get(id=pk)
+        form = CommentChangeForm(request.POST or None, instance=comments)
+        if request.method == 'POST':
+            form = CommentChangeForm(request.POST, request.FILES, instance=comments)
+            if form.is_valid():
+                form.save()
+                messages.success(request,'Your comments has been changed successfully!')
+                pk=comments.user.id
+                return redirect('view_request', pk_test,pk)
+        return render(request, "Account/edit_comment.html",{'get_user': get_user, 'profile': profile , 'form': form})
     else:
         messages.success(request, 'You do not have permission to edit a profile that is not you!')
         return render(request, 'home/HomePage.html')
@@ -181,8 +219,6 @@ def messaging_delete(request,pk_test,pk):
         messagess = MessageModel.objects.filter(receiver=request.user).order_by('created_at')
         messages.success(request, 'You inbox is update successfully!')
         return render(request, "Account/inbox.html",{'get_user': get_user, 'profile': profile , 'messages': messagess})
-
-
 
 @login_required()
 def view_request(request,pk_test,pk):
