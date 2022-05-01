@@ -25,6 +25,7 @@ urlpatterns = [
     path('user_profile/<str:pk_test>/inbox/<int:pk>/messaging_delete', views.messaging_delete, name="messaging_delete"),
     path('user_profile/<str:pk_test>/view_request/<int:pk>/', view_request, name="view_request"),
     path('user_profile/<str:pk_test>/view_request/<int:pk>/delete_request/', views.delete_request, name="delete_request"),
+    path('user_profile/<str:pk_test>/view_request/<int:pk>/close_request/', views.close_request, name="close_request"),
     path('support_ticket/', views.support_ticket, name="support_ticket"),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

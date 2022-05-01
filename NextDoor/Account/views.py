@@ -105,15 +105,30 @@ def requests(request,pk_test):
     profile = UserProfile.objects.get(user=get_user)
     requests = RequestModel.objects.filter(user=get_user).order_by('created_at')
     return render(request, "Account/requests.html",{'get_user': get_user, 'profile': profile , 'requests': requests})
-
+#change 1
+@login_required()
+def close_request(request,pk_test,pk):
+    if request.user.username == pk_test or request.user.groups.filter(name='support').exists():
+        get_user = CustomUser.objects.get(username=pk_test)
+        profile = UserProfile.objects.get(user=get_user)
+        user_request = RequestModel.objects.get(pk=pk)
+        user_request.close = True
+        user_request.save()
+        messages.success(request, 'The request closed successfully!')
+        return redirect('user_profile', pk_test)
+    else:
+        messages.success(request, 'You can not close another users request!')
+        return render(request, 'home/HomePage.html')
 
 @login_required()
 def messaging(request,pk_test):
     if request.user.username != pk_test or request.user.groups.filter(name='Support').exists():
         get_user = CustomUser.objects.get(username=request.user.username)
         get_receiver = CustomUser.objects.get(username=pk_test)
-        #get_user = CustomUser.objects.get(username=pk_test)
+        profilerec = UserProfile.objects.get(user=get_receiver)
         profile = UserProfile.objects.get(user=get_user)
+        reciverHistory = MessageModel.objects.filter(receiver=get_receiver).order_by('created_at')
+        SenderHistory = MessageModel.objects.filter(receiver=request.user).order_by('created_at')
         if request.method == 'POST':
             form = MessageForm(request.POST)
             if form.is_valid():
@@ -122,11 +137,11 @@ def messaging(request,pk_test):
                 instance.receiver = CustomUser.objects.get(username=pk_test)
                 #instance.receiver = CustomUser.objects.get(username=form.cleaned_data['receiver'])
                 instance.save()
-                messages.success(request,'Your message has been sent successfully!')
-                return redirect('user_profile', pk_test)
+                messages.success(request,'Your message has been sent successfully! to- '+ profilerec.first_name)
+                return redirect('messaging', pk_test)
         else:
             form = MessageForm()
-        return render(request, "Account/messaging.html",{'get_user': get_user, 'profile': profile , 'form': form,'get_receiver':get_receiver})
+        return render(request, "Account/messaging.html",{'get_user': get_user, 'profile': profile , 'form': form,'get_receiver':get_receiver,'reciverHistory':reciverHistory,'SenderHistory':SenderHistory})
     else:
         messages.success(request, 'You do not have permission to send a message to a user that is not you!')
         return render(request, 'home/HomePage.html')

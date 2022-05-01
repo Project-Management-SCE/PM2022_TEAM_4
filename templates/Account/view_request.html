@@ -136,6 +136,11 @@ button, input, select, textarea {
               </thead>
     </table>
   </div>
+{% if user_request.close %}
+<div>
+    <h5>The request is closed. No response can be added</h5>
+</div>
+{% else %}
     <div class="container">
         <div class="row">
             <div class="col-md-12" >
@@ -166,5 +171,6 @@ button, input, select, textarea {
             </div>
         </div>
     </div>
+{% endif %}
 
 {% endblock %}

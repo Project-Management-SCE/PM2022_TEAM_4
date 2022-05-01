@@ -20,7 +20,7 @@ class UserProfile(models.Model):
     city = models.CharField(max_length=255, blank=True)
     postal_code = models.CharField(max_length=255, blank=True)
 
-    def __str__(self):
+    def _str_(self):
         return self.user.username
 
 
@@ -32,8 +32,9 @@ class RequestModel(models.Model):
     description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    close = models.BooleanField(default=False)
 
-    def __str__(self):
+    def _str_(self):
         return self.title
 
 class MessageModel(models.Model):
@@ -45,7 +46,7 @@ class MessageModel(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     read = models.BooleanField(default=False)
 
-    def __str__(self):
+    def _str_(self):
         return self.message
 
 
@@ -58,7 +59,7 @@ class CommentModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    def __str__(self):
+    def _str_(self):
         return self.comment
 
 
@@ -76,5 +77,5 @@ class SupportTicketModel(models.Model):
     status = models.CharField(max_length=10, default="open")
 
 
-    def _str_(self):
+    def str(self):
         return self.user.username

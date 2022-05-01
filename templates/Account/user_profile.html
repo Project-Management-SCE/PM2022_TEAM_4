@@ -125,15 +125,22 @@
             <div class="clr"></div>
             <p class="post-data"><span class="date">{{pos.created_at}}</span> &nbsp;|&nbsp; Posted by <a href="#">{{get_user.username}}</a> &nbsp;|&nbsp;</p>
             <p>{{pos.description}}</p>
-            <p class="spec"><a href="/Account/user_profile/{{user.username}}/view_request/{{pos.id}}" class="com fr">Comments</a></p>
+            <p class="spec"><a href="/Account/user_profile/{{user.username}}/view_request/{{pos.id}}" class="com fr">Comments</a>
+             {% if user.is_authenticated %}
+                    {% if get_user.id == user.id and not pos.close %}
+                        <a href="/Account/user_profile/{{user.username}}/view_request/{{pos.id}}/close_request" class="com fr">close request</a>
+                    {% endif %}
+                {% endif %}
+            </p>
              {% if user.is_superuser %}
-                <p class="spec"><a href="/Account/user_profile/{{user.username}}/view_request/{{pos.id}}/delete_request" class="com fr">Admin:Delete Request</a></p>
+                <p class="spec"><a href="/Account/user_profile/{{user.username}}/view_request/{{pos.id}}/delete_request" class="rm fl">Admin:Delete Request</a>
              {% endif %}
               {% for group in request.user.groups.all %}
                     {% if group.name == 'support' %}
-                    <p class="spec"><a href="/Account/user_profile/{{user.username}}/view_request/{{pos.id}}/delete_request" class="com fr">Support:Delete Request</a></p>
+                    <a href="/Account/user_profile/{{user.username}}/view_request/{{pos.id}}/delete_request" class="rm fl">Support:Delete Request</a>
                     {% endif %}
                 {% endfor %}
+              </p>
             <div class="clr"></div>
               </div>
         </div>
