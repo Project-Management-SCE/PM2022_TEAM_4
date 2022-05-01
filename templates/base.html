@@ -33,13 +33,9 @@
     line-height: 16px;
 }
 .search {
-    float: right;
-    width: 250px;
-    padding: 25px 0;
-    position: absolute;
-    vertical-align: middle;
-    top: 21px;
-    right: 800px;
+float: left;
+    width: 226px;
+    padding: 39px 0;
 }
 body {
   font-family: Arial, Helvetica, sans-serif;
@@ -77,7 +73,7 @@ body {
 
       </div>
             <div class="menu_nav" >
-        <ul style="margin: 9px -2px -5px;">
+        <ul style="margin: 15px -24px -5px;">
           {% if user.is_authenticated %}
            <li><p><a href="{% url 'logout' %}">Log Out</a></p> </li>
           <li><p><a href="/Account/user_profile/{{user.username}}/">Welcome {{ user.username }}</a></p> </li>
@@ -94,9 +90,10 @@ body {
           </ul>
                 </div>
       <div class="search">
-        <form method="get" id="search" action="#">
+        <form method="post" id="search" action="{% url 'search' %}">
+          {% csrf_token %}
           <span>
-          <input type="text" value="Search..." name="s" id="s" />
+          <input type="text" placeholder="Search..." name="s" id="s" />
           <input name="searchsubmit" type="image" src="{% static 'home/images/search.gif' %}" value="Go" id="searchsubmit" class="btn"  />
           </span>
         </form>

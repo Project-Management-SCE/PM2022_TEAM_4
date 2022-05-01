@@ -93,7 +93,7 @@ function show(shown, hidden) {
 
 </style>
 <div style="display: inline-flex;">
-{% for contact in page_obj %}
+{% for l in list %}
 
     <table>
         <div class="bob">
@@ -102,7 +102,7 @@ function show(shown, hidden) {
             <th>
 </div>
                  {% for p in profile %}
-                  {% if p.user.username == contact.username %}
+                  {% if p.user.username == l.username %}
 
             <div class="story owl-carousel owl-theme">
                   <div class="story-item item" style="background-image:url({{p.image.url}});"><div class="rounded"></div>
@@ -111,7 +111,7 @@ function show(shown, hidden) {
                 <p class="post-data">City: {{p.city}}</p>
                  <div class="menu_nav" >
                      <ul style="margin: -44px 23px;">
-                <li><p><a href="/Account/user_profile/{{ contact.username }}">Link Profile</a></p> </li>
+                <li><p><a href="/Account/user_profile/{{ l.username }}">Link Profile</a></p> </li>
                 </ul>
                  </div>
             </th></tr>
@@ -124,22 +124,6 @@ function show(shown, hidden) {
                 </div>
         </table>
 {% endfor %}
-</div>
-<div class="pagination" style="text-align: center;padding: 0px 310px;">
-    <span class="step-links">
-
-        {% if page_obj.has_previous %}
-            <a href="?page=1">&laquo; first</a>
-            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
-        {% endif %}
-
-
-
-        {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}">next</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-        {% endif %}
-    </span>
 </div>
 <div class="footer">
   <div class="footer_resize">

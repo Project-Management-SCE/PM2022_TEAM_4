@@ -64,3 +64,18 @@ def map(request):
     m = m._repr_html_()
     context = { 'm':m,'profile':profile}
     return render(request,'home/Map.html',context)
+
+
+def search(request):
+    users = CustomUser.objects.all()
+    profile = UserProfile.objects.all()
+    context = {}
+    list = []
+    if request.method == 'POST':
+        name = request.POST.get('s')
+        print(name)
+        for u in users:
+            if name in u.username:
+                list.append(u)
+    context = {'users': users, 'name': name, 'list': list, 'profile': profile}
+    return render(request, 'home/search.html', context)
