@@ -462,16 +462,20 @@ a.article{
   font: 400 15px 'Open Sans', sans-serif;
 }</style>
 <body>
+<h1 style="block-size: auto;
+    writing-mode: horizontal-tb;
+    padding: 8px 265px;">chat with: {{get_receiver.username}}</h1>
 <div class="iphone">
   <div class="border">
-    <form class="chat">
+    <form class="chat" method="post" actoin="MessageForm">
+        {% csrf_token %}
       <span></span>
       <div class="messages" id="adobewordpress">
          {% for r in reciverHistory %}
         <div class="message">
           <div class="myMessage">
             <p>{{ r.message }}</p>
-            <date><b></b> {{ r.created_at }}</date>
+            <date><b>{{r.sender.username}}</b> {{ r.created_at }}</date>
           </div>
         </div>
             {% endfor %}
@@ -479,31 +483,20 @@ a.article{
          <div class="message">
           <div class="fromThem">
             <p>{{ s.message }}</p>
-            <date><b></b> {{ s.created_at }}</date>
+            <date><b></b> {{ s.created_at }}{{s.receiver.username}}</date>
           </div>
         </div>
                       {% endfor %}
       </div>
+       <input type="text" placeholder="Your message" name="message">
+      <input type="submit" value="Send">
     </form>
   </div>
 </div>
 
-       <div class="logo" style="    width: 351px;
-    height: 104px;
-    margin: 65px 192px;
-    position: absolute; ">
-        <h1><span>Send message to:</span> {{get_receiver.username}}</h1>
-      </div>
-    <div class="content">
-      <div class="content_bg">
-        <div class="sidebar" style="box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px; width: 944px;">
-          <div class="gadget">
-            <div class="clr" ></div>
-            <ul class="sb_menu">
 <form method="post">
         {% csrf_token %}
     <div style="margin: 98px 15px 10px 30px;">
-    {{ form.as_p }}
         </div>
   <head>
     <meta charset="utf-8">
@@ -513,7 +506,7 @@ a.article{
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   </head>
            <div style="padding: 1px 242px;">
-        <button class="button-15" style="padding: 8px 48px 8px 34px;" type="submit">Send Message</button>
+
                </div>
         </form>
 </body>
