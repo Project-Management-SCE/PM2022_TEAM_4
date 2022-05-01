@@ -93,13 +93,7 @@ function show(shown, hidden) {
 
 </style>
 <div style="display: inline-flex;">
-    {% if messages %}
-        {% for message in messages %}
-         {% if message.tags %}  <script>alert("{{ message }}")</script> {% endif %}
 
-        {% endfor %}
-
-    {% endif %}
 <!--</div>
   {% for user in get_user %}
     <div class="content">

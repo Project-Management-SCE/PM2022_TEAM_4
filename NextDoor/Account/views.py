@@ -212,13 +212,12 @@ def messaging_read(request,pk_test,pk):
 @login_required()
 def messaging_delete(request,pk_test,pk):
     if request.user.username == pk_test or request.user.groups.filter(name='Support').exists():
-        get_user = CustomUser.objects.get(username=pk_test)
-        profile = UserProfile.objects.get(user=get_user)
-        messagess = MessageModel.objects.get(id=pk)
-        MessageModel.delete(messagess)
-        messagess = MessageModel.objects.filter(receiver=request.user).order_by('created_at')
-        messages.success(request, 'You inbox is update successfully!')
-        return render(request, "Account/inbox.html",{'get_user': get_user, 'profile': profile , 'messages': messagess})
+            get_user = CustomUser.objects.get(username=pk_test)
+            profile = UserProfile.objects.get(user=get_user)
+            messagess = MessageModel.objects.get(id=pk)
+            MessageModel.delete(messagess)
+            messagess = MessageModel.objects.filter(receiver=request.user).order_by('created_at')
+    return render(request, "Account/inbox.html",{'get_user': get_user, 'profile': profile , 'messages': messagess})
 
 @login_required()
 def view_request(request,pk_test,pk):

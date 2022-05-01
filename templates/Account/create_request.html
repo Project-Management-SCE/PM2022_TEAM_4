@@ -3,6 +3,13 @@
 
 
 {% block content %}
+      {% if messages %}
+        {% for message in messages %}
+         {% if message.tags %}  <script>alert("{{ message }}")</script> {% endif %}
+
+        {% endfor %}
+
+    {% endif %}
 <style>.menu_nav ul li {
     margin: 0;
     padding: 4px 5px 15px 0;

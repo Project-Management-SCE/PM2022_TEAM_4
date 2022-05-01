@@ -102,6 +102,13 @@ section{
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
 }
 </style>
+      {% if messages %}
+        {% for message in messages %}
+         {% if message.tags %}  <script>alert("{{ message }}")</script> {% endif %}
+
+        {% endfor %}
+
+    {% endif %}
   <h5>InBox</h5>
   <div class="tbl-header">
     <table cellpadding="0" cellspacing="0" border="0" >

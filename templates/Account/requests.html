@@ -3,6 +3,13 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+      {% if messages %}
+        {% for message in messages %}
+         {% if message.tags %}  <script>alert("{{ message }}")</script> {% endif %}
+
+        {% endfor %}
+
+    {% endif %}
 <style>
 h5{
   font-size: 30px;
