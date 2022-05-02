@@ -1,3 +1,5 @@
+from itertools import chain
+
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import Group
@@ -11,7 +13,7 @@ from django.db.models.signals import post_save
 from django.contrib.auth import authenticate
 from django.contrib import messages
 from django.conf import settings
-
+from operator import attrgetter
 
 
 class SignupPageView(generic.CreateView):
@@ -165,8 +167,9 @@ def messaging(request,pk_test):
         get_receiver = CustomUser.objects.get(username=pk_test)
         profilerec = UserProfile.objects.get(user=get_receiver)
         profile = UserProfile.objects.get(user=get_user)
-        reciverHistory = MessageModel.objects.filter(receiver=get_receiver).order_by('created_at')
-        SenderHistory = MessageModel.objects.filter(receiver=request.user).order_by('created_at')
+        Historysender = MessageModel.objects.filter(sender=request.user,receiver=get_receiver).order_by('created_at')
+        Historyreciver = MessageModel.objects.filter(sender=get_receiver, receiver=request.user).order_by('created_at')
+        History = sorted(chain(Historysender, Historyreciver), key=attrgetter('created_at'))
         if request.method == 'POST':
             form = MessageForm(request.POST)
             if form.is_valid():
@@ -179,7 +182,7 @@ def messaging(request,pk_test):
                 return redirect('messaging', pk_test)
         else:
             form = MessageForm()
-        return render(request, "Account/messaging.html",{'get_user': get_user, 'profile': profile , 'form': form,'get_receiver':get_receiver,'reciverHistory':reciverHistory,'SenderHistory':SenderHistory})
+        return render(request, "Account/messaging.html",{'get_user': get_user, 'profile': profile , 'form': form,'get_receiver':get_receiver,'History':History})
     else:
         messages.success(request, 'You do not have permission to send a message to a user that is not you!')
         return render(request, 'home/HomePage.html')

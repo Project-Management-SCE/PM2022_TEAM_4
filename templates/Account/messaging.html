@@ -471,22 +471,23 @@ a.article{
         {% csrf_token %}
       <span></span>
       <div class="messages" id="adobewordpress">
-         {% for r in reciverHistory %}
+         {% for r in History %}
+          {% if r.sender.username == get_user.username %}
         <div class="message">
           <div class="myMessage">
             <p>{{ r.message }}</p>
             <date><b>{{r.sender.username}}</b> {{ r.created_at }}</date>
           </div>
         </div>
-            {% endfor %}
-            {% for s in SenderHistory %}
+        {% else %}
          <div class="message">
           <div class="fromThem">
-            <p>{{ s.message }}</p>
-            <date><b></b> {{ s.created_at }}{{s.receiver.username}}</date>
+            <p>{{ r.message }}</p>
+            <date><b></b> {{ r.created_at }}{{r.receiver.username}}</date>
           </div>
         </div>
-                      {% endfor %}
+          {% endif %}
+       {% endfor %}
       </div>
        <input type="text" placeholder="Your message" name="message">
       <input type="submit" value="Send">
