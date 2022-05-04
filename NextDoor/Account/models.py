@@ -34,8 +34,10 @@ class RequestModel(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     close = models.BooleanField(default=False)
 
-    def _str_(self):
+    def __str__(self):
         return self.title
+
+
 
 class MessageModel(models.Model):
     id = models.AutoField(primary_key=True)
@@ -46,7 +48,7 @@ class MessageModel(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     read = models.BooleanField(default=False)
 
-    def _str_(self):
+    def __str__(self):
         return self.message
 
 
@@ -59,7 +61,7 @@ class CommentModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    def _str_(self):
+    def __str__(self):
         return self.comment
 
 
@@ -76,6 +78,5 @@ class SupportTicketModel(models.Model):
     # status closed = "closed", open = "open", resolved = "resolved"
     status = models.CharField(max_length=10, default="open")
 
-
-    def str(self):
-        return self.user.username
+    def __str__(self):
+        return self.description
