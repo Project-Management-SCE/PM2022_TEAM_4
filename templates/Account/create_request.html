@@ -168,11 +168,14 @@ button, input, select, textarea {
       </div>
     <div class="content">
       <div class="content_bg">
-        <div class="sidebar" style="box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px; width: 944px;">
+        <div class="sidebar" style="box-shadow: rgb(255 255 255 / 25%) 0px 25px 50px -12px;
+    width: 944px;
+    border-radius: 52px;">
           <div class="gadget">
             <div class="clr" ></div>
-            <ul class="sb_menu">
-<form method="post">
+            <ul class="sb_menu" style="background: linear-gradient(#ffffff, #00eaff);
+    border-radius: 40px;">
+<form method="post" >
         {% csrf_token %}
     <div style="margin: 57px 15px 10px 30px;">
     {{ form.as_p }}
@@ -185,7 +188,10 @@ button, input, select, textarea {
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   </head>
            <div style="padding: 1px 242px;">
-        <button class="button-15" style="padding: 8px 48px 8px 34px;" type="submit">Send Request</button>
+        <button class="button-15" style="background: linear-gradient(#ffffff, #12ebff);
+    color: black;
+    padding: 7px 34px;
+    margin: 0px 167px;" type="submit">Send Request</button>
                </div>
         </form>
 

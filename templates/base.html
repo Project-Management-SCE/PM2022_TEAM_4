@@ -83,6 +83,114 @@ body {
     padding: 0;
     border: 1px solid #e1dddd;
 }
+
+
+
+
+
+.login-box form a {
+  position: relative;
+  display: inline-block;
+  padding: 10px 20px;
+  color: #03e9f4;
+  font-size: 16px;
+  text-decoration: none;
+  text-transform: uppercase;
+  overflow: hidden;
+  transition: .5s;
+  letter-spacing: 2px
+}
+
+.login-box a:hover {
+  background: #03e9f4;
+  color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 5px #03e9f4,
+              0 0 25px #03e9f4,
+              0 0 50px #03e9f4,
+              0 0 100px #03e9f4;
+}
+
+.login-box a span {
+  position: absolute;
+  display: block;
+}
+
+.login-box a span:nth-child(1) {
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #03e9f4);
+  animation: btn-anim1 1s linear infinite;
+}
+
+@keyframes btn-anim1 {
+  0% {
+    left: -100%;
+  }
+  50%,100% {
+    left: 100%;
+  }
+}
+
+.login-box a span:nth-child(2) {
+  top: -100%;
+  right: 0;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(180deg, transparent, #03e9f4);
+  animation: btn-anim2 1s linear infinite;
+  animation-delay: .25s
+}
+
+@keyframes btn-anim2 {
+  0% {
+    top: -100%;
+  }
+  50%,100% {
+    top: 100%;
+  }
+}
+
+.login-box a span:nth-child(3) {
+  bottom: 0;
+  right: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(270deg, transparent, #03e9f4);
+  animation: btn-anim3 1s linear infinite;
+  animation-delay: .5s
+}
+
+@keyframes btn-anim3 {
+  0% {
+    right: -100%;
+  }
+  50%,100% {
+    right: 100%;
+  }
+}
+
+.login-box a span:nth-child(4) {
+  bottom: -100%;
+  left: 0;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(360deg, transparent, #03e9f4);
+  animation: btn-anim4 1s linear infinite;
+  animation-delay: .75s
+}
+
+@keyframes btn-anim4 {
+  0% {
+    bottom: -100%;
+  }
+  50%,100% {
+    bottom: 100%;
+  }
+}
+
 </style>
 <div class="main">
   <div class="main_resize">
@@ -119,26 +227,52 @@ body {
         <!--/searchform -->
         <div class="clr"></div>
       </div>
-      <div class="clr"></div>
-      <div class="menu_nav" style="margin: -16px 135px -7px;">
-        <ul>
-          <li class="active"><a href="{% url 'home' %}">Home</a></li>
-          {% if user.is_authenticated %}
-          <li><a href="{% url 'map' %}">Map</a></li>
-          {% endif %}
-          <li><a href="about.html">About Us</a></li>
-          {% for group in  request.user.groups.all %}
-            {%  if 'support' == group.name %}
-            <li><a href="{% url 'support_ticket' %}">Support</a></li>
+      <div class="login-box">
+  <form style="    margin: 7px 0 1px;
+    position: inherit;
+    clear: left;
+    padding: 1px 158px;
+    text-align: center;" >
+    <a href="{% url 'home' %}">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      Home
+    </a>
+    {% if user.is_authenticated %}
+        <a href="{% url 'map' %}">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      Map
+    </a>
+    {% endif %}
+     {% for group in  request.user.groups.all %}
+        {%  if 'support' == group.name %}
+            <a href="{% url 'support_ticket' %}">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+              Support
+            </a>
             {% endif %}
-          {% endfor %}
-          {% if user.is_superuser %}
-          <li><a href="/admin">Admins Panel</a></li>
-          {% endif %}
-        </ul>
-        <div class="clr"></div>
-      </div>
-      <div class="hbg"><img src="{% static 'home/images/header_images.jpg' %}" width="923" height="291" alt="" /></div>
+         {% endfor %}
+     {% if user.is_superuser %}
+              <a href="/admin">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+              Admin
+            </a>
+     {% endif %}
+  </form>
+</div>
+
+      <div class="hbg"><img src="{% static 'home/images/header_images.jpg' %}" width="923" height="291" alt="" style="margin: 0px 0px 0px -16px;" /></div>
     </div>
     {% block content %}
     {% endblock %}

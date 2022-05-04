@@ -1,15 +1,10 @@
-<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Create Support Ticket{% endblock title %}
+{% block content %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-        <div class="logo" style="width: 63px;
-    width: 302px;
-    height: 156px;
-    padding: 58px;
-    margin: -68px 265px;">
-        <h1><a href="#"><span>Sign</span>Up<small>Join a better world</small></a></h1>
-      </div>
     <div class="te" style="padding: 125px;">
         <form method="post">
         {% csrf_token %}
@@ -25,3 +20,4 @@
 
 </body>
 </html>
+{% endblock %}

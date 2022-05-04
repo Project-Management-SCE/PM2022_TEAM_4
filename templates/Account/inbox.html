@@ -19,7 +19,7 @@ table{
 }
 .tbl-header{
   background: -webkit-linear-gradient(#25c481, #25b7c4);
-  background: linear-gradient(#39b9df, #2f5c60);
+  background: linear-gradient(#ffffff, #00eaff);
   font-family: 'Roboto', sans-serif;
   border-radius: 32px;
  }
@@ -28,8 +28,8 @@ table{
   overflow-x:auto;
   margin-top: 0px;
   border: 1px solid rgba(255,255,255,0.3);
-    background: -webkit-linear-gradient(#25c481, #25b7c4);
-  background: linear-gradient(#39b9df, #2f5c60);
+  background: -webkit-linear-gradient(#25c481, #25b7c4);
+  background: linear-gradient(#ffffff, #00eaff);
   font-family: 'Roboto', sans-serif;
 }
 th{
@@ -114,10 +114,18 @@ section{
     <table cellpadding="0" cellspacing="0" border="0" >
       <thead>
         <tr>
-          <th>From</th>
-          <th>Subject</th>
-          <th>Date</th>
-          <th>Action</th>
+          <th style="    background: transparent;
+    color: black;
+    font-weight: bold;">From</th>
+          <th style="    background: transparent;
+    color: black;
+    font-weight: bold;">Subject</th>
+          <th style="    background: transparent;
+    color: black;
+    font-weight: bold;">Date</th>
+          <th style="    background: transparent;
+    color: black;
+    font-weight: bold;">Action</th>
         </tr>
       </thead>
     </table>
@@ -127,15 +135,21 @@ section{
       <tbody>
       {% for message in messages %}
                             <tr>
-                                <td>{{ message.sender }}</td>
-                                <td>{{ message.message }}</td>
-                                <td>{{ message.created_at }}</td>
+                                <td style="    color: black;
+    font-weight: bold;">{{ message.sender }}</td>
+                                <td style="    color: black;
+    font-weight: bold;">{{ message.message }}</td>
+                                <td style="    color: black;
+    font-weight: bold;">{{ message.created_at }}</td>
                                 {% if message.read %}
-                                <td>הודעה נקראה</td>
+                                <td style="    color: black;
+    font-weight: bold;">הודעה נקראה</td>
                                 {% else %}
-                                <td>הודעה לא נקראה</td>
+                                <td style="    color: black;
+    font-weight: bold;">הודעה לא נקראה</td>
                                 {% endif %}
-                                <td>
+                                <td style="    color: black;
+    font-weight: bold;">
                                     {% if message.read %}
                                     {% else %}
                                  <a href="/Account/user_profile/{{user.username}}/inbox/{{message.id}}/messaging_read">|Read|</a>
