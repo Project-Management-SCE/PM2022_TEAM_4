@@ -33,6 +33,17 @@ def map(request):
     profile = UserProfile.objects.get(user=get_user)
     #add to map who is login
     m = folium.Map(location=[profile.latitude,profile.longitude],zoom_start=15)
+    m.get_root().html.add_child(folium.Element("""
+    <style>
+    .leaflet-container .leaflet-overlay-pane svg, .leaflet-container .leaflet-marker-pane img, .leaflet-container .leaflet-shadow-pane img, .leaflet-container .leaflet-tile-pane img, .leaflet-container img.leaflet-image-layer, .leaflet-container .leaflet-tile {
+    max-width: none !important;
+    max-height: none !important;
+    border-radius: 20px;
+}
+    </style>
+    """
+    ))
+    m.save("Map.html")
     print(profile.image.url)
     userIcon = 'http://127.0.0.1:8000' + profile.image.url
     icon = folium.features.CustomIcon(userIcon, icon_size=(28, 30))

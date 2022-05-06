@@ -25,7 +25,7 @@ table{
 }
 .tbl-header{
   background: -webkit-linear-gradient(#25c481, #25b7c4);
-  background: linear-gradient(#39b9df, #2f5c60);
+  background: linear-gradient(#ffffff, #00eaff);
   font-family: 'Roboto', sans-serif;
  }
 .tbl-content{
@@ -34,7 +34,7 @@ table{
   margin-top: 0px;
   border: 1px solid rgba(255,255,255,0.3);
     background: -webkit-linear-gradient(#25c481, #25b7c4);
-  background: linear-gradient(#39b9df, #2f5c60);
+  background: linear-gradient(#ffffff, #00eaff);
   font-family: 'Roboto', sans-serif;
 }
 th{
@@ -45,7 +45,7 @@ th{
   color: #fff;
   text-transform: uppercase;
     background: -webkit-linear-gradient(#25c481, #25b7c4);
-  background: linear-gradient(#39b9df, #2f5c60);
+  background: linear-gradient(#ffffff, #00eaff);
   font-family: 'Roboto', sans-serif;
 }
 td{
@@ -54,9 +54,9 @@ td{
   vertical-align:middle;
   font-weight: 300;
   font-size: 12px;
-  color: #fff;
+  color: black;
   border-bottom: solid 1px rgba(255,255,255,0.1);
-
+background: linear-gradient(#ffffff, #00eaff);
 }
 
 
@@ -100,15 +100,31 @@ button, input, select, textarea {
     line-height: inherit;
     width: 80%;
 }
+a {
+color:black;
+}
 </style>
-  <h5>Requests</h5>
-  <div class="tbl-header">
+    <div style="background: linear-gradient(#ffffff, #00eaff);
+    display: block;
+    border-radius: 16px;
+    width: 673px;
+    height: 41px;
+    margin: 9px 10px 10px 138px;">
+  <h5 style="color:black;" >The Requests of {{get_user.username}} <a style="color:blue;" href="/Account/user_profile/{{get_user.username}}"> View Profile {{get_user.username}}</a></h5>
+</div>
+  <div class="tbl-header" style="border-radius: 135px;">
     <table cellpadding="0" cellspacing="0" border="0" >
       <thead>
         <tr>
-             <th>User</th>
-             <th>Requested Date</th>
-             <th>Requested Content</th>
+             <th style="    background: transparent;
+    color: black;
+    font-weight: bold;">User</th>
+             <th style="    background: transparent;
+    color: black;
+    font-weight: bold;" >Requested Date</th>
+             <th style="    background: transparent;
+    color: black;
+    font-weight: bold;">Requested Content</th>
         </tr>
       </thead>
     </table>
@@ -118,7 +134,7 @@ button, input, select, textarea {
       <tbody>
       {% for request in requests %}
                             <tr>
-                        <td>{{ request.user }}</td>
+                        <td><a href="/Account/user_profile/{{request.user}}">{{ request.user }}</a></td>
                         <td>{{ request.created_at }}</td>
                         <td>{{ request.description }}</td>
                         <td><a href="/Account/user_profile/{{request.user}}/view_request/{{request.id}}"> View</a></td>

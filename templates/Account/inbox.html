@@ -123,6 +123,9 @@ section{
           <th style="    background: transparent;
     color: black;
     font-weight: bold;">Date</th>
+            <th style="    background: transparent;
+    color: black;
+    font-weight: bold;">View Profile</th>
           <th style="    background: transparent;
     color: black;
     font-weight: bold;">Action</th>
@@ -136,7 +139,7 @@ section{
       {% for message in messages %}
                             <tr>
                                 <td style="    color: black;
-    font-weight: bold;">{{ message.sender }}</td>
+    font-weight: bold;"><a href="/Account/user_profile/{{message.sender}}/messaging">{{ message.sender }}</a></td>
                                 <td style="    color: black;
     font-weight: bold;">{{ message.message }}</td>
                                 <td style="    color: black;
@@ -148,6 +151,8 @@ section{
                                 <td style="    color: black;
     font-weight: bold;">הודעה לא נקראה</td>
                                 {% endif %}
+                               <td style="    color: black;
+    font-weight: bold;"><a href="/Account/user_profile/{{message.sender}}">View Profile</a></td>
                                 <td style="    color: black;
     font-weight: bold;">
                                     {% if message.read %}

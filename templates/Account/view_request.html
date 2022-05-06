@@ -137,7 +137,7 @@ height: 78px;">Description: {{ user_request.description }}</th>
       <tbody>
       {% for comment in comments %}
                             <tr>
-                                <td>{{ comment.user }}</td>
+                                <td> <a href="/Account/user_profile/{{user.username}}">{{ comment.user }}</a></td>
                                 <td>{{ comment.comment }}</td>
                                 <td>{{ comment.created_at }}</td>
                                 <td>
