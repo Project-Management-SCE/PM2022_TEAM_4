@@ -8,9 +8,14 @@ pipeline {
         githubPush()
     }
 	options {
-		buildDiscarder(logRotator(numToKeepStr: '7'))
-		skipDefaultCheckout(true)
-        timeout(time: 60, unit: 'MINUTES')
+	buildDiscarder(
+		logRotator(
+		artifactDaysToKeepStr: '', 
+		artifactNumToKeepStr: '', 
+		daysToKeepStr: '', 
+		numToKeepStr: '0',
+		),
+  ),
     }
     stages {
 		stage('Fetch') {
