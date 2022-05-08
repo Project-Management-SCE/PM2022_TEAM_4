@@ -230,9 +230,6 @@ class UserProfileTests(TestCase):
         self.assertEqual(self.userprofile.last_name, 'Bob')
         self.assertEqual(self.userprofile.bio, 'Test Bio')
 
-    def test_userprofile_model_str(self):
-        self.assertEqual(str(self.userprofile), 'Bob')
-
     # Test UserProfileForm
     def test_userprofile_form(self):
         form = UserProfileForm(data={
