@@ -56,7 +56,7 @@ pipeline {
             steps {
 					withEnv(["HOME=${env.WORKSPACE}"]) {
 					dir("NextDoor"){
-						sh 'python -m pylint NextDoor Account Home'
+						sh 'python -m pylint NextDoor Account Home --exit-zero'
 						}
 					}
 				}
