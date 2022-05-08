@@ -22,7 +22,6 @@ pipeline {
 				withEnv(["HOME=${env.WORKSPACE}"]) {
 					dir("jenkins") {
 						sh 'python -m pip install --upgrade pip --user'
-						sh 'python -m pip install numpy --user'
 						sh 'python -m pip install -r requirements.txt'
 					}
 					dir("NextDoor")
