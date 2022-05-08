@@ -1,7 +1,7 @@
 pipeline {
     agent {
 		docker {
-			image '3.11.0a7-bullseye'
+			image 'python:3.11.0a7-bullseye'
 		}
 	}
 	triggers {
