@@ -14,3 +14,4 @@ pylint==2.13.8
 pylint-django==2.5.3
 psycopg2==2.9.3
 psycopg2-binary==2.9.3
+toml==0.10.2
