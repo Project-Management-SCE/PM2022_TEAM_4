@@ -9,13 +9,17 @@ pipeline {
     }
 	options {
 	buildDiscarder(
-		logRotator(
-		artifactDaysToKeepStr: '', 
-		artifactNumToKeepStr: '', 
-		daysToKeepStr: '', 
-		numToKeepStr: '0',
-		),
- 	 ),
+        logRotator(
+            // number of build logs to keep
+            numToKeepStr:'1',
+            // history to keep in days
+            daysToKeepStr: '15',
+            // artifacts are kept for days
+            artifactDaysToKeepStr: '0',
+            // number of builds have their artifacts kept
+            artifactNumToKeepStr: '0'
+        )
+   	 )
     }
     stages {
 		stage('Fetch') {
