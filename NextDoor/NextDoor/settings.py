@@ -89,6 +89,10 @@ DATABASES = {
         'PASSWORD': 'IHQ4iObnT85q-kEg7qdFciL4Qp9aEDlP',
         'HOST': 'rogue.db.elephantsql.com',
         'PORT': '',
+    },
+    'test': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
