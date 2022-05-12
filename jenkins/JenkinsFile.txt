@@ -23,7 +23,6 @@ pipeline {
             )
          )
     }
-
     stages {
 		stage('Fetch') {
 			steps {
@@ -63,17 +62,12 @@ pipeline {
 				}
 			}
 		}
-            stage('Deploy to Heroku') {
-                agent {
-                    docker {
-                        image 'cimg/base:stable'
-                        args '-u root'
-                    }
-             }
+		stage('Deploy to Heroku'){
             steps {
                 sh '''curl https://cli-assets.heroku.com/install.sh | sh;'''
                 withEnv(['PATH+HEROKU=/usr/local/bin/']){
                     sh'''
+
                          docker --version
                          heroku container:login
                          heroku container:push web --app nextdoorteam4
@@ -83,5 +77,5 @@ pipeline {
             }
 	    }
     }
-
+}
 
