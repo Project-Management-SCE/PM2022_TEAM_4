@@ -1,9 +1,11 @@
 
-
 # base image
 FROM python:3.10.4
 # setup environment variable
-ENV DockerHOME=/home/app/webapp
+ENV DockerHOME=/app
+
+# port where the Django app runs
+EXPOSE 8000
 
 # set work directory
 RUN mkdir -p $DockerHOME
@@ -22,7 +24,10 @@ RUN pip install --upgrade pip
 COPY . $DockerHOME
 # run this command to install all dependencies
 RUN pip install -r requirements.txt
-# port where the Django app runs
-EXPOSE 8000
+
 # start server
-CMD python manage.py runserver
+RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /app
+USER appuser
+
+# During debugging, this entry point will be overridden. For more information, please refer to https://aka.ms/vscode-docker-python-debug
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "NextDoor.wsgi"]
