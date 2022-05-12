@@ -68,7 +68,7 @@ pipeline {
 			
 		    agent {
                     docker {
-                        image 'cimg/base:stable'
+                        image 'python:3.10.4'
                         args '-u root'
                             }
                     }
@@ -79,8 +79,8 @@ pipeline {
 
                          docker --version
                          heroku container:login
-                         heroku container:push web --app NextDoor
-                         heroku container:release web --app NextDoor
+                         heroku container:push web --app nextdoorteam4
+                         heroku container:release web --app nextdoorteam4
                      '''
                  }
             }
