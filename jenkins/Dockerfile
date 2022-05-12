@@ -6,7 +6,7 @@ EXPOSE 8000
 ENV DockerHOME=/app
 
 # set work directory
-RUN mkdir -p /DockerHOME
+RUN mkdir -p $DockerHOME
 
 # where your code lives
 WORKDIR $DockerHOME
@@ -19,7 +19,7 @@ ENV PYTHONUNBUFFERED 1
 RUN pip install --upgrade pip
 
 # copy whole project to your docker home directory.
-COPY . /DockerHOME/
+COPY . $DockerHOME
 # run this command to install all dependencies
 RUN pip install -r requirements.txt
 # port where the Django app runs
