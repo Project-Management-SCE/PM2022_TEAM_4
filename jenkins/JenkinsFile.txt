@@ -75,6 +75,7 @@ pipeline {
             steps {
                 sh '''curl https://cli-assets.heroku.com/install.sh | sh;'''
                 withEnv(["HOME=${env.WORKSPACE}"]){
+					dir("NextDoor"){
                     sh'''
                          docker --version
 						 heroku create nextdoorteam4
@@ -82,6 +83,8 @@ pipeline {
                          heroku container:push web --app nextdoorteam4
                          heroku container:release web --app nextdoorteam4
                      '''
+					}
+
                  }
             }
 	    }
