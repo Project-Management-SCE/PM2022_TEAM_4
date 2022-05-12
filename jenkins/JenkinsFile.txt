@@ -1,10 +1,6 @@
 pipeline {
-    agent {
-		docker {
-			image 'python:3.10.4'
-			args '-u root'
-		}
-	}
+    agent none
+
 	triggers {
         githubPush()
     }
@@ -23,16 +19,7 @@ pipeline {
          )
     }
     stages {
-    	stage('Deploy to Heroku'){
-            steps {
-                sh'''
-                     curl https://cli-assets.heroku.com/install.sh | sh;
-                     heroku container:login
-                     heroku container:push web --app NextDoor
-                     heroku container:release web --app NextDoor
-                 '''
-            }
-	    }
+
 		stage('Fetch') {
 			steps {
 				checkout scm
@@ -52,6 +39,22 @@ pipeline {
 				}
             }
         }
+        stage('Deploy to Heroku'){
+    	    agent {
+    	            docker {
+    	                image 'python:3.10.4'
+			            args '-u root'
+    	            }
+    	    }
+            steps {
+                sh'''
+                     curl https://cli-assets.heroku.com/install.sh | sh;
+                     heroku container:login
+                     heroku container:push web --app NextDoor
+                     heroku container:release web --app NextDoor
+                 '''
+            }
+	    }
 		stage('Unit & Integration Tests [Metric 1]') {
             steps {
 				withEnv(["HOME=${env.WORKSPACE}"]) {
