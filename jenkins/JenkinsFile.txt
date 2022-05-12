@@ -53,25 +53,61 @@ pipeline {
 				}
 			}
 		}
-			stage('Pylint - Code Analysis [Metric 2]') {
-                steps {
-					withEnv(["HOME=${env.WORKSPACE}"]) {
-			    		dir("NextDoor"){
-				    		sh 'python -m pylint NextDoor Account Home --exit-zero'
-					   	}
-					}
+		stage('Pylint - Code Analysis [Metric 2]') {
+            steps {
+				withEnv(["HOME=${env.WORKSPACE}"]) {
+			   		dir("NextDoor"){
+			    		sh 'python -m pylint NextDoor Account Home --exit-zero'
+				   	}
 				}
 			}
-			stage('Deploy to Heroku'){
-                steps {
-                sh '''
-                    curl https://cli-assets.heroku.com/install.sh | sh;
-                    heroku container:login
-                    heroku container:push web --app testing-deployment01
-                    heroku container:release web --app testing-deployment01
-                    '''
+		}
+		stage('Build Docker Image'){
+            steps{
+                dir("OAuth2.0"){
+                    echo "Building Docker Image"
+                    bat 'docker build -t oauth2 -f Dockerfile --no-cache .'
                 }
-			}
+            }
+        }
+        stage('Tag Docker Image'){
+            steps{
+                echo "Tagging Docker Image"
+                bat "docker tag oauth2 registry.heroku.com/onlinecourseportal/web:${env.BUILD_NUMBER}"
+            }
+        }
+        stage('Docker Login'){
+            steps{
+                withCredentials([usernamePassword(credentialsId:'Heroku',usernameVariable:'shlomsh7@ac.sce.ac.il',passwordVariable:'Team4Nextdoor@')]){
+                    echo "Docker Logging In"
+                    bat "docker login registry.heroku.com -u ${env.USR} -p ${env.PWD}"
+                }
+            }
+        }
+        stage ('Push Docker Image'){
+            steps{
+                echo "Pushing Docker Image"
+                bat "docker push registry.heroku.com/onlinecourseportal/web:${env.BUILD_NUMBER}"
+            }
+        }
+        stage ('Deploy Docker Image'){
+            steps{
+                withEnv(['HEROKU=C:\\Progra~1\\heroku\\bin']){
+                    withCredentials([usernamePassword(credentialsId:'Heroku',usernameVariable:'shlomsh7@ac.sce.ac.il',passwordVariable:'Team4Nextdoor@')]){
+                        echo "Docker Logging In"
+                        bat "docker login registry.heroku.com -u ${env.USR} -p ${env.PWD}"
+                    }
+                    echo "Deploying Docker Image"
+                    bat "$HEROKU\\heroku container:release web --app=onlinecourseportal"
+                }
+            }
+        }
     }
- }
+    post {
+        success {
+            echo "BUILD SUCCESS"
+        }
+    }
+}
+
 
