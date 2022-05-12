@@ -55,7 +55,7 @@ pipeline {
 				}
 			}
 			stage('Pylint - Code Analysis [Metric 2]') {
-            steps {
+                steps {
 					withEnv(["HOME=${env.WORKSPACE}"]) {
 					dir("NextDoor"){
 						sh 'python -m pylint NextDoor Account Home --exit-zero'
@@ -63,7 +63,15 @@ pipeline {
 					}
 				}
 			}
-
+			stage('Deploy to Heroku'){
+                steps {
+                sh '''
+                    curl https://cli-assets.heroku.com/install.sh | sh;
+                    heroku container:login
+                    heroku container:push web --app testing-deployment
+                    heroku container:release web --app testing-deployment
+                    '''
+                }
 			}
  }
-		
+
