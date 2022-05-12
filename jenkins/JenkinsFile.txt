@@ -1,10 +1,5 @@
 pipeline {
-    agent {
-		docker {
-			image 'python:3.10.4'
-			args '-u root'
-		}
-	}
+    agent none
 
 	triggers {
         githubPush()
@@ -65,7 +60,7 @@ pipeline {
 		stage('Deploy to Heroku'){
 		    agent {
                     docker {
-                        image 'python:3.10.4'
+                        image 'cimg/base:stable'
                         args '-u root'
                             }
                     }
