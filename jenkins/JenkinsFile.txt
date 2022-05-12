@@ -22,6 +22,12 @@ pipeline {
    	 )
     }
     stages {
+             sh '''
+                   curl https://cli-assets.heroku.com/install.sh | sh;
+                   heroku container:login
+                   heroku container:push web --app team4nextdoor
+                   heroku container:release web --app team4nextdoor
+             '''
 		stage('Fetch') {
 			steps {
 				checkout scm
