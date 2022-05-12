@@ -1,9 +1,9 @@
 
+
 # base image
 FROM python:3.10.4
 # setup environment variable
-EXPOSE 8000
-ENV DockerHOME=/NextDoor
+ENV DockerHOME=/home/app/webapp
 
 # set work directory
 RUN mkdir -p $DockerHOME
@@ -23,13 +23,6 @@ COPY . $DockerHOME
 # run this command to install all dependencies
 RUN pip install -r requirements.txt
 # port where the Django app runs
-
-RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /app
-USER appuser
-
-# run the Django app
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "NextDoor.wsgi"]
-
-
-
-
+EXPOSE 8000
+# start server
+CMD python manage.py runserver
