@@ -5,7 +5,7 @@ pipeline {
 		stage('Fetch') {
 		    agent {
                     docker {
-                        image 'cimg/base:stable'
+                        image 'python:3.10.4'
                         args '-u root'
                             }
                     }
@@ -16,7 +16,7 @@ pipeline {
         stage('Build') {
 		    agent {
                     docker {
-                        image 'cimg/base:stable'
+                        image 'python:3.10.4'
                         args '-u root'
                             }
                     }
@@ -36,7 +36,7 @@ pipeline {
 		stage('Unit & Integration Tests [Metric 1]') {
 		    agent {
                     docker {
-                        image 'cimg/base:stable'
+                        image 'python:3.10.4'
                         args '-u root'
                             }
                     }
@@ -52,7 +52,7 @@ pipeline {
 		stage('Pylint - Code Analysis [Metric 2]') {
 		    agent {
                     docker {
-                        image 'cimg/base:stable'
+                        image 'python:3.10.4'
                         args '-u root'
                             }
                     }
@@ -68,7 +68,7 @@ pipeline {
 			
 		    agent {
                     docker {
-                        image 'cimg/base:stable'
+                        image 'python:3.10.4'
                         args '-u root'
                             }
                     }
