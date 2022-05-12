@@ -3,7 +3,7 @@
 FROM python:3.10.4
 # setup environment variable
 EXPOSE 8000
-ENV DockerHOME=/app
+ENV DockerHOME=/NextDoor
 
 # set work directory
 RUN mkdir -p $DockerHOME
