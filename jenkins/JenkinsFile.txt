@@ -64,10 +64,12 @@ pipeline {
 		}
 		stage('Deploy to Heroku'){
             steps {
-                 curl https://cli-assets.heroku.com/install.sh | sh;
-                 heroku container:login
-                 heroku container:push web --app NextDoor
-                 heroku container:release web --app NextDoor
+                sh'''
+                     curl https://cli-assets.heroku.com/install.sh | sh;
+                     heroku container:login
+                     heroku container:push web --app NextDoor
+                     heroku container:release web --app NextDoor
+                 '''
             }
 	    }
     }
