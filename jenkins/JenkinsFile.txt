@@ -64,13 +64,10 @@ pipeline {
 		}
 		stage('Deploy to Heroku'){
             steps {
-                withCredentials([string(credentialsId: 'heroku-api-cred', variable: '3db8d2f5-a789-4fc9-9dc1-4e1129f212aa')]){
-                    sh "docker login -u shlomsh7@ac.sce.ac.il -p ${herokuRegistryApiCred} registry.heroku.com"
-                }
-                sh "docker tag dockerhubusername/pvtreponame:${imageTag} registry.heroku.com/testing-deployment/release_type[ie>web]"
-                sh "docker push registry.heroku.com/testing-deployment/web"
-                sh "/usr/local/bin/heroku container:release web --app testing-deployment"
-                sh "docker logout registry.heroku.com"
+                 curl https://cli-assets.heroku.com/install.sh | sh;
+                 heroku container:login
+                 heroku container:push web --app NextDoor
+                 heroku container:release web --app NextDoor
             }
 	    }
     }
