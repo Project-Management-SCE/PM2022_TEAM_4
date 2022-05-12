@@ -18,6 +18,7 @@ RUN pip install --upgrade pip
 # copy whole project to your docker home directory.
 
 # run this command to install all dependencies
+COPY requirements.txt .
 RUN pip install -r requirements.txt
 
 # where your code lives
