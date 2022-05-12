@@ -5,4 +5,4 @@ ADD . /NextDoor
 RUN python3 -m pip install --upgrade pip
 COPY requirements.txt ./requirements.txt
 RUN python3 -m pip install -r requirements.txt
-CMD ["python", "NextDoor.py"]
+CMD ["python manage.py runserver"]
