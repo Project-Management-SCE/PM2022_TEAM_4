@@ -68,15 +68,14 @@ pipeline {
 			
 		    agent {
                     docker {
-                        image 'python:3.10.4'
+                        image 'cimg/base:stable'
                         args '-u root'
                             }
                     }
             steps {
                 sh '''curl https://cli-assets.heroku.com/install.sh | sh;'''
-                withEnv(['PATH+HEROKU=/usr/local/bin/']){
+                withEnv(["HOME=${env.WORKSPACE}"]){
                     sh'''
-
                          docker --version
                          heroku container:login
                          heroku container:push web --app nextdoorteam4
