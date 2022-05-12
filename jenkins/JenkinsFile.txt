@@ -75,7 +75,7 @@ pipeline {
             steps {
                 sh '''curl https://cli-assets.heroku.com/install.sh | sh;'''
                 withEnv(["HOME=${env.WORKSPACE}"]){
-					dir("NextDoor"){
+					dir("jenkins"){
                     sh'''
                          docker --version
                          heroku container:login
