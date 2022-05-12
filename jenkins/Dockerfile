@@ -1,5 +1,5 @@
 
-FROM python:3.10.4-alpine
+FROM python:3.10.4
 WORKDIR /NextDoor
 ADD . /NextDoor
 RUN python3 -m pip install --upgrade pip
