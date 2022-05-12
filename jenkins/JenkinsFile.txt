@@ -63,6 +63,12 @@ pipeline {
 			}
 		}
 		stage('Deploy to Heroku'){
+		    agent {
+                    docker {
+                        image 'python:3.10.4'
+                        args '-u root'
+                            }
+                    }
             steps {
                 sh '''curl https://cli-assets.heroku.com/install.sh | sh;'''
                 withEnv(['PATH+HEROKU=/usr/local/bin/']){
