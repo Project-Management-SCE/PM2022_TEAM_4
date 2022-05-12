@@ -1,5 +1,9 @@
 pipeline {
-    agent none
+    agent {
+		docker {
+			image 'python:3.10.4'
+			args '-u root'
+		}
 	}
 
 	triggers {
