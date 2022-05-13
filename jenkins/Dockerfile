@@ -9,7 +9,7 @@ EXPOSE 8000
 
 
 # where your code lives
-WORKDIR . /NextDoor
+WORKDIR /app
 
 # set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
