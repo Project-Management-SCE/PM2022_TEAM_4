@@ -9,7 +9,7 @@ EXPOSE 8000
 
 
 # where your code lives
-WORKDIR /NextDoor
+WORKDIR . /NextDoor
 
 # set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
@@ -19,7 +19,7 @@ ENV PYTHONUNBUFFERED 1
 RUN pip install --upgrade pip
 
 # copy whole project to your docker home directory.
-COPY . /NextDoor/
+COPY . /app/
 # run this command to install all dependencies
 RUN pip install -r requirements.txt
 
