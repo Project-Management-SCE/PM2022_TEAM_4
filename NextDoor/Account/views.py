@@ -225,6 +225,7 @@ def messaging_delete(request,pk_test,pk):
 @login_required()
 def view_request(request,pk_test,pk):
     get_user = CustomUser.objects.get(username=pk_test)
+    allprofile = UserProfile.objects.all()
     profile = UserProfile.objects.get(user=get_user)
     user_request = RequestModel.objects.get(pk=pk)
     comments = CommentModel.objects.filter(request=user_request).order_by('created_at')
@@ -241,7 +242,7 @@ def view_request(request,pk_test,pk):
     else:
         form = CommentForm()
 
-    return render(request, "Account/view_request.html",{'get_user': get_user, 'profile': profile , 'user_request': user_request, 'comments': comments, 'form': form})
+    return render(request, "Account/view_request.html",{'get_user': get_user, 'profile': profile , 'user_request': user_request, 'comments': comments, 'form': form, 'allprofile': allprofile})
 
 @user_passes_test(lambda u: u.is_superuser,login_url='home')
 def delete_user(request,pk_test):
