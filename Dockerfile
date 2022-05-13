@@ -15,4 +15,4 @@ USER appuser
 
 WORKDIR /app/NextDoor
 
-ENTRYPOINT [ "entrypoint.sh" ]
+ENTRYPOINT ["sh","entrypoint.sh"]
