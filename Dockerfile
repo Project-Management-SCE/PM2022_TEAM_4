@@ -15,4 +15,4 @@ USER appuser
 
 WORKDIR /app/NextDoor
 
-CMD ["python", "manage.py", "runserver", "0.0.0.0:$PORT"]
+ENTRYPOINT [ "entrypoint.sh" ]
