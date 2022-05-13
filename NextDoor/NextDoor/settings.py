@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 import os
 import sys
 from pathlib import Path
+import django_heroku
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -158,3 +159,5 @@ MEDIA_URL = '/media/'
 GOOGLE_MAPS_API_KEY = 'AIzaSyD8UkSs_yEEw3SgfYVTe1Gkdxz2pnu-ju0'
 
 GRAPPELLI_ADMIN_TITLE = 'NextDoor - Administration Panel'
+
+django_heroku.settings(locals())
