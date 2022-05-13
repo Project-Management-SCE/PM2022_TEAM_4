@@ -22,10 +22,10 @@ pipeline {
                     }
             steps {
 				withEnv(["HOME=${env.WORKSPACE}"]) {
-					dir("jenkins") {
+					
 						sh 'python -m pip install --upgrade pip --user'
 						sh 'python -m pip install -r requirements.txt'
-					}
+					
 					dir("NextDoor"){
 						sh 'python manage.py makemigrations'
 						sh 'python manage.py migrate'	
@@ -75,7 +75,7 @@ pipeline {
             steps {
                 sh '''curl https://cli-assets.heroku.com/install.sh | sh;'''
                 withEnv(["HOME=${env.WORKSPACE}"]){
-					dir("jenkins"){
+					
                     sh'''
                          docker --version
 				docker container prune
@@ -83,7 +83,7 @@ pipeline {
                          heroku container:push web --app nextdoor-team4
                          heroku container:release web --app nextdoor-team4	
                      '''
-					}
+					
 
                  }
             }
