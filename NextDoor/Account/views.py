@@ -194,8 +194,9 @@ def inbox(request,pk_test):
     if request.user.username==pk_test or request.user.groups.filter(name='support').exists():
         get_user = CustomUser.objects.get(username=pk_test)
         profile = UserProfile.objects.get(user=get_user)
+        allprofile = UserProfile.objects.all()
         messagess = MessageModel.objects.filter(receiver=request.user).order_by('created_at')
-        return render(request, "Account/inbox.html",{'get_user': get_user, 'profile': profile , 'messages': messagess})
+        return render(request, "Account/inbox.html",{'get_user': get_user, 'profile': profile , 'messages': messagess,'allprofile':allprofile})
     else:
         messages.success(request, 'You do not have permission to view this inbox!')
         return render(request, 'home/HomePage.html')
