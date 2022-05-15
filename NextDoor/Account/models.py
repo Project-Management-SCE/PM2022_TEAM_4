@@ -20,7 +20,7 @@ class UserProfile(models.Model):
     city = models.CharField(max_length=255, blank=True)
     postal_code = models.CharField(max_length=255, blank=True)
 
-    def _str_(self):
+    def __str__(self):
         return self.user.username
 
 
@@ -77,6 +77,7 @@ class CommentModel(models.Model):
 class SupportTicketModel(models.Model):
     id = models.AutoField(primary_key=True)
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    request_user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, blank=True, null=True)
     request = models.ForeignKey(RequestModel, on_delete=models.CASCADE, blank=True, null=True)
     comment = models.ForeignKey(CommentModel, on_delete=models.CASCADE, blank=True, null=True)
     message = models.ForeignKey(MessageModel, on_delete=models.CASCADE, blank=True, null=True)

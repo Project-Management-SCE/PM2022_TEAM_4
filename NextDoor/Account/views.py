@@ -35,17 +35,20 @@ class SignupPageView(generic.CreateView):
 
 def user_profile(request,pk_test):
     get_user = CustomUser.objects.get(username=pk_test)
-    profile = UserProfile.objects.get(user=get_user)
-    posts = RequestModel.objects.filter(user=get_user).order_by('created_at')
-    if posts:
-        last_request = posts.last().created_at
+    if get_user.is_active:
+        profile = UserProfile.objects.get(user=get_user)
+        posts = RequestModel.objects.filter(user=get_user).order_by('created_at')
+        if posts:
+            last_request = posts.last().created_at
+        else:
+            last_request = None
+
+        return render(request, "Account/user_profile.html",{'get_user': get_user, 'profile': profile, 'posts':posts, 'last_request':last_request})
     else:
-        last_request = None
+        messages.success(request, 'User profile in Ban')
+        return render(request, 'home/HomePage.html')
 
-    return render(request, "Account/user_profile.html",{'get_user': get_user, 'profile': profile, 'posts':posts, 'last_request':last_request})
-
-
-@login_required()
+@login_required(login_url='home')
 def edit_profile(request,pk_test):
     if request.user.username==pk_test or request.user.groups.filter(name='support').exists():
         get_user = CustomUser.objects.get(username=pk_test)
@@ -75,7 +78,7 @@ def edit_profile(request,pk_test):
         messages.success(request, 'You do not have permission to edit a profile that is not you!')
         return render(request, 'home/HomePage.html')
 
-@login_required()
+@login_required(login_url='home')
 def edit_request(request,pk_test,pk):
     if request.user.username==pk_test or request.user.groups.filter(name='support').exists():
         get_user = CustomUser.objects.get(username=pk_test)
@@ -93,7 +96,7 @@ def edit_request(request,pk_test,pk):
         messages.success(request, 'You do not have permission to edit a profile that is not you!')
         return render(request, 'home/HomePage.html')
 
-@login_required()
+@login_required(login_url='home')
 def edit_comment(request,pk_test,pk):
     print("pk_test"+pk_test)
     print("pk" + str(pk))
@@ -119,7 +122,7 @@ def Rulse(request):
 
 
 # Allow the user to create a request
-@login_required()
+@login_required(login_url='home')
 def create_request(request,pk_test):
     if request.user.username==pk_test or request.user.groups.filter(name='Support').exists():
         get_user = CustomUser.objects.get(username=pk_test)
@@ -141,14 +144,14 @@ def create_request(request,pk_test):
 
 
 # Display the requests that the user has made
-@login_required()
+@login_required(login_url='home')
 def requests(request,pk_test):
     get_user = CustomUser.objects.get(username=pk_test)
     profile = UserProfile.objects.get(user=get_user)
     requests = RequestModel.objects.filter(user=get_user).order_by('created_at')
     return render(request, "Account/requests.html",{'get_user': get_user, 'profile': profile , 'requests': requests})
 #change 1
-@login_required()
+@login_required(login_url='home')
 def close_request(request,pk_test,pk):
     if request.user.username == pk_test or request.user.groups.filter(name='support').exists():
         get_user = CustomUser.objects.get(username=pk_test)
@@ -162,7 +165,7 @@ def close_request(request,pk_test,pk):
         messages.success(request, 'You can not close another users request!')
         return render(request, 'home/HomePage.html')
 
-@login_required()
+@login_required(login_url='home')
 def messaging(request,pk_test):
     if request.user.username != pk_test or request.user.groups.filter(name='Support').exists():
         get_user = CustomUser.objects.get(username=request.user.username)
@@ -191,7 +194,7 @@ def messaging(request,pk_test):
 
 
 # Display the messages that the user received
-@login_required()
+@login_required(login_url='home')
 def inbox(request,pk_test):
     if request.user.username==pk_test or request.user.groups.filter(name='support').exists():
         get_user = CustomUser.objects.get(username=pk_test)
@@ -203,7 +206,7 @@ def inbox(request,pk_test):
         messages.success(request, 'You do not have permission to view this inbox!')
         return render(request, 'home/HomePage.html')
 
-@login_required()
+@login_required(login_url='home')
 def messaging_read(request,pk_test,pk):
     if request.user.username == pk_test or request.user.groups.filter(name='Support').exists():
         get_user = CustomUser.objects.get(username=pk_test)
@@ -215,7 +218,7 @@ def messaging_read(request,pk_test,pk):
         messages.success(request, 'You inbox is update successfully!')
         return render(request, "Account/inbox.html",{'get_user': get_user, 'profile': profile , 'messages': messagess})
 
-@login_required()
+@login_required(login_url='home')
 def messaging_delete(request,pk_test,pk):
     if request.user.username == pk_test or request.user.groups.filter(name='Support').exists():
             get_user = CustomUser.objects.get(username=pk_test)
@@ -225,7 +228,7 @@ def messaging_delete(request,pk_test,pk):
             messagess = MessageModel.objects.filter(receiver=request.user).order_by('created_at')
     return render(request, "Account/inbox.html",{'get_user': get_user, 'profile': profile , 'messages': messagess})
 
-@login_required()
+@login_required(login_url='home')
 def view_request(request,pk_test,pk):
     get_user = CustomUser.objects.get(username=pk_test)
     allprofile = UserProfile.objects.all()
@@ -264,7 +267,7 @@ def delete_request(request,pk_test,pk):
     return render(request, 'home/HomePage.html')
 
 
-@login_required()
+@login_required(login_url='home')
 def support_ticket(request):
     get_user = CustomUser.objects.get(username=request.user.username)
     profile = UserProfile.objects.get(user=get_user)

@@ -1,9 +1,10 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 import folium
 from geopy import distance
 from Account.models import UserProfile,CustomUser,MessageModel
 from django.core.paginator import Paginator
-
+from django.db.models import Case, When
 def home(request):
     if request.user.is_authenticated:
         messages = MessageModel.objects.filter(receiver=request.user).order_by('created_at')
@@ -11,7 +12,8 @@ def home(request):
         for m in messages:
             if m.read==False:
                 mes=mes+1
-        get_user = CustomUser.objects.all().order_by('?')
+        #get_user = CustomUser.objects.all().order_by('?')
+        get_user = CustomUser.objects.filter(is_active=True)
         profile = UserProfile.objects.all()
         #set up pagination
         p = Paginator(get_user,6)
@@ -19,14 +21,15 @@ def home(request):
         page_obj = p.get_page(page_number)
         return render(request,'home/HomePage.html',{'page_obj':page_obj,'profile':profile,'mes':mes})
     else:
-        get_user = CustomUser.objects.all().order_by('?')
+        #get_user = CustomUser.objects.all().order_by('?')
+        get_user = CustomUser.objects.filter(is_active=True)
         profile = UserProfile.objects.all()
         p = Paginator(get_user,6)
         page_number = request.GET.get('page')
         page_obj = p.get_page(page_number)
         return render(request,'home/HomePage.html',{'page_obj':page_obj,'profile':profile})
 
-
+@login_required(login_url='home')
 def map(request):
     #get who is login to system
     get_user = CustomUser.objects.get(username=request.user.username)
@@ -90,3 +93,6 @@ def search(request):
                 list.append(u)
     context = {'users': users, 'name': name, 'list': list, 'profile': profile}
     return render(request, 'home/search.html', context)
+
+def AbutUs(request):
+    return render(request,'home/AbutUs.html')

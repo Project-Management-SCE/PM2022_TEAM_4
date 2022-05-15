@@ -51,7 +51,7 @@ class CommentChangeForm(ModelForm):
 class SupportTicketForm(ModelForm):
     class Meta:
         model = SupportTicketModel
-        fields = ('request','comment','message','description',)
+        fields = ('request_user','request','comment','message','description',)
 
 class RemoveBanForm(ModelForm):
     class Meta:
