@@ -29,6 +29,7 @@ urlpatterns = [
     path('user_profile/<str:pk_test>/view_request/<int:pk>/edit_request/', views.edit_request, name="edit_request"),
     path('user_profile/<str:pk_test>/view_request/<int:pk>/edit_comment/', views.edit_comment, name="edit_comment"),
     path('support_ticket/', views.support_ticket, name="support_ticket"),
+    path('RemoveBan/', views.RemoveBan, name="RemoveBan"),
 
 
 

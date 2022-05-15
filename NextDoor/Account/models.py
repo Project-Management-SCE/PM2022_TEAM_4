@@ -51,6 +51,14 @@ class MessageModel(models.Model):
     def __str__(self):
         return self.message
 
+class RemoveBan(models.Model):
+    id = models.AutoField(primary_key=True)
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.message
 
 # Comment Model - user, comment
 class CommentModel(models.Model):

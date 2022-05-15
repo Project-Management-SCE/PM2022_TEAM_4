@@ -7,7 +7,7 @@ from django.contrib.auth.models import Group
 from django.urls import reverse_lazy
 from django.views import generic
 from .form import CustomUserCreationForm, UserProfileForm, RequestForm, MessageForm, CommentForm, SupportTicketForm,\
-    RequestChangeForm, CommentChangeForm
+    RequestChangeForm, CommentChangeForm,RemoveBanForm
 from .models import CustomUser, UserProfile, RequestModel, MessageModel, CommentModel
 from django.db.models.signals import post_save
 from django.contrib.auth import authenticate
@@ -95,6 +95,8 @@ def edit_request(request,pk_test,pk):
 
 @login_required()
 def edit_comment(request,pk_test,pk):
+    print("pk_test"+pk_test)
+    print("pk" + str(pk))
     if request.user.username==pk_test or request.user.groups.filter(name='support').exists():
         get_user = CustomUser.objects.get(username=pk_test)
         profile = UserProfile.objects.get(user=get_user)
@@ -105,7 +107,7 @@ def edit_comment(request,pk_test,pk):
             if form.is_valid():
                 form.save()
                 messages.success(request,'Your comments has been changed successfully!')
-                pk=comments.user.id
+                pk=comments.request.id
                 return redirect('view_request', pk_test,pk)
         return render(request, "Account/edit_comment.html",{'get_user': get_user, 'profile': profile , 'form': form})
     else:
@@ -278,3 +280,15 @@ def support_ticket(request):
     else:
         form = SupportTicketForm()
     return render(request, "Account/support_ticket.html",{'get_user': get_user, 'profile': profile , 'form': form})
+
+
+def RemoveBan(request):
+    form = RemoveBanForm(request.POST)
+    if request.method == 'POST':
+        form = RemoveBanForm(request.POST)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.save()
+            messages.success(request,'Your Request for remove ban has been sent successfully!')
+            return render(request, 'home/HomePage.html')
+    return render(request, "Account/RemoveBan.html",{'form': form})
