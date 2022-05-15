@@ -30,6 +30,7 @@ urlpatterns = [
     path('user_profile/<str:pk_test>/view_request/<int:pk>/edit_comment/', views.edit_comment, name="edit_comment"),
     path('support_ticket/', views.support_ticket, name="support_ticket"),
     path('RemoveBan/', views.RemoveBan, name="RemoveBan"),
+    path('request_to_delete/', views.request_to_delete, name="request_to_delete"),
 
 
 

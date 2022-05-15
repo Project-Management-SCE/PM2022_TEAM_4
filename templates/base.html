@@ -275,6 +275,13 @@ body {
               <span></span>
               Support
             </a>
+                  <a href="{% url 'request_to_delete' %}">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+              Request
+            </a>
             {% endif %}
          {% endfor %}
      {% if user.is_superuser %}

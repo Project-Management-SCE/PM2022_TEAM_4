@@ -37,7 +37,7 @@ def user_profile(request,pk_test):
     get_user = CustomUser.objects.get(username=pk_test)
     if get_user.is_active:
         profile = UserProfile.objects.get(user=get_user)
-        posts = RequestModel.objects.filter(user=get_user).order_by('created_at')
+        posts = RequestModel.objects.filter(user=get_user).order_by('-created_at')
         if posts:
             last_request = posts.last().created_at
         else:
@@ -265,6 +265,11 @@ def delete_request(request,pk_test,pk):
     RequestModel.delete(user_request)
     messages.success(request, 'You Delete Request successfully!')
     return render(request, 'home/HomePage.html')
+
+@user_passes_test(lambda u: u.is_superuser or u.groups.filter(name='support').exists(),login_url='home')
+def request_to_delete(request):
+    requestlist = RequestModel.objects.all().order_by('-created_at')
+    return render(request, 'Account/request_to_delete.html',{'requestlist':requestlist})
 
 
 @login_required(login_url='home')
