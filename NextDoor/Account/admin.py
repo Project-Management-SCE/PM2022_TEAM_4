@@ -2,7 +2,7 @@ import json
 from django.contrib import admin
 from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin
-from .models import UserProfile,CustomUser, RequestModel, MessageModel, CommentModel, SupportTicketModel,RemoveBan
+from .models import UserProfile,CustomUser, RequestModel, MessageModel, CommentModel, SupportTicketModel,RemoveBan,UserTicketModel
 from .form import CustomUserCreationForm, CustomUserChangeForm, RequestForm, MessageForm
 
 
@@ -52,6 +52,13 @@ class SupportTicketAdmin(admin.ModelAdmin):
 
 
 admin.site.register(SupportTicketModel, SupportTicketAdmin)
+
+class UserTicketAdmin(admin.ModelAdmin):
+    list_display = ['user', 'description', 'created_at', 'updated_at']
+    list_filter = ['user']
+
+
+admin.site.register(UserTicketModel, UserTicketAdmin)
 
 class RemoveBanAdmin(admin.ModelAdmin):
     list_display = ['id', 'message', 'created_at', 'updated_at']

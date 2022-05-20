@@ -7,7 +7,7 @@ from django.contrib.auth.models import Group
 from django.urls import reverse_lazy
 from django.views import generic
 from .form import CustomUserCreationForm, UserProfileForm, RequestForm, MessageForm, CommentForm, SupportTicketForm,\
-    RequestChangeForm, CommentChangeForm,RemoveBanForm
+    RequestChangeForm, CommentChangeForm,RemoveBanForm,UserTicketForm
 from .models import CustomUser, UserProfile, RequestModel, MessageModel, CommentModel
 from django.db.models.signals import post_save
 from django.contrib.auth import authenticate
@@ -289,6 +289,24 @@ def support_ticket(request):
         form = SupportTicketForm()
     return render(request, "Account/support_ticket.html",{'get_user': get_user, 'profile': profile , 'form': form})
 
+@login_required(login_url='home')
+def user_ticket(request,pk_test):
+    print(pk_test)
+    get_user = CustomUser.objects.get(username=pk_test)
+    profile = UserProfile.objects.get(user=get_user)
+    if request.method == 'POST':
+        form = UserTicketForm(request.POST)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            print(profile.user.username)
+            instance.request_user = profile
+            instance.user = request.user
+            instance.save()
+            messages.success(request,'Your user ticket has been sent successfully!')
+            return render(request, 'home/HomePage.html')
+    else:
+        form = UserTicketForm()
+    return render(request, "Account/user_ticket.html",{'form': form})
 
 def RemoveBan(request):
     form = RemoveBanForm(request.POST)

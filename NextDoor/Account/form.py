@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model
-from .models import UserProfile, RequestModel, MessageModel, CommentModel, SupportTicketModel,RemoveBan
+from .models import UserProfile, RequestModel, MessageModel, CommentModel, SupportTicketModel,RemoveBan,UserTicketModel
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.forms import ModelForm
 
@@ -52,6 +52,11 @@ class SupportTicketForm(ModelForm):
     class Meta:
         model = SupportTicketModel
         fields = ('request_user','request','comment','message','description',)
+
+class UserTicketForm(ModelForm):
+    class Meta:
+        model = UserTicketModel
+        fields = ('description',)
 
 class RemoveBanForm(ModelForm):
     class Meta:

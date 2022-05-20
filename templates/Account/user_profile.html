@@ -103,6 +103,7 @@
                       onclick="window.open('/Account/user_profile/{{get_user.username}}/messaging','popup','width=800,height=800,scrollbars=no,resizable=no'); return false;">
                         Send message
                     </a></li>
+                    <li><a href="/Account/user_profile/{{get_user.username}}/user_ticket">Report User</a></li>
                     {% endif %}
                 {% endif %}
                 {% for group in request.user.groups.all %}
