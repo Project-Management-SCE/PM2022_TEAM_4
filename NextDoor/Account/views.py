@@ -8,7 +8,7 @@ from django.urls import reverse_lazy
 from django.views import generic
 from .form import CustomUserCreationForm, UserProfileForm, RequestForm, MessageForm, CommentForm, SupportTicketForm,\
     RequestChangeForm, CommentChangeForm,RemoveBanForm,UserTicketForm
-from .models import CustomUser, UserProfile, RequestModel, MessageModel, CommentModel
+from .models import CustomUser, UserProfile, RequestModel, MessageModel, CommentModel, UserTicketModel
 from django.db.models.signals import post_save
 from django.contrib.auth import authenticate
 from django.contrib import messages
@@ -318,3 +318,9 @@ def RemoveBan(request):
             messages.success(request,'Your Request for remove ban has been sent successfully!')
             return render(request, 'home/HomePage.html')
     return render(request, "Account/RemoveBan.html",{'form': form})
+
+
+@user_passes_test(lambda u: u.is_superuser or u.groups.filter(name='support').exists(),login_url='home')
+def Open_support_tickets(request):
+    requestlist = UserTicketModel.objects.filter(status="open")
+    return render(request, 'Account/open_support_tickets.html',{'requestlist':requestlist})

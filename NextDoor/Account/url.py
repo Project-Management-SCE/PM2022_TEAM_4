@@ -32,6 +32,7 @@ urlpatterns = [
     path('support_ticket/', views.support_ticket, name="support_ticket"),
     path('RemoveBan/', views.RemoveBan, name="RemoveBan"),
     path('request_to_delete/', views.request_to_delete, name="request_to_delete"),
+    path('Open_support_tickets/', views.Open_support_tickets, name="Open_support_tickets"),
 
 
 
