@@ -52,3 +52,5 @@ class SupportTicketAdmin(admin.ModelAdmin):
 
 
 admin.site.register(SupportTicketModel, SupportTicketAdmin)
+
+

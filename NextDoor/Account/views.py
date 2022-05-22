@@ -276,3 +276,18 @@ def support_ticket(request):
     else:
         form = SupportTicketForm()
     return render(request, "Account/support_ticket.html",{'get_user': get_user, 'profile': profile , 'form': form})
+
+
+
+# Admin function to display amount of users
+@user_passes_test(lambda u: u.is_superuser,login_url='home')
+def user_count(request):
+    get_user = CustomUser.objects.get(username=request.user.username)
+    profile = UserProfile.objects.get(user=get_user)
+    users = CustomUser.objects.all()
+    user_c = users.count()
+    return render(request, "Account/user_count.html",{'get_user': get_user, 'profile': profile , 'user_c': user_c})
+
+
+
+
