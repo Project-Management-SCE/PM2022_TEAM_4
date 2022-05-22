@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}User Display{% endblock title %}
+{% block content %}
+
+
+
+
+
+
+Total Amount of blocked users : {{ user_c }}
+<br></br>
+Blocked users:
+<br></br>
+
+{% for u in users %}
+
+    {{ u.username }}
+{% endfor %}
+
+
+{% endblock content %}
+
+

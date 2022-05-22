@@ -289,5 +289,13 @@ def user_count(request):
     return render(request, "Account/user_count.html",{'get_user': get_user, 'profile': profile , 'user_c': user_c})
 
 
+# admin function to display amount of blocked users
+@user_passes_test(lambda u: u.is_superuser,login_url='home')
+def blocked_user_count(request):
+    get_user = CustomUser.objects.get(username=request.user.username)
+    profile = UserProfile.objects.get(user=get_user)
+    users = CustomUser.objects.filter(is_active=False)
+    user_c = users.count()
+    return render(request, "Account/blocked_user_count.html",{'get_user': get_user, 'profile': profile , 'users': users , 'user_c': user_c})
 
 

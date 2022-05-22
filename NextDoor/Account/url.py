@@ -3,7 +3,7 @@ from django.urls import path
 from . import views
 from django.urls import path
 from django.contrib.auth import views as auth_views
-from .views import SignupPageView, create_request, requests, view_request, user_count
+from .views import SignupPageView, create_request, requests, view_request, user_count, blocked_user_count
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -30,6 +30,7 @@ urlpatterns = [
     path('user_profile/<str:pk_test>/view_request/<int:pk>/edit_comment/', views.edit_comment, name="edit_comment"),
     path('support_ticket/', views.support_ticket, name="support_ticket"),
     path('user_count/', user_count, name="user_count"),
+    path('blocked_user_count/', blocked_user_count, name="blocked_user_count"),
 
 
 
