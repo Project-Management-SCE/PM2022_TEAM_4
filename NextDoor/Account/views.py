@@ -330,3 +330,11 @@ def Open_support_tickets(request):
 def Banned_list(request):
     requestlist = CustomUser.objects.filter(is_active = False)
     return render(request, 'Account/banned_list.html',{'requestlist':requestlist})
+
+@user_passes_test(lambda u: u.is_superuser or u.groups.filter(name='support').exists(),login_url='home')
+def change_status_ticket(request,pk):
+    user_request = UserTicketModel.objects.get(pk=pk)
+    user_request.status=True
+    user_request.save()
+    messages.success(request, 'You Ticket change to close!')
+    return render(request, 'home/HomePage.html')

@@ -374,7 +374,7 @@ border-radius: 50%;
 						<div class="comment-head">
 							<h6 class="comment-name"><a href="/Account/user_profile/{{message.sender}}">{{ req.user }}</a></h6>
 							<span>{{ req.created_at }}</span>
-                            <a href=""><i  class="fa fa-trash-o"></i></a>
+                            <a href="/Account/Open_support_tickets/{{req.id}}"><i  class="fa fa-eye" ></i></a>
 						</div>
 						<div class="comment-content">
                             <a href ="/Account/user_profile/{{req.request_user}}">Reported : {{req.request_user}}</a>

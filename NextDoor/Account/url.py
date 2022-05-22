@@ -34,6 +34,8 @@ urlpatterns = [
     path('request_to_delete/', views.request_to_delete, name="request_to_delete"),
     path('Open_support_tickets/', views.Open_support_tickets, name="Open_support_tickets"),
     path('Banned_list/', views.Banned_list, name="Banned_list"),
+    path('Banned_list/', views.Banned_list, name="Banned_list"),
+    path('Open_support_tickets/<int:pk>/', views.change_status_ticket, name="change_status_ticket"),
 
 
 
