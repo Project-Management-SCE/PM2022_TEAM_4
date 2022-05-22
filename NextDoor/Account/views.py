@@ -324,3 +324,9 @@ def RemoveBan(request):
 def Open_support_tickets(request):
     requestlist = UserTicketModel.objects.filter(status="open")
     return render(request, 'Account/open_support_tickets.html',{'requestlist':requestlist})
+
+
+@user_passes_test(lambda u: u.is_superuser,login_url='home')
+def Banned_list(request):
+    requestlist = CustomUser.objects.filter(is_active = False)
+    return render(request, 'Account/banned_list.html',{'requestlist':requestlist})
