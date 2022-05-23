@@ -282,12 +282,21 @@ body {
               <span></span>
               Open Tickets
             </a>
+
                   <a href="{% url 'request_to_delete' %}">
               <span></span>
               <span></span>
               <span></span>
               <span></span>
               Request
+            </a>
+
+                        <a href="{% url 'support_view' %}">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+              Check Forwarded Status
             </a>
             {% endif %}
          {% endfor %}
@@ -306,6 +315,12 @@ body {
               <span></span>
               Banned List
             </a>
+            <a href="https://api.elephantsql.com/console/227b2884-1c10-4a7e-913a-ba05852641f1/backup">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+              Backup DB
      {% endif %}
   </form>
 </div>

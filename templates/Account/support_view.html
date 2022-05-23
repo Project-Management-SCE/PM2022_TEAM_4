@@ -1,17 +1,11 @@
-<! DOCTYPE html>
-<!-- Path: templates/Account/messaging.html -->
 {% extends 'base.html' %}
 {% load static %}
+{% block title %}View Inbox{% endblock title %}
 {% block content %}
-      {% if messages %}
-        {% for message in messages %}
-         {% if message.tags %}  <script>alert("{{ message }}")</script> {% endif %}
-
-        {% endfor %}
-
-    {% endif %}
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+<!-- Implement html for inbox from Account/views -->
 <style>
+
 h5{
   font-size: 30px;
   color: #6fb7e5;
@@ -28,13 +22,14 @@ table{
   background: -webkit-linear-gradient(#25c481, #25b7c4);
   background: linear-gradient(#ffffff, #00eaff);
   font-family: 'Roboto', sans-serif;
+  border-radius: 32px;
  }
 .tbl-content{
   height:300px;
   overflow-x:auto;
   margin-top: 0px;
   border: 1px solid rgba(255,255,255,0.3);
-    background: -webkit-linear-gradient(#25c481, #25b7c4);
+  background: -webkit-linear-gradient(#25c481, #25b7c4);
   background: linear-gradient(#ffffff, #00eaff);
   font-family: 'Roboto', sans-serif;
 }
@@ -46,7 +41,7 @@ th{
   color: #fff;
   text-transform: uppercase;
     background: -webkit-linear-gradient(#25c481, #25b7c4);
-  background: linear-gradient(#ffffff, #00eaff);
+  background: linear-gradient(#39b9df, #2f5c60);
   font-family: 'Roboto', sans-serif;
 }
 td{
@@ -55,13 +50,31 @@ td{
   vertical-align:middle;
   font-weight: 300;
   font-size: 12px;
-  color: black;
+  color: #fff;
   border-bottom: solid 1px rgba(255,255,255,0.1);
-background: linear-gradient(#ffffff, #00eaff);
+overflow-wrap: anywhere;
 }
 
 
+/* demo styles */
 
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,500,300,700);
+
+section{
+  margin: 50px;
+}
+
+
+/* follow me template */
+.made-with-love {
+  margin-top: 40px;
+  padding: 10px;
+  clear: left;
+  text-align: center;
+  font-size: 10px;
+  font-family: arial;
+  color: #fff;
+}
 .made-with-love i {
   font-style: normal;
   color: #F50057;
@@ -89,22 +102,14 @@ background: linear-gradient(#ffffff, #00eaff);
 ::-webkit-scrollbar-thumb {
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
 }
-.panel-default {
-    border-color: #ddd;
-    width: 83%;
-    background: -webkit-linear-gradient(#25c481, #25b7c4);
-    background: linear-gradient(#39b9df, #2f5c60);
-}
-button, input, select, textarea {
-    font-family: inherit;
-    font-size: inherit;
-    line-height: inherit;
-    width: 80%;
-}
-a {
-color:black;
-}
 </style>
+      {% if messages %}
+        {% for message in messages %}
+         {% if message.tags %}  <script>alert("{{ message }}")</script> {% endif %}
+
+        {% endfor %}
+
+    {% endif %}
 <style>
     /**
  * Oscuro: #283035
@@ -238,7 +243,7 @@ border-radius: 50%;
  * Caja del Comentario
  ---------------------------*/
 .comments-list .comment-box {
-	width: 680px;
+	width: 840px;
 	float: right;
 	position: relative;
 	-webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.15);
@@ -270,7 +275,7 @@ border-radius: 50%;
 	width: 610px;
 }
 .comment-box .comment-head {
-	background: #dddcdc;
+	background-image: linear-gradient(#00f1fe, #0e9eef);
 	padding: 10px 12px;
 	border-bottom: 1px solid #E5E5E5;
 	overflow: hidden;
@@ -358,27 +363,37 @@ border-radius: 50%;
 </style>
 <!-- Contenedor Principal -->
 	<div class="comments-container">
-		<a href="/Account/user_profile/{{get_user.username}}"><h1 >Requests from {{get_user.username}}</h1></a>
- {% for request in requests %}
+		<h1 style="margin: -16px 293px;">My Forwarded Tickets</h1>
+      {% for req in request_list %}
 		<ul id="comments-list" class="comments-list">
 			<li>
 				<div class="comment-main-level">
 					<!-- Avatar -->
-					<div class="comment-avatar"><img src="{{profile.image.url}}" alt=""></div>
 					<!-- Contenedor del Comentario -->
 					<div class="comment-box">
 						<div class="comment-head">
-							<h6 class="comment-name by-author"><a href="/Account/user_profile/{{request.user}}">{{ request.user }}</a></h6>
-							<span>{{ request.created_at }}</span>
-							<a href="/Account/user_profile/{{request.user}}/view_request/{{request.id}}"><i class="fa fa-reply"></i></a>
+							<h6 class="comment-name"><a ">Ticket ID: {{req.id}}</a></h6>
+							<span>{{ req.created_at }}</span>
+                            <a href="/Account/support_view/{{req.id}}"><i  class="fa fa-eye" ></i></a>
 						</div>
 						<div class="comment-content">
-							{{ request.description }}
+							<a> Reported request: {{ req.request }} </a> <br>
+							<a> Reported comment:{{ req.comment }} </a> <br>
+							<a> Reported message: {{ req.message }} </a> <br>
+                            <a href ="/Account/user_profile/{{req.request_user}}">Target : {{req.request_user}}</a>
+							<br>
+							{% if req.status == "open" %}
+								<a>Status :  </a><span style="color:#ff0000; #00f1fe;">Not checked by admin &#10008;</span>
+							{% else %}
+								<a>Status :  </a><span style="color: #00f1fe;">Checked by admin &#10008;</span>
+							{% endif %}
+
 						</div>
 					</div>
 				</div>
-  {% endfor %}
-	</div>
-{% endblock %}
+             {% endfor %}
 
+	</div>
+
+{% endblock %}
 

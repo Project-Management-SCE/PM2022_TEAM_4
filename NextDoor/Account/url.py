@@ -3,7 +3,7 @@ from django.urls import path
 from . import views
 from django.urls import path
 from django.contrib.auth import views as auth_views
-from .views import SignupPageView, create_request, requests, view_request
+from .views import SignupPageView, create_request, requests, view_request, support_view
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -37,6 +37,7 @@ urlpatterns = [
     path('Open_support_tickets/<int:pk>/', views.change_status_ticket, name="change_status_ticket"),
     path('change_user_to_Active/<str:pk>/', views.change_user_to_Active, name="change_user_to_Active"),
     path('change_user_to_not_Active/<str:pk>/', views.change_user_to_not_Active, name="change_user_to_not_Active"),
+    path('support_view/', support_view, name="support_view"),
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

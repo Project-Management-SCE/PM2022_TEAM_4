@@ -55,15 +55,15 @@ def map(request):
     #make the raduis circle
     folium.Circle(location=[profile.latitude, profile.longitude], radius=100).add_to(m)
     #save Lat and lan who login
-    newport_ri = (profile.latitude, profile.longitude)
+    first_prof = (profile.latitude, profile.longitude)
     all_user = CustomUser.objects.all()
     #check all user who is distunation 0.1 km
     for user in all_user:
         tempProfile = UserProfile.objects.get(user=user)
         if tempProfile:
-            cleveland_oh = (tempProfile.latitude, tempProfile.longitude)
+            second_prof = (tempProfile.latitude, tempProfile.longitude)
             #get the lan and lat from all user and add to map if under 0.1
-            if distance.distance(newport_ri, cleveland_oh).km <= 0.1 and tempProfile != profile:
+            if distance.distance(first_prof , second_prof).km <= 0.1 and tempProfile != profile:
                 otherusericon='http://127.0.0.1:8000' + tempProfile.image.url
                 icon = folium.features.CustomIcon(otherusericon, icon_size=(28, 30))
                 # Folium Marker: tooltip = user.username, popup is a link to the user's profile

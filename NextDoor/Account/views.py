@@ -8,7 +8,7 @@ from django.urls import reverse_lazy
 from django.views import generic
 from .form import CustomUserCreationForm, UserProfileForm, RequestForm, MessageForm, CommentForm, SupportTicketForm,\
     RequestChangeForm, CommentChangeForm,RemoveBanForm,UserTicketForm
-from .models import CustomUser, UserProfile, RequestModel, MessageModel, CommentModel, UserTicketModel
+from .models import CustomUser, UserProfile, RequestModel, MessageModel, CommentModel, UserTicketModel, SupportTicketModel
 from django.db.models.signals import post_save
 from django.contrib.auth import authenticate
 from django.contrib import messages
@@ -354,3 +354,13 @@ def change_user_to_not_Active(request,pk):
     user.save()
     messages.success(request, 'The user banned')
     return render(request, 'home/HomePage.html')
+
+
+# support view to see tickets and status (close or open)
+@user_passes_test(lambda u: u.is_superuser or u.groups.filter(name='support').exists(),login_url='home')
+def support_view(request):
+    request_list = SupportTicketModel.objects.all().order_by('-status')
+    if request.user.groups.filter(name='support').exists():
+        request_list = SupportTicketModel.objects.filter(user=request.user).order_by('-status')
+
+    return render(request, 'Account/support_view.html',{'request_list':request_list})
