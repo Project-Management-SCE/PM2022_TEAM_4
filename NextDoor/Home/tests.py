@@ -17,6 +17,7 @@ class HomepageTests(TestCase):
         response = self.client.get('/')
         self.assertTemplateUsed(response, 'home/HomePage.html')
 
+
 class TestUrls(SimpleTestCase):
 
     def test_home_url_is_resolved(self):

@@ -337,6 +337,136 @@ class UserTicketModelTest(TestCase):
         })
         self.assertTrue(form.is_valid())
 
+
+# integration test support ticket and user ticket
+class SupportTicketIntegrationTest(TestCase):
+    def setUp(self):
+        self.user = get_user_model().objects.create_user(
+            username='Bob', password='testBob123')
+
+        self.request_user = UserProfile.objects.create(
+            user=self.user,
+            first_name='Bob',
+            last_name='Bob',
+            bio='Test Bio',
+        )
+        self.description = 'Test Description'
+
+        self.supportticket = SupportTicketModel.objects.create(
+            user =self.user,
+            request_user=self.request_user,
+            description= self.description,
+        )
+
+        self.userticket = UserTicketModel.objects.create(
+            user =self.user,
+            request_user=self.request_user,
+            description= self.description,
+        )
+
+    def test_supportticket_integration(self):
+        self.assertEqual(self.supportticket.user, self.user)
+        self.assertEqual(self.supportticket.request_user, self.request_user)
+        self.assertEqual(self.supportticket.description, 'Test Description')
+
+    def test_userticket_integration(self):
+        self.assertEqual(self.userticket.user, self.user)
+        self.assertEqual(self.userticket.request_user, self.request_user)
+        self.assertEqual(self.userticket.description, 'Test Description')
+
+
+
+# integration test user profile and comment
+class UserProfileIntegrationTest(TestCase):
+    def setUp(self):
+        self.user = get_user_model().objects.create_user(
+            username='Bob', password='testBob123')
+
+        self.request_user = UserProfile.objects.create(
+            user=self.user,
+            first_name='Bob',
+            last_name='Bob',
+            bio='Test Bio',
+        )
+        self.description = 'Test Description'
+
+        self.comment = CommentModel.objects.create(
+            user=self.user,
+            request=self.request_user,
+            comment='Test Comment',
+        )
+
+    def test_userprofile_integration(self):
+        self.assertEqual(self.comment.user, self.user)
+        self.assertEqual(self.comment.request, self.request_user)
+        self.assertEqual(self.comment.comment, 'Test Comment')
+
+
+# Integration test user profile and request
+class UserProfileIntegrationTest(TestCase):
+    def setUp(self):
+        self.user = get_user_model().objects.create_user(
+            username='Bob', password='testBob123')
+
+        self.request_user = UserProfile.objects.create(
+            user=self.user,
+            first_name='Bob',
+            last_name='Bob',
+            bio='Test Bio',
+        )
+        self.description = 'Test Description'
+
+        self.request = RequestModel.objects.create(
+            title='Test Request',
+            description='Test Description',
+            user=self.user,
+        )
+
+    def test_userprofile_integration(self):
+        self.assertEqual(self.request.user, self.user)
+        self.assertEqual(self.request.description, 'Test Description')
+        self.assertEqual(self.request.title, 'Test Request')
+
+
+# Integration test request and comment
+class RequestIntegrationTest(TestCase):
+    def setUp(self):
+        self.user = get_user_model().objects.create_user(
+            username='Bob', password='testBob123')
+
+        self.request_user = UserProfile.objects.create(
+            user=self.user,
+            first_name='Bob',
+            last_name='Bob',
+            bio='Test Bio',
+        )
+        self.description = 'Test Description'
+
+        self.request = RequestModel.objects.create(
+            title='Test Request',
+            description='Test Description',
+            user=self.user,
+        )
+
+        self.comment = CommentModel.objects.create(
+            user=self.user,
+            request=self.request,
+            comment='Test Comment',
+        )
+
+    def test_request_integration(self):
+        self.assertEqual(self.request.user, self.user)
+        self.assertEqual(self.request.description, 'Test Description')
+        self.assertEqual(self.request.title, 'Test Request')
+
+    def test_comment_integration(self):
+        self.assertEqual(self.comment.user, self.user)
+        self.assertEqual(self.comment.request, self.request)
+        self.assertEqual(self.comment.comment, 'Test Comment')
+
+
+
+
 class TestUrls(SimpleTestCase):
 
     def test_Rulse_url_is_resolved(self):
@@ -426,3 +556,5 @@ class TestUrls(SimpleTestCase):
     def test_change_status_ticket_url_is_resolved(self):
         url = reverse('change_status_ticket', args=[1])
         self.assertEqual(resolve(url).func,change_status_ticket)
+
+
