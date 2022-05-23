@@ -1,10 +1,12 @@
 from django.contrib.auth import get_user_model
-from django.test import TestCase
+from django.test import TestCase,SimpleTestCase
 from django.urls import reverse, resolve
 from .form import CustomUserCreationForm, MessageForm, CommentForm, RequestForm# new
 from .views import *
-from .models import MessageModel,CommentModel,RequestModel
-from .url import urlpatterns
+from .models import MessageModel,CommentModel,RequestModel,SupportTicketModel,UserTicketModel
+from .url import *
+from django.urls import reverse,resolve
+
 
 
 
@@ -240,25 +242,187 @@ class UserProfileTests(TestCase):
         self.assertTrue(form.is_valid())
 
 
+# test SupportTicketModel
+class SupportTicketModelTest(TestCase):
+    def setUp(self):
+        self.user = get_user_model().objects.create_user(
+            username='Bob', password='testBob123')
+
+        self.request_user = UserProfile.objects.create(
+            user=self.user,
+            first_name='Bob',
+            last_name='Bob',
+            bio='Test Bio',
+        )
+        # create a request_user for bob
+        self.request = RequestModel.objects.create(
+            title='Test Request',
+            description='Test Description',
+            user=self.user,
+        )
+        # create a comment for bob
+        self.comment = CommentModel.objects.create(
+            user=self.user,
+            request=self.request,
+            comment='Test Comment',
+        )
+        # create a message for bob
+        self.message = MessageModel.objects.create(
+            sender=self.user,
+            receiver=self.user,
+            message='Test Description',
+        )
+        self.description = 'Test Description'
+
+        self.supportticket = SupportTicketModel.objects.create(
+            user =self.user,
+            request_user=self.request_user,
+            request=self.request,
+            comment = self.comment,
+            message = self.message,
+            description= self.description,
+        )
+
+    def test_supportticket_model(self):
+        self.assertEqual(self.supportticket.comment, self.comment)
+        self.assertEqual(self.supportticket.user, self.user)
+        self.assertEqual(self.supportticket.request, self.request)
+        self.assertEqual(self.supportticket.request_user, self.request_user)
+        self.assertEqual(self.supportticket.message, self.message)
+        self.assertEqual(self.supportticket.description, 'Test Description')
+
+    def test__SupportTicket_model_str(self):
+        self.assertEqual(str(self.description), 'Test Description')
+
+    # Test CommentForm
+    def test_SupportTicket_form(self):
+        form = SupportTicketForm(data={
+            'description':'Test Description',
+        })
+        self.assertTrue(form.is_valid())
 
 
+# test UserTicketModel
+class UserTicketModelTest(TestCase):
+    def setUp(self):
+        self.user = get_user_model().objects.create_user(
+            username='Bob', password='testBob123')
 
+        self.request_user = UserProfile.objects.create(
+            user=self.user,
+            first_name='Bob',
+            last_name='Bob',
+            bio='Test Bio',
+        )
+        self.description = 'Test Description'
 
+        self.userticket = UserTicketModel.objects.create(
+            user =self.user,
+            request_user=self.request_user,
+            description= self.description,
+        )
 
+    def test_userticket_model(self):
+        self.assertEqual(self.userticket.user, self.user)
+        self.assertEqual(self.userticket.request_user, self.request_user)
+        self.assertEqual(self.userticket.description, 'Test Description')
 
+    def test__userticket_model_str(self):
+        self.assertEqual(str(self.description), 'Test Description')
 
+    # Test CommentForm
+    def test_userticket_form(self):
+        form = UserTicketForm(data={
+            'description':'Test Description',
+        })
+        self.assertTrue(form.is_valid())
 
+class TestUrls(SimpleTestCase):
 
+    def test_Rulse_url_is_resolved(self):
+        url = reverse('Rulse')
+        self.assertEqual(resolve(url).func,Rulse)
 
+    def test_user_profile_url_is_resolved(self):
+        url = reverse('user_profile', args=['fake_id'])
+        self.assertEqual(resolve(url).func,user_profile)
 
+    def test_edit_profile_url_is_resolved(self):
+        url = reverse('edit_profile', args=['fake_id'])
+        self.assertEqual(resolve(url).func,edit_profile)
 
+    def test_delete_user_url_is_resolved(self):
+        url = reverse('delete_user', args=['fake_id'])
+        self.assertEqual(resolve(url).func,delete_user)
 
+    def test_create_request_url_is_resolved(self):
+        url = reverse('create_request', args=['fake_id'])
+        self.assertEqual(resolve(url).func,create_request)
 
+    def test_requests_url_is_resolved(self):
+        url = reverse('requests', args=['fake_id'])
+        self.assertEqual(resolve(url).func,requests)
 
+    def test_messaging_url_is_resolved(self):
+        url = reverse('messaging', args=['fake_id'])
+        self.assertEqual(resolve(url).func,messaging)
 
+    def test_inbox_url_is_resolved(self):
+        url = reverse('inbox', args=['fake_id'])
+        self.assertEqual(resolve(url).func,inbox)
 
+    def test_user_ticket_url_is_resolved(self):
+        url = reverse('user_ticket', args=['fake_id'])
+        self.assertEqual(resolve(url).func,user_ticket)
 
+    def test_messaging_read_url_is_resolved(self):
+        url = reverse('messaging_read', args=['fake_id',1])
+        self.assertEqual(resolve(url).func,messaging_read)
 
+    def test_messaging_delete_url_is_resolved(self):
+        url = reverse('messaging_delete', args=['fake_id',1])
+        self.assertEqual(resolve(url).func,messaging_delete)
 
+    def test_view_request_url_is_resolved(self):
+        url = reverse('view_request', args=['fake_id',1])
+        self.assertEqual(resolve(url).func,view_request)
 
+    def test_delete_request_url_is_resolved(self):
+        url = reverse('delete_request', args=['fake_id',1])
+        self.assertEqual(resolve(url).func,delete_request)
 
+    def test_close_request_url_is_resolved(self):
+        url = reverse('close_request', args=['fake_id',1])
+        self.assertEqual(resolve(url).func,close_request)
+
+    def test_edit_request_url_is_resolved(self):
+        url = reverse('edit_request', args=['fake_id',1])
+        self.assertEqual(resolve(url).func,edit_request)
+
+    def test_edit_comment_url_is_resolved(self):
+        url = reverse('edit_comment', args=['fake_id',1])
+        self.assertEqual(resolve(url).func,edit_comment)
+
+    def test_support_ticket_is_resolved(self):
+        url = reverse('support_ticket')
+        self.assertEqual(resolve(url).func,support_ticket)
+
+    def test_RemoveBan_is_resolved(self):
+        url = reverse('RemoveBan')
+        self.assertEqual(resolve(url).func,RemoveBan)
+
+    def test_request_to_delete_is_resolved(self):
+        url = reverse('request_to_delete')
+        self.assertEqual(resolve(url).func,request_to_delete)
+
+    def test_Open_support_tickets_is_resolved(self):
+        url = reverse('Open_support_tickets')
+        self.assertEqual(resolve(url).func,Open_support_tickets)
+
+    def test_Banned_list_is_resolved(self):
+        url = reverse('Banned_list')
+        self.assertEqual(resolve(url).func,Banned_list)
+
+    def test_change_status_ticket_url_is_resolved(self):
+        url = reverse('change_status_ticket', args=[1])
+        self.assertEqual(resolve(url).func,change_status_ticket)

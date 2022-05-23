@@ -338,3 +338,19 @@ def change_status_ticket(request,pk):
     user_request.save()
     messages.success(request, 'You Ticket change to close!')
     return render(request, 'home/HomePage.html')
+
+@user_passes_test(lambda u: u.is_superuser,login_url='home')
+def change_user_to_Active(request,pk):
+    user = CustomUser.objects.get(username=pk)
+    user.is_active = True
+    user.save()
+    messages.success(request, 'The user unbanned')
+    return render(request, 'home/HomePage.html')
+
+@user_passes_test(lambda u: u.is_superuser,login_url='home')
+def change_user_to_not_Active(request,pk):
+    user = CustomUser.objects.get(username=pk)
+    user.is_active = False
+    user.save()
+    messages.success(request, 'The user banned')
+    return render(request, 'home/HomePage.html')
