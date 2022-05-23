@@ -27,7 +27,8 @@ SECRET_KEY = 'django-insecure-widhvhpl_!x8z5jo$@2ku*e@j%*$q%(=o1r+$xbz#+=sp*s_@n
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+
+ALLOWED_HOSTS = ['nextdoor-team4.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
@@ -158,3 +159,5 @@ MEDIA_URL = '/media/'
 GOOGLE_MAPS_API_KEY = 'AIzaSyD8UkSs_yEEw3SgfYVTe1Gkdxz2pnu-ju0'
 
 GRAPPELLI_ADMIN_TITLE = 'NextDoor - Administration Panel'
+
+CSRF_TRUSTED_ORIGINS = ['https://nextdoor-team4.herokuapp.com']
