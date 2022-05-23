@@ -87,9 +87,8 @@ def search(request):
     list = []
     if request.method == 'POST':
         name = request.POST.get('s')
-        print(name)
         for u in users:
-            if name in u.username:
+            if name in u.username and u.is_active:
                 list.append(u)
     context = {'users': users, 'name': name, 'list': list, 'profile': profile}
     return render(request, 'home/search.html', context)
