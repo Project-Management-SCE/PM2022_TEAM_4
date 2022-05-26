@@ -112,6 +112,8 @@
                     {% endif %}
                 {% endfor %}
                 {% if user.is_superuser %}
+                <li><a href="/Account/user_profile/{{get_user.username}}/Remove_user_to_support">Admin : Remove_Support </a></li>
+                <li><a href="/Account/user_profile/{{get_user.username}}/Make_user_to_support">Admin : Make_Support </a></li>
                 <li><a href="/Account/change_user_to_not_Active/{{get_user.username}}">Admin : Ban_User <i class="fa fa-user-times"></i></a></li>
                 <li><a href="/Account/user_profile/{{get_user.username}}/delete_user">Admin : delete_user <i class="fa fa-window-close"></i></a></li>
                 {% endif %}

@@ -32,6 +32,22 @@ class SignupPageView(generic.CreateView):
             return render(request, self.template_name, {'form' : form })
 
 
+@user_passes_test(lambda u: u.is_superuser,login_url='home')
+def Make_user_to_support(request,pk_test):
+    user = CustomUser.objects.get(username=pk_test)
+    group=Group.objects.get(name='support')
+    user.groups.add(group)
+    user.save()
+    return render(request, 'home/HomePage.html')
+
+
+@user_passes_test(lambda u: u.is_superuser,login_url='home')
+def Remove_user_to_support(request,pk_test):
+    user = CustomUser.objects.get(username=pk_test)
+    group=Group.objects.get(name='support')
+    user.groups.remove(group)
+    user.save()
+    return render(request, 'home/HomePage.html')
 
 def user_profile(request,pk_test):
     get_user = CustomUser.objects.get(username=pk_test)

@@ -15,6 +15,8 @@ urlpatterns = [
     path('Rulse/', views.Rulse, name='Rulse'),
     #---------------------------- setUp user Profile--------------------------------------#
     path('user_profile/<str:pk_test>/', views.user_profile, name="user_profile"),
+    path('user_profile/<str:pk_test>/Make_user_to_support', views.Make_user_to_support, name="Make_user_to_support"),
+    path('user_profile/<str:pk_test>/Remove_user_to_support', views.Remove_user_to_support, name="Remove_user_to_support"),
     path('user_profile/<str:pk_test>/edit/', views.edit_profile, name="edit_profile"),
     path('user_profile/<str:pk_test>/delete_user/', views.delete_user, name="delete_user"),
     path('user_profile/<str:pk_test>/create_request/', create_request, name="create_request"),
