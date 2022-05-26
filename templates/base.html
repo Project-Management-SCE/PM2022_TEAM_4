@@ -201,6 +201,47 @@ body {
 }
 
 </style>
+<style>
+.sidenav {
+  height: 60%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background:linear-gradient(rgb(0 243 255 /100%),rgb(0 159 242 /100%));
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 150px;
+  border-radius: 4px 48px 41px 2px;
+}
+
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+@media screen and (max-height: 200px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+</style>
 <div class="main">
   <div class="main_resize">
     <div class="header">
@@ -238,22 +279,12 @@ body {
         <!--/searchform -->
         <div class="clr"></div>
       </div>
-      <div class="login-box">
-  <form style="    margin: 110px 0 2px;
-    position: fixed;
-    clear: left;
-    text-align: center;
-    left: 50px;
-    width: 156px;
-
-    background:linear-gradient(rgb(0 243 255 /50%),rgb(0 159 242 /50%));
-    box-shadow: 10px 10px 10px rgb(0 0 0 / 60%);
-    border-radius: 14px;" >
-
+      <div id="mySidenav" class="sidenav">
+          <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
     <a style="    color: #ffffff;
     font-weight: bold;" href="{% url 'home' %}">
 
-    <i class="fa fa-home"></i></a>
+    Home <i class="fa fa-home"></i></a>
     <a style="    color: #ffffff;
     font-weight: bold;" href="{% url 'AbutUs' %}">
       about us
@@ -298,8 +329,18 @@ body {
               Backup DB
             </a>
      {% endif %}
-  </form>
 </div>
+        <span style="font-size:30px;cursor:pointer;left: 0;
+    position: absolute;" onclick="openNav()">&#9776; menu</span>
+        <script>
+function openNav() {
+  document.getElementById("mySidenav").style.width = "250px";
+}
+
+function closeNav() {
+  document.getElementById("mySidenav").style.width = "0";
+}
+</script>
 
       <div class="hbg"><img src="{% static 'home/images/header_images.jpg' %}" width="923" height="291" alt="" style="margin: 0px 0px 0px -16px;" /></div>
     </div>
