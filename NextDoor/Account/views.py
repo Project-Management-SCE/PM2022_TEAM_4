@@ -34,28 +34,28 @@ class SignupPageView(generic.CreateView):
 
 @user_passes_test(lambda u: u.is_superuser,login_url='home')
 def Make_user_to_support(request,pk_test):
-    user = CustomUser.objects.get(username=pk_test)
-    group=Group.objects.get(name='support')
-    user.groups.add(group)
-    user.save()
+    user = CustomUser.objects.get(username=pk_test)#get the user we want to make him support
+    group=Group.objects.get(name='support')#get the group of support
+    user.groups.add(group)#add to user the group
+    user.save()#save in DB user after update
     return render(request, 'home/HomePage.html')
 
 
 @user_passes_test(lambda u: u.is_superuser,login_url='home')
 def Remove_user_to_support(request,pk_test):
-    user = CustomUser.objects.get(username=pk_test)
-    group=Group.objects.get(name='support')
-    user.groups.remove(group)
-    user.save()
+    user = CustomUser.objects.get(username=pk_test)#get the user we want to remove him from group
+    group=Group.objects.get(name='support')#get the group of support
+    user.groups.remove(group)#remove to user the group
+    user.save()#save in DB user after update
     return render(request, 'home/HomePage.html')
 
 def user_profile(request,pk_test):
-    get_user = CustomUser.objects.get(username=pk_test)
-    if get_user.is_active:
-        profile = UserProfile.objects.get(user=get_user)
-        posts = RequestModel.objects.filter(user=get_user).order_by('-created_at')
+    get_user = CustomUser.objects.get(username=pk_test) #get the user we want to show profile
+    if get_user.is_active: #check if the user is not in ban
+        profile = UserProfile.objects.get(user=get_user) #get model profile of user
+        posts = RequestModel.objects.filter(user=get_user).order_by('-created_at') #get all post of user to show in feed
         if posts:
-            last_request = posts.last().created_at
+            last_request = posts.last().created_at #show the lest request in page
         else:
             last_request = None
 
@@ -66,27 +66,27 @@ def user_profile(request,pk_test):
 
 @login_required(login_url='home')
 def edit_profile(request,pk_test):
-    if request.user.username==pk_test or request.user.groups.filter(name='support').exists():
-        get_user = CustomUser.objects.get(username=pk_test)
-        profile = UserProfile.objects.get(user=get_user)
+    if request.user.username==pk_test or request.user.groups.filter(name='support').exists(): #check if the user how login or support to edit profile
+        get_user = CustomUser.objects.get(username=pk_test) #get the user we want to change
+        profile = UserProfile.objects.get(user=get_user) #get the profile of user we want to change
         form = UserProfileForm(request.POST or None, instance=profile)
         if request.method == 'POST':
             form = UserProfileForm(request.POST, request.FILES, instance=profile)
             if form.is_valid():
-                address = request.POST.get('location', False)
+                address = request.POST.get('location', False) #enter all args
                 city = request.POST.get('locality', False)
                 country = request.POST.get('country', False)
                 apt = request.POST.get('apt', False)
                 lat = request.POST.get('lat', False)
                 lng = request.POST.get('lng', False)
-                instance = form.save(commit=False)
+                instance = form.save(commit=False) #add to user all args
                 instance.address = address
                 instance.city = city
                 instance.country = country
                 instance.postal_code = apt
                 instance.latitude = lat
                 instance.longitude = lng
-                form.save()
+                form.save() #save in DB after update
                 messages.success(request,'Your Profile has been changed successfully!')
                 return redirect('user_profile', pk_test)
         return render(request, "Account/edit_profile.html",{'get_user': get_user, 'profile': profile , 'form': form})
@@ -96,15 +96,15 @@ def edit_profile(request,pk_test):
 
 @login_required(login_url='home')
 def edit_request(request,pk_test,pk):
-    if request.user.username==pk_test or request.user.groups.filter(name='support').exists():
-        get_user = CustomUser.objects.get(username=pk_test)
-        profile = UserProfile.objects.get(user=get_user)
-        posts = RequestModel.objects.get(id=pk)
-        form = RequestChangeForm(request.POST or None, instance=posts)
+    if request.user.username==pk_test or request.user.groups.filter(name='support').exists(): #check if the user who login or support to edit request
+        get_user = CustomUser.objects.get(username=pk_test) #get the user of request
+        profile = UserProfile.objects.get(user=get_user) #get profile of user
+        posts = RequestModel.objects.get(id=pk) #get the post we want to edit
+        form = RequestChangeForm(request.POST or None, instance=posts) #call function edit in form
         if request.method == 'POST':
             form = RequestChangeForm(request.POST, request.FILES, instance=posts)
             if form.is_valid():
-                form.save()
+                form.save() # save in DB after update
                 messages.success(request,'Your request has been changed successfully!')
                 return redirect('user_profile', pk_test)
         return render(request, "Account/edit_request.html",{'get_user': get_user, 'profile': profile , 'form': form})
@@ -114,19 +114,17 @@ def edit_request(request,pk_test,pk):
 
 @login_required(login_url='home')
 def edit_comment(request,pk_test,pk):
-    print("pk_test"+pk_test)
-    print("pk" + str(pk))
-    if request.user.username==pk_test or request.user.groups.filter(name='support').exists():
-        get_user = CustomUser.objects.get(username=pk_test)
-        profile = UserProfile.objects.get(user=get_user)
-        comments = CommentModel.objects.get(id=pk)
-        form = CommentChangeForm(request.POST or None, instance=comments)
+    if request.user.username==pk_test or request.user.groups.filter(name='support').exists(): #check if user who login or support
+        get_user = CustomUser.objects.get(username=pk_test) #get the user we want to edit comment
+        profile = UserProfile.objects.get(user=get_user) #get to profile user
+        comments = CommentModel.objects.get(id=pk) #get the comment we want to change
+        form = CommentChangeForm(request.POST or None, instance=comments) # call function edit in form
         if request.method == 'POST':
             form = CommentChangeForm(request.POST, request.FILES, instance=comments)
             if form.is_valid():
-                form.save()
+                form.save() #save in DB after update
                 messages.success(request,'Your comments has been changed successfully!')
-                pk=comments.request.id
+                pk=comments.request.id #get the request id to back page request
                 return redirect('view_request', pk_test,pk)
         return render(request, "Account/edit_comment.html",{'get_user': get_user, 'profile': profile , 'form': form})
     else:
@@ -140,15 +138,15 @@ def Rulse(request):
 # Allow the user to create a request
 @login_required(login_url='home')
 def create_request(request,pk_test):
-    if request.user.username==pk_test or request.user.groups.filter(name='Support').exists():
-        get_user = CustomUser.objects.get(username=pk_test)
-        profile = UserProfile.objects.get(user=get_user)
+    if request.user.username==pk_test or request.user.groups.filter(name='Support').exists(): #check if the user who login to open request of user
+        get_user = CustomUser.objects.get(username=pk_test) #get the user
+        profile = UserProfile.objects.get(user=get_user) #get the user profile
         if request.method == 'POST':
-            form = RequestForm(request.POST)
+            form = RequestForm(request.POST) # call function create request in form
             if form.is_valid():
                 instance = form.save(commit=False)
                 instance.user = request.user
-                instance.save()
+                instance.save() # save in DB after create
                 messages.success(request,'Your request has been sent successfully!')
                 return redirect('user_profile', pk_test)
         else:
@@ -162,19 +160,19 @@ def create_request(request,pk_test):
 # Display the requests that the user has made
 @login_required(login_url='home')
 def requests(request,pk_test):
-    get_user = CustomUser.objects.get(username=pk_test)
-    profile = UserProfile.objects.get(user=get_user)
-    requests = RequestModel.objects.filter(user=get_user).order_by('created_at')
+    get_user = CustomUser.objects.get(username=pk_test) #get user we want to show all request
+    profile = UserProfile.objects.get(user=get_user) #get to profile to show img
+    requests = RequestModel.objects.filter(user=get_user).order_by('created_at') #get all request of user by date of create
     return render(request, "Account/requests.html",{'get_user': get_user, 'profile': profile , 'requests': requests})
-#change 1
+
 @login_required(login_url='home')
 def close_request(request,pk_test,pk):
-    if request.user.username == pk_test or request.user.groups.filter(name='support').exists():
+    if request.user.username == pk_test or request.user.groups.filter(name='support').exists(): #check if the user who login is the user who click to close request
         get_user = CustomUser.objects.get(username=pk_test)
         profile = UserProfile.objects.get(user=get_user)
-        user_request = RequestModel.objects.get(pk=pk)
-        user_request.close = True
-        user_request.save()
+        user_request = RequestModel.objects.get(pk=pk) #get the request we want to close
+        user_request.close = True #change the request to close
+        user_request.save() #save in DB after upadate
         messages.success(request, 'The request closed successfully!')
         return redirect('user_profile', pk_test)
     else:
@@ -183,20 +181,20 @@ def close_request(request,pk_test,pk):
 
 @login_required(login_url='home')
 def messaging(request,pk_test):
-    if request.user.username != pk_test or request.user.groups.filter(name='Support').exists():
-        get_user = CustomUser.objects.get(username=request.user.username)
-        get_receiver = CustomUser.objects.get(username=pk_test)
+    if request.user.username != pk_test or request.user.groups.filter(name='Support').exists(): #check user dont send mess dont him self
+        get_user = CustomUser.objects.get(username=request.user.username) #get user who send the mess
+        get_receiver = CustomUser.objects.get(username=pk_test) #get user who receiv the mess
         profilerec = UserProfile.objects.get(user=get_receiver)
         profile = UserProfile.objects.get(user=get_user)
-        Historysender = MessageModel.objects.filter(sender=request.user,receiver=get_receiver).order_by('created_at')
-        Historyreciver = MessageModel.objects.filter(sender=get_receiver, receiver=request.user).order_by('created_at')
-        History = sorted(chain(Historysender, Historyreciver), key=attrgetter('created_at'))
+        Historysender = MessageModel.objects.filter(sender=request.user,receiver=get_receiver).order_by('created_at') #get all history mess from sender
+        Historyreciver = MessageModel.objects.filter(sender=get_receiver, receiver=request.user).order_by('created_at') #get all history mess from reciver
+        History = sorted(chain(Historysender, Historyreciver), key=attrgetter('created_at')) #create chain by date and time to show list mess
         if request.method == 'POST':
-            form = MessageForm(request.POST)
+            form = MessageForm(request.POST) #call function to create new mess
             if form.is_valid():
                 instance = form.save(commit=False)
-                instance.sender = request.user
-                instance.receiver = CustomUser.objects.get(username=pk_test)
+                instance.sender = request.user #set who send new mess
+                instance.receiver = CustomUser.objects.get(username=pk_test) #set who reciver the new mess
                 #instance.receiver = CustomUser.objects.get(username=form.cleaned_data['receiver'])
                 instance.save()
                 messages.success(request,'Your message has been sent successfully! to- '+ profilerec.first_name)
@@ -212,11 +210,11 @@ def messaging(request,pk_test):
 # Display the messages that the user received
 @login_required(login_url='home')
 def inbox(request,pk_test):
-    if request.user.username==pk_test or request.user.groups.filter(name='support').exists():
-        get_user = CustomUser.objects.get(username=pk_test)
-        profile = UserProfile.objects.get(user=get_user)
+    if request.user.username==pk_test or request.user.groups.filter(name='support').exists(): #get the user inbox who login
+        get_user = CustomUser.objects.get(username=pk_test) #get the user
+        profile = UserProfile.objects.get(user=get_user) #get the profile
         allprofile = UserProfile.objects.all()
-        messagess = MessageModel.objects.filter(receiver=request.user).order_by('created_at')
+        messagess = MessageModel.objects.filter(receiver=request.user).order_by('created_at') #get all mess of user
         return render(request, "Account/inbox.html",{'get_user': get_user, 'profile': profile , 'messages': messagess,'allprofile':allprofile})
     else:
         messages.success(request, 'You do not have permission to view this inbox!')
@@ -227,9 +225,9 @@ def messaging_read(request,pk_test,pk):
     if request.user.username == pk_test or request.user.groups.filter(name='Support').exists():
         get_user = CustomUser.objects.get(username=pk_test)
         profile = UserProfile.objects.get(user=get_user)
-        messagess = MessageModel.objects.get(id=pk)
-        messagess.read =True
-        messagess.save()
+        messagess = MessageModel.objects.get(id=pk) #get the mess we want to change status
+        messagess.read =True #change the status to read
+        messagess.save() # save in DB after upadte
         messagess = MessageModel.objects.filter(receiver=request.user).order_by('created_at')
         messages.success(request, 'You inbox is update successfully!')
         return render(request, "Account/inbox.html",{'get_user': get_user, 'profile': profile , 'messages': messagess})
@@ -239,26 +237,26 @@ def messaging_delete(request,pk_test,pk):
     if request.user.username == pk_test or request.user.groups.filter(name='Support').exists():
             get_user = CustomUser.objects.get(username=pk_test)
             profile = UserProfile.objects.get(user=get_user)
-            messagess = MessageModel.objects.get(id=pk)
-            MessageModel.delete(messagess)
-            messagess = MessageModel.objects.filter(receiver=request.user).order_by('created_at')
+            messagess = MessageModel.objects.get(id=pk) #get the mess we want to delete
+            MessageModel.delete(messagess) # delete mess
+            messagess = MessageModel.objects.filter(receiver=request.user).order_by('created_at') #back all mess after delete
     return render(request, "Account/inbox.html",{'get_user': get_user, 'profile': profile , 'messages': messagess})
 
 @login_required(login_url='home')
 def view_request(request,pk_test,pk):
-    get_user = CustomUser.objects.get(username=pk_test)
-    allprofile = UserProfile.objects.all()
+    get_user = CustomUser.objects.get(username=pk_test) #get the user we want to show request
+    allprofile = UserProfile.objects.all() #get all profile to show img
     profile = UserProfile.objects.get(user=get_user)
-    user_request = RequestModel.objects.get(pk=pk)
-    comments = CommentModel.objects.filter(request=user_request).order_by('created_at')
+    user_request = RequestModel.objects.get(pk=pk) #get the request we want to show
+    comments = CommentModel.objects.filter(request=user_request).order_by('created_at') #get all comment of this request
     # Allow a user to comment on a request
     if request.method == 'POST':
-        form = CommentForm(request.POST)
+        form = CommentForm(request.POST) #call function to create new comment in form
         if form.is_valid():
             instance = form.save(commit=False)
             instance.user = request.user
             instance.request = user_request
-            instance.save()
+            instance.save() # save the new comment in DB
             messages.success(request,'Your comment has been sent successfully!')
             return redirect('view_request', pk_test,pk)
     else:
@@ -268,23 +266,23 @@ def view_request(request,pk_test,pk):
 
 @user_passes_test(lambda u: u.is_superuser,login_url='home')
 def delete_user(request,pk_test):
-    get_user = CustomUser.objects.get(username=pk_test)
-    profile = UserProfile.objects.get(user=get_user)
-    CustomUser.delete(get_user)
-    UserProfile.delete(profile)
+    get_user = CustomUser.objects.get(username=pk_test) #get user to delete
+    profile = UserProfile.objects.get(user=get_user) #get profile to delete
+    CustomUser.delete(get_user) #delete from DB
+    UserProfile.delete(profile) #delete from DB
     messages.success(request, 'You Delete user successfully!')
     return render(request, 'home/HomePage.html')
 
 @user_passes_test(lambda u: u.is_superuser or u.groups.filter(name='support').exists(),login_url='home')
 def delete_request(request,pk_test,pk):
-    user_request = RequestModel.objects.get(pk=pk)
-    RequestModel.delete(user_request)
+    user_request = RequestModel.objects.get(pk=pk) #get request we want to delete
+    RequestModel.delete(user_request) # delete request
     messages.success(request, 'You Delete Request successfully!')
     return render(request, 'home/HomePage.html')
 
 @user_passes_test(lambda u: u.is_superuser or u.groups.filter(name='support').exists(),login_url='home')
 def request_to_delete(request):
-    requestlist = RequestModel.objects.all().order_by('-created_at')
+    requestlist = RequestModel.objects.all().order_by('-created_at') #get all request to list
     return render(request, 'Account/request_to_delete.html',{'requestlist':requestlist})
 
 
@@ -293,12 +291,12 @@ def support_ticket(request):
     get_user = CustomUser.objects.get(username=request.user.username)
     profile = UserProfile.objects.get(user=get_user)
     # check if user is in support group
-    if request.method == 'POST' and request.user.groups.filter(name='support').exists():
-        form = SupportTicketForm(request.POST)
+    if request.method == 'POST' and request.user.groups.filter(name='support').exists(): #check if user is support
+        form = SupportTicketForm(request.POST) #call function to create new ticket in form
         if form.is_valid():
             instance = form.save(commit=False)
             instance.user = request.user
-            instance.save()
+            instance.save() #save in DB
             messages.success(request,'Your support ticket has been sent successfully!')
             return render(request, 'home/HomePage.html')
     else:
@@ -307,16 +305,14 @@ def support_ticket(request):
 
 @login_required(login_url='home')
 def user_ticket(request,pk_test):
-    print(pk_test)
     get_user = CustomUser.objects.get(username=pk_test)
     profile = UserProfile.objects.get(user=get_user)
     if request.method == 'POST':
-        form = UserTicketForm(request.POST)
+        form = UserTicketForm(request.POST) #call function to create ticket by user
         if form.is_valid():
             instance = form.save(commit=False)
-            print(profile.user.username)
-            instance.request_user = profile
-            instance.user = request.user
+            instance.request_user = profile #Bring the user being reported
+            instance.user = request.user #Bring the user who reports it
             instance.save()
             messages.success(request,'Your user ticket has been sent successfully!')
             return render(request, 'home/HomePage.html')
