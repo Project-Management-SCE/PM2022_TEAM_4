@@ -130,7 +130,7 @@
             <p class="post-data"><span class="date">{{pos.created_at}}</span> &nbsp;|&nbsp; Posted by <a href="#">{{get_user.username}}</a> &nbsp;|&nbsp;</p>
             <p>{{pos.description}}</p>
              {% if user.is_authenticated %}
-            <p class="spec"><a href="/Account/user_profile/{{user.username}}/view_request/{{pos.id}}" class="com fr">Comments <i class="fa fa-comments-o"></i></a>
+            <p class="spec"><a href="/Account/user_profile/{{get_user.username}}/view_request/{{pos.id}}" class="com fr">Comments <i class="fa fa-comments-o"></i></a>
                     {% if get_user.id == user.id and not pos.close %}
                         <a href="/Account/user_profile/{{user.username}}/view_request/{{pos.id}}/close_request" class="com fr">close request <i class="fa fa-lock"></i></a>
                     {% endif %}
