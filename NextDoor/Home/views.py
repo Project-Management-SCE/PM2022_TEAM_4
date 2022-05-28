@@ -82,7 +82,7 @@ def map(request):
                     # folium.Marker([tempProfile.latitude, tempProfile.longitude], tooltip=user.username,
                     #               popup=popup_string,icon=icon).add_to(m)
     else:
-        userIcon = 'https://nextdoor-team4.herokuapp.com/' + profile.image.url
+        userIcon = 'https://nextdoor-team4.herokuapp.com' + profile.image.url
         icon = folium.features.CustomIcon(userIcon, icon_size=(28, 30))
         popup_string = "<a href=https://nextdoor-team4.herokuapp.com/Account/user_profile/" + get_user.username + "/requests target =_blank rel=noopener noreferrer>My Requests</a>"
         folium.Marker([profile.latitude, profile.longitude], tooltip="You are here!", popup=popup_string,icon=icon).add_to(m)
@@ -98,7 +98,7 @@ def map(request):
                 second_prof = (tempProfile.latitude, tempProfile.longitude)
                 #get the lan and lat from all user and add to map if under 0.1
                 if distance.distance(first_prof , second_prof).km <= 0.1 and tempProfile != profile:
-                    otherusericon='https://nextdoor-team4.herokuapp.com/' + tempProfile.image.url
+                    otherusericon='https://nextdoor-team4.herokuapp.com' + tempProfile.image.url
                     icon = folium.features.CustomIcon(otherusericon, icon_size=(28, 30))
                     # Folium Marker: tooltip = user.username, popup is a link to the user's profile
                     popup_string = "<a href=https://nextdoor-team4.herokuapp.com/Account/user_profile/" + user.username + "/requests target =_blank rel=noopener noreferrer>Help Me</a>"
