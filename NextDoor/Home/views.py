@@ -5,6 +5,10 @@ from geopy import distance
 from Account.models import UserProfile,CustomUser,MessageModel
 from django.core.paginator import Paginator
 from django.db.models import Case, When
+import os
+import socket
+
+
 def home(request):
     if request.user.is_authenticated:
         messages = MessageModel.objects.filter(receiver=request.user).order_by('created_at')
@@ -48,31 +52,61 @@ def map(request):
     ))
     m.save("Map.html")
     print(profile.image.url)
-    userIcon = 'http://127.0.0.1:8000' + profile.image.url
-    icon = folium.features.CustomIcon(userIcon, icon_size=(28, 30))
-    popup_string = "<a href=http://127.0.0.1:8000/Account/user_profile/" + get_user.username + "/requests target =_blank rel=noopener noreferrer>My Requests</a>"
-    folium.Marker([profile.latitude, profile.longitude], tooltip="You are here!", popup=popup_string,icon=icon).add_to(m)
-    #make the raduis circle
-    folium.Circle(location=[profile.latitude, profile.longitude], radius=100).add_to(m)
-    #save Lat and lan who login
-    first_prof = (profile.latitude, profile.longitude)
-    all_user = CustomUser.objects.all()
-    #check all user who is distunation 0.1 km
-    for user in all_user:
-        tempProfile = UserProfile.objects.get(user=user)
-        if tempProfile:
-            second_prof = (tempProfile.latitude, tempProfile.longitude)
-            #get the lan and lat from all user and add to map if under 0.1
-            if distance.distance(first_prof , second_prof).km <= 0.1 and tempProfile != profile:
-                otherusericon='http://127.0.0.1:8000' + tempProfile.image.url
-                icon = folium.features.CustomIcon(otherusericon, icon_size=(28, 30))
-                # Folium Marker: tooltip = user.username, popup is a link to the user's profile
-                popup_string = "<a href=http://127.0.0.1:8000/Account/user_profile/" + user.username + "/requests target =_blank rel=noopener noreferrer>Help Me</a>"
-                folium.Marker([tempProfile.latitude, tempProfile.longitude], tooltip=user.username,
-                              popup=popup_string,icon=icon).add_to(m)
-                # popup redirection
-                # folium.Marker([tempProfile.latitude, tempProfile.longitude], tooltip=user.username,
-                #               popup=popup_string,icon=icon).add_to(m)
+
+
+
+    if check_server():
+        userIcon = 'http://127.0.0.1:8000' + profile.image.url
+        icon = folium.features.CustomIcon(userIcon, icon_size=(28, 30))
+        popup_string = "<a href=http://127.0.0.1:8000/Account/user_profile/" + get_user.username + "/requests target =_blank rel=noopener noreferrer>My Requests</a>"
+        folium.Marker([profile.latitude, profile.longitude], tooltip="You are here!", popup=popup_string,icon=icon).add_to(m)
+        #make the raduis circle
+        folium.Circle(location=[profile.latitude, profile.longitude], radius=100).add_to(m)
+        #save Lat and lan who login
+        first_prof = (profile.latitude, profile.longitude)
+        all_user = CustomUser.objects.all()
+        #check all user who is distunation 0.1 km
+        for user in all_user:
+            tempProfile = UserProfile.objects.get(user=user)
+            if tempProfile:
+                second_prof = (tempProfile.latitude, tempProfile.longitude)
+                #get the lan and lat from all user and add to map if under 0.1
+                if distance.distance(first_prof , second_prof).km <= 0.1 and tempProfile != profile:
+                    otherusericon='http://127.0.0.1:8000' + tempProfile.image.url
+                    icon = folium.features.CustomIcon(otherusericon, icon_size=(28, 30))
+                    # Folium Marker: tooltip = user.username, popup is a link to the user's profile
+                    popup_string = "<a href=http://127.0.0.1:8000/Account/user_profile/" + user.username + "/requests target =_blank rel=noopener noreferrer>Help Me</a>"
+                    folium.Marker([tempProfile.latitude, tempProfile.longitude], tooltip=user.username,
+                                  popup=popup_string,icon=icon).add_to(m)
+                    # popup redirection
+                    # folium.Marker([tempProfile.latitude, tempProfile.longitude], tooltip=user.username,
+                    #               popup=popup_string,icon=icon).add_to(m)
+    else:
+        userIcon = 'https://nextdoor-team4.herokuapp.com/' + profile.image.url
+        icon = folium.features.CustomIcon(userIcon, icon_size=(28, 30))
+        popup_string = "<a href=https://nextdoor-team4.herokuapp.com/Account/user_profile/" + get_user.username + "/requests target =_blank rel=noopener noreferrer>My Requests</a>"
+        folium.Marker([profile.latitude, profile.longitude], tooltip="You are here!", popup=popup_string,icon=icon).add_to(m)
+        #make the raduis circle
+        folium.Circle(location=[profile.latitude, profile.longitude], radius=100).add_to(m)
+        #save Lat and lan who login
+        first_prof = (profile.latitude, profile.longitude)
+        all_user = CustomUser.objects.all()
+        #check all user who is distunation 0.1 km
+        for user in all_user:
+            tempProfile = UserProfile.objects.get(user=user)
+            if tempProfile:
+                second_prof = (tempProfile.latitude, tempProfile.longitude)
+                #get the lan and lat from all user and add to map if under 0.1
+                if distance.distance(first_prof , second_prof).km <= 0.1 and tempProfile != profile:
+                    otherusericon='https://nextdoor-team4.herokuapp.com/' + tempProfile.image.url
+                    icon = folium.features.CustomIcon(otherusericon, icon_size=(28, 30))
+                    # Folium Marker: tooltip = user.username, popup is a link to the user's profile
+                    popup_string = "<a href=https://nextdoor-team4.herokuapp.com/Account/user_profile/" + user.username + "/requests target =_blank rel=noopener noreferrer>Help Me</a>"
+                    folium.Marker([tempProfile.latitude, tempProfile.longitude], tooltip=user.username,
+                                  popup=popup_string,icon=icon).add_to(m)
+                    # popup redirection
+                    # folium.Marker([tempProfile.latitude, tempProfile.longitude], tooltip=user.username,
+                    #               popup=popup_string,icon=icon).add_to(m)
 
 
     m = m._repr_html_()
@@ -95,3 +129,13 @@ def search(request):
 
 def AbutUs(request):
     return render(request,'home/AbutUs.html')
+
+
+def check_server():
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    result = sock.connect_ex(('127.0.0.1', 8000))
+    if result == 0:
+        return True
+    else:
+        return False
+
