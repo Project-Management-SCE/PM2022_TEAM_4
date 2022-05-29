@@ -35,3 +35,5 @@ class TestUrls(SimpleTestCase):
     def test_AbutUs_url_is_resolved(self):
         url = reverse('AbutUs')
         self.assertEqual(resolve(url).func,AbutUs)
+
+

@@ -466,6 +466,84 @@ class RequestIntegrationTest(TestCase):
 
 
 
+# Integration test support ticket and request
+class SupportTicketIntegrationTest(TestCase):
+    def setUp(self):
+        self.user = get_user_model().objects.create_user(
+            username='Bob', password='testBob123')
+
+        self.request_user = UserProfile.objects.create(
+            user=self.user,
+            first_name='Bob',
+            last_name='Bob',
+            bio='Test Bio',
+        )
+        self.description = 'Test Description'
+
+        self.supportticket = SupportTicketModel.objects.create(
+            user =self.user,
+            request_user=self.request_user,
+            description= self.description,
+        )
+
+        self.request = RequestModel.objects.create(
+            title='Test Request',
+            description='Test Description',
+            user=self.user,
+        )
+
+    def test_supportticket_integration(self):
+        self.assertEqual(self.supportticket.user, self.user)
+        self.assertEqual(self.supportticket.request_user, self.request_user)
+        self.assertEqual(self.supportticket.description, 'Test Description')
+
+    def test_request_integration(self):
+        self.assertEqual(self.request.user, self.user)
+        self.assertEqual(self.request.description, 'Test Description')
+        self.assertEqual(self.request.title, 'Test Request')
+
+
+# Integration test user ticket and user profile
+class UserTicketIntegrationTest(TestCase):
+    def setUp(self):
+        self.user = get_user_model().objects.create_user(
+            username='Bob', password='testBob123')
+
+        self.request_user = UserProfile.objects.create(
+            user=self.user,
+            first_name='Bob',
+            last_name='Bob',
+            bio='Test Bio',
+        )
+        self.description = 'Test Description'
+
+        self.userticket = UserTicketModel.objects.create(
+            user =self.user,
+            request_user=self.request_user,
+            description= self.description,
+        )
+
+        self.request = RequestModel.objects.create(
+            title='Test Request',
+            description='Test Description',
+            user=self.user,
+        )
+
+    def test_userticket_integration(self):
+        self.assertEqual(self.userticket.user, self.user)
+        self.assertEqual(self.userticket.request_user, self.request_user)
+        self.assertEqual(self.userticket.description, 'Test Description')
+
+    def test_request_integration(self):
+        self.assertEqual(self.request.user, self.user)
+        self.assertEqual(self.request.description, 'Test Description')
+        self.assertEqual(self.request.title, 'Test Request')
+
+
+
+
+
+
 
 class TestUrls(SimpleTestCase):
 
